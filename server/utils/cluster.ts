@@ -26,7 +26,7 @@ export function clusterEmbeddings(issues: Issue[], embeddings: number[][]) {
 
   for (const cluster in clusteredIssues) {
     const chunk = clusteredIssues[cluster]!
-    const sortedChunk = chunk.map((issue) => {
+    let sortedChunk = chunk.map((issue) => {
       let totalSimilarity = 0
       for (const other of chunk) {
         if (issue === other) {
@@ -34,8 +34,12 @@ export function clusterEmbeddings(issues: Issue[], embeddings: number[][]) {
         }
         totalSimilarity += similarity.cosine(embeddings[issues.indexOf(issue)], embeddings[issues.indexOf(other)])
       }
-      return { ...issue, avgSimilarity: totalSimilarity / (chunk.length - 1) }
-    }).filter(i => i.avgSimilarity > 0.75).sort((a, b) => b.avgSimilarity - a.avgSimilarity)
+      return { ...issue, avgSimilarity: Math.floor(100 * totalSimilarity / (chunk.length - 1)) / 100 }
+    })
+
+    const similarityThreshold = 0.75
+
+    sortedChunk = sortedChunk.filter(i => i.avgSimilarity >= similarityThreshold).sort((a, b) => b.avgSimilarity - a.avgSimilarity)
 
     if (sortedChunk.length > 1) {
       sortedClusters.push(sortedChunk)

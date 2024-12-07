@@ -9,7 +9,13 @@ const { data: clusters, refresh, status } = useFetch('/api/clusters/nuxt/nuxt', 
 
 onMounted(async () => {
   if ('startViewTransition' in document) {
-    document.startViewTransition(() => refresh())
+    let finishTransition: () => void
+    const promise = new Promise<void>((resolve) => {
+      finishTransition = resolve
+    })
+    watch(clusters, () => document.startViewTransition(() => promise), { flush: 'pre', once: true })
+    watch(clusters, () => nextTick(finishTransition), { flush: 'post', once: true })
+    refresh()
   }
 })
 
@@ -152,6 +158,8 @@ async function updateSearch() {}
                   :datetime="issue.updated_at"
                   relative
                 />
+                &middot;
+                {{ Math.floor(issue.avgSimilarity * 100) }}% similar
               </span>
               <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
                 <span

@@ -5,7 +5,7 @@ import { getLabels, type Issue } from '../../utils/github'
 const labelsToExclude = ['documentation', 'invalid', 'enhancement']
 const knownBots = new Set(['renovate', 'renovate[bot]'])
 
-const allowedRepos = ['nuxt/nuxt', 'vuejs/vue', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties']
+const allowedRepos = ['nuxt/nuxt', 'vuejs/core', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties', 'unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch']
 
 export default defineCachedEventHandler(async (event) => {
   const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
@@ -23,7 +23,8 @@ export default defineCachedEventHandler(async (event) => {
     })
   }
 
-  const octokit = new Octokit({ auth: useRuntimeConfig(event).github.token })
+  const options = owner !== 'unjs' ? { auth: useRuntimeConfig(event).github.token } : {}
+  const octokit = new Octokit(options)
 
   // TODO: date/state filters?
   const issues = await octokit.paginate(octokit.issues.listForRepo, {
@@ -42,7 +43,7 @@ export default defineCachedEventHandler(async (event) => {
   swr: true,
   getKey(event) {
     const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
-    return `issues:${owner}:${repo}`
+    return `issues:${owner}:${repo}`.toLowerCase()
   },
   maxAge: 60 * 60 * 1000,
   staleMaxAge: 60 * 60 * 1000,

@@ -1,13 +1,13 @@
 import { clusterEmbeddings } from '../../utils/cluster'
 import { getEmbeddingsForIssue } from '../../utils/embeddings'
-import type { Issue } from '../../utils/github'
 
 const linkedRepos: Record<string, string[]> = {
   'danielroe/beasties': ['GoogleChromeLabs/critters'],
+  'nitrojs/nitro': ['unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch'],
   'nuxt/nuxt': ['vuejs/core', 'vitejs/vite', 'nitrojs/nitro'],
 }
 
-const allowedRepos = ['nuxt/nuxt', 'vuejs/vue', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties']
+const allowedRepos = ['nuxt/nuxt', 'vuejs/core', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties', 'unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch']
 
 export default defineCachedEventHandler(async (event) => {
   const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
@@ -28,19 +28,22 @@ export default defineCachedEventHandler(async (event) => {
   }
 
   const repos = [source, ...linkedRepos[source] || []]
-  const issues = await Promise.all(repos.map(async repo => event.$fetch<Issue[]>(`/api/issues/${repo}`)))
+  const issues = await Promise.all(repos.map(async repo => $fetch(`/api/issues/${repo}`)))
     .then(r => r.flat())
 
   console.log('fetched', issues.length, 'issues')
 
+  const backlog = [...issues]
   const embeddings: number[][] = []
 
   do {
-    const batch = issues.splice(0, 100)
+    const batch = backlog.splice(0, 100)
     embeddings.push(...await Promise.all(batch.map(async issue => getEmbeddingsForIssue(event, issue))))
-  } while (issues.length)
+  } while (backlog.length)
 
+  console.log('generated', embeddings.length, 'embeddings')
   const clusters = clusterEmbeddings(issues, embeddings)
+  console.log('generated', clusters.length, 'clusters')
   return clusters.filter((cluster) => {
     return cluster.some(issue => issue.repository?.owner?.name === owner && issue.repository?.name === repo)
   })
@@ -48,7 +51,7 @@ export default defineCachedEventHandler(async (event) => {
   swr: true,
   getKey(event) {
     const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
-    return `clusters:${owner}:${repo}`
+    return `clusters:${owner}:${repo}`.toLowerCase()
   },
   maxAge: 60 * 60 * 1000,
   staleMaxAge: 60 * 60 * 1000,
