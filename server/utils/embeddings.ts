@@ -5,7 +5,7 @@ import { getLabels, type Issue } from './github'
 
 export async function getEmbeddingsForIssue(event: H3Event, issue: Issue) {
   const storage = hubKV()
-  const vectorize = hubVectorize('issues')
+  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
   if (!issue.repository) {
     const match = issue.repository_url.match(/\/(?<owner>[^/]+)\/(?<name>[^/]+)$/)
     if (match) {
@@ -31,7 +31,7 @@ export async function getEmbeddingsForIssue(event: H3Event, issue: Issue) {
   const embeddings = await generateEmbedding(event, text)
 
   await Promise.all([
-    vectorize.insert([{
+    vectorize?.insert([{
       id: storageKey,
       values: embeddings,
       metadata: {
