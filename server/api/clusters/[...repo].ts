@@ -7,6 +7,8 @@ const linkedRepos: Record<string, string[]> = {
   'nuxt/nuxt': ['vuejs/core', 'vitejs/vite', 'nitrojs/nitro'],
 }
 
+const allowedRepos = ['nuxt/nuxt', 'vuejs/vue', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties']
+
 export default defineCachedEventHandler(async (event) => {
   const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
   if (!owner || !repo) {
@@ -17,11 +19,27 @@ export default defineCachedEventHandler(async (event) => {
   }
 
   const source = `${owner}/${repo}`
+
+  if (!allowedRepos.includes(source)) {
+    throw createError({
+      status: 400,
+      message: 'Repository not allowed',
+    })
+  }
+
   const repos = [source, ...linkedRepos[source] || []]
   const issues = await Promise.all(repos.map(async repo => event.$fetch<Issue[]>(`/api/issues/${repo}`)))
     .then(r => r.flat())
 
-  const embeddings = await Promise.all(issues.map(async issue => getEmbeddingsForIssue(event, issue)))
+  console.log('fetched', issues.length, 'issues')
+
+  const embeddings: number[][] = []
+
+  do {
+    const batch = issues.splice(0, 100)
+    embeddings.push(...await Promise.all(batch.map(async issue => getEmbeddingsForIssue(event, issue))))
+  } while (issues.length)
+
   const clusters = clusterEmbeddings(issues, embeddings)
   return clusters.filter((cluster) => {
     return cluster.some(issue => issue.repository?.owner?.name === owner && issue.repository?.name === repo)

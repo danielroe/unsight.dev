@@ -5,12 +5,21 @@ import { getLabels, type Issue } from '../../utils/github'
 const labelsToExclude = ['documentation', 'invalid', 'enhancement']
 const knownBots = new Set(['renovate', 'renovate[bot]'])
 
+const allowedRepos = ['nuxt/nuxt', 'vuejs/vue', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties']
+
 export default defineCachedEventHandler(async (event) => {
   const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
   if (!owner || !repo) {
     throw createError({
       status: 400,
       message: 'Invalid repository',
+    })
+  }
+
+  if (!allowedRepos.includes(`${owner}/${repo}`)) {
+    throw createError({
+      status: 400,
+      message: 'Repository not allowed',
     })
   }
 
