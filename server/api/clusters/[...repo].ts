@@ -36,8 +36,10 @@ export default defineCachedEventHandler(async (event) => {
   const backlog = [...issues]
   const embeddings: number[][] = []
 
+  let b = 1
   do {
     const batch = backlog.splice(0, 100)
+    console.log('fetching batch', b++)
     embeddings.push(...await Promise.all(batch.map(async issue => getEmbeddingsForIssue(event, issue))))
   } while (backlog.length)
 
@@ -56,4 +58,5 @@ export default defineCachedEventHandler(async (event) => {
   maxAge: 60 * 60 * 1000,
   staleMaxAge: 60 * 60 * 1000,
   shouldBypassCache: event => getHeader(event, 'force') === 'true',
+  shouldInvalidateCache: event => getHeader(event, 'force') === 'true',
 })

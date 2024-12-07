@@ -48,4 +48,5 @@ export default defineCachedEventHandler(async (event) => {
   maxAge: 60 * 60 * 1000,
   staleMaxAge: 60 * 60 * 1000,
   shouldBypassCache: event => getHeader(event, 'force') === 'true',
+  shouldInvalidateCache: event => getHeader(event, 'force') === 'true',
 })

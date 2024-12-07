@@ -37,7 +37,7 @@ export function clusterEmbeddings(issues: Issue[], embeddings: number[][]) {
       return { ...issue, avgSimilarity: Math.floor(100 * totalSimilarity / (chunk.length - 1)) / 100 }
     })
 
-    const similarityThreshold = 0.75
+    const similarityThreshold = 0.30 // 0.75
 
     sortedChunk = sortedChunk.filter(i => i.avgSimilarity >= similarityThreshold).sort((a, b) => b.avgSimilarity - a.avgSimilarity)
 
