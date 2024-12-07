@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import hexRgb from 'hex-rgb'
 
-const { data: clusters, refresh, status } = useFetch('/api/clusters/nuxt/nuxt', {
+const { data: clusters, refresh, status } = useFetch('/api/clusters/nitrojs/nitro', {
   server: false,
   immediate: import.meta.client && !('startViewTransition' in document),
   default: () => [],
@@ -51,7 +51,7 @@ async function updateSearch() {}
       </p>
     </nav>
     <p class="flex gap-2 items-center">
-      nuxt/nuxt
+      nitrojs/nitro
       <button
         class="rounded-full w-7 h-7 flex place-items-center border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
         :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
