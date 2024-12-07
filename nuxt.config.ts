@@ -12,6 +12,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   hub: {
     ai: true,
+    analytics: true,
     cache: true,
     kv: true,
   },
