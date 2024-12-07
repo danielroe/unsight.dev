@@ -28,7 +28,6 @@ export default defineCachedEventHandler(async (event) => {
   })
 }, {
   swr: true,
-  base: 'github',
   getKey(event) {
     const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
     return `clusters:${owner}:${repo}`

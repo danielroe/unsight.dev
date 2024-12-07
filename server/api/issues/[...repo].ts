@@ -31,7 +31,6 @@ export default defineCachedEventHandler(async (event) => {
   ) satisfies Issue[]
 }, {
   swr: true,
-  base: 'github',
   getKey(event) {
     const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
     return `issues:${owner}:${repo}`
