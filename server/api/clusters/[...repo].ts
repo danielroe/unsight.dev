@@ -7,7 +7,7 @@ const linkedRepos: Record<string, AllowedRepo[]> = {
   'danielroe/beasties': ['GoogleChromeLabs/critters'],
   'nitrojs/nitro': ['unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch'],
   'vitejs/vite': ['rollup/rollup'],
-  'nuxt/nuxt': ['nitrojs/nitro'],
+  'nuxt/nuxt': ['nitrojs/nitro', 'unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch'],
 }
 
 export default defineCachedEventHandler(async (event) => {
