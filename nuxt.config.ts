@@ -11,6 +11,8 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true },
   app: {
+    pageTransition: false,
+    layoutTransition: false,
     head: {
       charset: 'utf-8',
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
