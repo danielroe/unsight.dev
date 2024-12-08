@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import hexRgb from 'hex-rgb'
+import rgbToHSL from 'rgb-to-hsl'
 
 import { allowedRepos } from '#shared/repos'
 
@@ -23,11 +24,15 @@ onMounted(async () => {
 
 function labelColors(color: string) {
   const value = hexRgb(color)
+  const [hue, saturation, lightness] = rgbToHSL(value.red, value.green, value.blue)
 
   return {
-    '--label-r': value.red,
-    '--label-g': value.green,
-    '--label-b': value.blue,
+    '--label-r': Math.round(value.red),
+    '--label-g': Math.round(value.green),
+    '--label-b': Math.round(value.blue),
+    '--label-h': Math.round(hue),
+    '--label-s': Math.round(Number.parseInt(saturation)),
+    '--label-l': Math.round(Number.parseInt(lightness)),
   }
 }
 
@@ -169,7 +174,7 @@ const openState = reactive<Record<string, boolean>>({})
               <span
                 v-for="(label, j) of issue.labels"
                 :key="j"
-                class="label bg-gray-200 text-gray-800 rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 text-xs inline-block leading-tight"
+                class="label rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 text-xs inline-block leading-tight"
                 :style="labelColors(typeof label === 'string' ? '000000' : label.color || '000000')"
               >
                 {{ typeof label === 'string' ? label : label.name }}
@@ -192,8 +197,12 @@ const openState = reactive<Record<string, boolean>>({})
 
 <style scoped>
 .label {
-  background: rgba(var(--label-r), var(--label-g), var(--label-b), 0.30);
-  color: white;
+  --lightness-threshold: 0.6;
+  --perceived-lightness: calc(((var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) + (var(--label-b) * 0.0722)) / 255);
+  --lightness-switch: max(0, min(calc((var(--perceived-lightness) - var(--lightness-threshold)) * -1000), 1));
+  --lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
+  background: rgba(var(--label-r), var(--label-g), var(--label-b), 0.18);
+  color: hsl(var(--label-h),calc(var(--label-s) * 1%),calc((var(--label-l) + var(--lighten-by)) * 1%));
   border-color: rgba(var(--label-r), var(--label-g), var(--label-b), 0.7);
 }
 section:first-of-type {
