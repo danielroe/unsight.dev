@@ -47,9 +47,18 @@ export default defineCachedEventHandler(async (event) => {
   console.log('generated', embeddings.length, 'embeddings')
   const clusters = clusterEmbeddings(issues, embeddings)
   console.log('generated', clusters.length, 'clusters')
-  return clusters.filter((cluster) => {
-    return cluster.some(issue => issue.repository?.owner?.name === owner && issue.repository?.name === repo)
-  })
+  return clusters
+    .filter(cluster => cluster.some(issue => issue.repository?.owner?.name === owner && issue.repository?.name === repo))
+    .map(cluster => cluster.map(i => ({
+      html_url: i.html_url,
+      state: i.state,
+      pull_request: i.pull_request,
+      title: i.title,
+      repository: i.repository ? i.repository?.owner.name + '/' + i.repository?.name : undefined,
+      updated_at: i.updated_at,
+      avgSimilarity: i.avgSimilarity,
+      labels: i.labels,
+    })))
 }, {
   swr: true,
   getKey(event) {

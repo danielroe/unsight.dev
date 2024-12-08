@@ -42,8 +42,6 @@ const stateColors: Record<string, string> = {
 }
 
 const openState = reactive<Record<string, boolean>>({})
-
-async function updateSearch() {}
 </script>
 
 <template>
@@ -75,6 +73,7 @@ async function updateSearch() {}
       <label class="w-full border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
         <span class="sr-only">pick a repository to cluster issues</span>
         <select
+          :value="selectedRepo"
           class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
           @change="(event) => navigateTo({ query: { repo: (event.target as HTMLSelectElement).value } })"
         >
@@ -149,10 +148,8 @@ async function updateSearch() {}
               <span
                 class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
               >
-                <span
-                  v-if="issue.repository"
-                >
-                  {{ issue.repository?.owner.name }}/{{ issue.repository.name }}
+                <span v-if="issue.repository">
+                  {{ issue.repository }}
                 </span>
                 &middot;
                 updated
