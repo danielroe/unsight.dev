@@ -22,6 +22,14 @@ onMounted(async () => {
   }
 })
 
+function navigateToRepo(event: Event) {
+  const [owner, repo] = (event.target as HTMLSelectElement).value.split('/')
+  return navigateTo({
+    name: 'owner-repo',
+    params: { owner, repo },
+  })
+}
+
 function labelColors(color: string) {
   const value = hexRgb(color)
   const [hue, saturation, lightness] = rgbToHSL(value.red, value.green, value.blue)
@@ -67,7 +75,7 @@ const openState = reactive<Record<string, boolean>>({})
         <select
           :value="selectedRepo"
           class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
-          @change="(event: Event) => { navigateTo(`/${(event.target as HTMLSelectElement).value}`) }"
+          @change="navigateToRepo"
         >
           <option
             v-for="repo in allowedRepos"
@@ -155,12 +163,22 @@ const openState = reactive<Record<string, boolean>>({})
             >
               {{ issue.title }}
             </NuxtLink>
-            <span
+            <div
               class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
             >
-              <span v-if="issue.repository">
+              <NuxtLink
+                v-if="issue.repository"
+                class="no-underline hover:underline color-current"
+                :to="{
+                  name: 'owner-repo',
+                  params: {
+                    owner: issue.repository.split('/')[0],
+                    repo: issue.repository.split('/')[1],
+                  },
+                }"
+              >
                 {{ issue.repository }}
-              </span>
+              </NuxtLink>
               &middot;
               updated
               <NuxtTime
@@ -169,7 +187,7 @@ const openState = reactive<Record<string, boolean>>({})
               />
               &middot;
               {{ Math.floor(issue.avgSimilarity * 100) }}% similar
-            </span>
+            </div>
             <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
               <span
                 v-for="(label, j) of issue.labels"
