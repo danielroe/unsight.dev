@@ -4,7 +4,6 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@nuxt/eslint',
     '@nuxthub/core',
-    '@nuxt/icon',
     'nuxt-time',
     '@nuxtjs/html-validator',
     // TODO: 'nuxt-og-image',
@@ -49,5 +48,8 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
+  },
+  unocss: {
+    icons: true,
   },
 })

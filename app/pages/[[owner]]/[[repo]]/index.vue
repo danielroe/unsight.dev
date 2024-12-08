@@ -62,10 +62,9 @@ const openState = reactive<Record<string, boolean>>({})
           :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
           type="submit"
         >
-          <Icon
+          <span
             size="medium"
-            class="text-gray-400 flex-shrink-0"
-            name="tabler-refresh"
+            class="text-gray-400 flex-shrink-0 i-tabler-refresh inline-block w-4 h-4"
           />
           <span class="sr-only">refresh data</span>
         </button>
@@ -85,10 +84,8 @@ const openState = reactive<Record<string, boolean>>({})
             {{ repo }}
           </option>
         </select>
-        <Icon
-          size="large"
-          class="absolute ml-2 text-gray-400 flex-shrink-0"
-          name="tabler-search"
+        <span
+          class="absolute ml-2 text-gray-400 flex-shrink-0 i-tabler-search inline-block w-6 h-6"
         />
       </label>
     </form>
@@ -107,11 +104,8 @@ const openState = reactive<Record<string, boolean>>({})
           <div
             class="flex flex-row gap-2 leading-tightest no-underline color-current"
           >
-            <Icon
-              size="large"
-              class="flex-shrink-0"
-              :class="'text-gray-500'"
-              :name="'tabler-circle-dot'"
+            <span
+              class="flex-shrink-0 text-gray-500 i-tabler-circle-dot inline-block w-6 h-6"
             />
             <div class="rounded-full h-4 bg-gray-500 w-70" />
           </div>
@@ -126,10 +120,8 @@ const openState = reactive<Record<string, boolean>>({})
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
         </h2>
         <p class="flex flex-row gap-2 leading-tightest">
-          <Icon
-            size="large"
-            class="flex-shrink-0 text-gray-400"
-            name="tabler-alert-triangle"
+          <span
+            class="flex-shrink-0 text-gray-400 i-tabler-alert-triangle inline-block w-6 h-6"
           />
           no clusters could be identified
         </p>
@@ -150,11 +142,9 @@ const openState = reactive<Record<string, boolean>>({})
           :key="i"
           class="flex flex-row gap-2 leading-tightest"
         >
-          <Icon
-            size="large"
-            class="flex-shrink-0"
-            :class="stateColors[issue.state] || 'text-gray-400'"
-            :name="issue.pull_request ? 'tabler-git-pull-request' : issue.state === 'closed' ? 'tabler-circle-check' : 'tabler-circle-dot'"
+          <span
+            class="flex-shrink-0 inline-block w-6 h-6"
+            :class="[stateColors[issue.state] || 'text-gray-400', issue.pull_request ? 'i-tabler-git-pull-request' : issue.state === 'closed' ? 'i-tabler-circle-check' : 'i-tabler-circle-dot']"
           />
           <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
             <NuxtLink
