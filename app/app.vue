@@ -62,7 +62,7 @@ async function updateSearch() {}
       >
         <Icon
           size="medium"
-          class="text-gray-400"
+          class="text-gray-400 flex-shrink-0"
           name="tabler-refresh"
           alt="refresh data"
         />
@@ -99,7 +99,7 @@ async function updateSearch() {}
       </select>
       <Icon
         size="large"
-        class="absolute ml-2 text-gray-400"
+        class="absolute ml-2 text-gray-400 flex-shrink-0"
         name="tabler-search"
       />
     </form>
