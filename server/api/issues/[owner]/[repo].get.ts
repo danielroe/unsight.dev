@@ -1,6 +1,6 @@
 import { Octokit } from '@octokit/rest'
 
-import { getLabels, type Issue } from '../../../utils/github'
+import { getLabels, type Issue } from '~~/server/utils/github'
 import { isAllowedRepo } from '#shared/repos'
 
 const labelsToExclude = ['documentation', 'invalid', 'enhancement']
@@ -41,7 +41,7 @@ export default defineCachedEventHandler(async (event) => {
 }, {
   swr: true,
   getKey(event) {
-    const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
+    const { owner, repo } = getRouterParams(event)
     return `issues:${owner}:${repo}`.toLowerCase()
   },
   maxAge: 60 * 60 * 1000,

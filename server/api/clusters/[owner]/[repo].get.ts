@@ -1,5 +1,5 @@
-import { clusterEmbeddings } from '../../../utils/cluster'
-import { getEmbeddingsForIssue } from '../../../utils/embeddings'
+import { clusterEmbeddings } from '~~/server/utils/cluster'
+import { getEmbeddingsForIssue } from '~~/server/utils/embeddings'
 
 import { isAllowedRepo, type AllowedRepo } from '#shared/repos'
 
@@ -62,7 +62,7 @@ export default defineCachedEventHandler(async (event) => {
 }, {
   swr: true,
   getKey(event) {
-    const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
+    const { owner, repo } = getRouterParams(event)
     return `clusters:${owner}:${repo}`.toLowerCase()
   },
   maxAge: 60 * 60 * 1000,

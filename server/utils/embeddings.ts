@@ -3,6 +3,13 @@ import { hash } from 'ohash'
 
 import { getLabels, type Issue } from './github'
 
+export async function getStoredEmbeddingsForIssue(event: H3Event, owner: string, repo: string, number: number | string) {
+  const storage = hubKV()
+  const storageKey = `issue:${owner}:${repo}:${number}`
+  const res = await storage.getItem<StoredEmbeddings>(storageKey)
+  return res?.embeddings
+}
+
 export async function getEmbeddingsForIssue(event: H3Event, issue: Issue) {
   const storage = hubKV()
   const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
