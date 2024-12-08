@@ -9,9 +9,12 @@ const selectedRepo = computed(() => {
   return query && isAllowedRepo(query) ? query : 'nuxt/nuxt'
 })
 
+useSeoMeta({
+  title: 'unsight.dev',
+  description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
+})
+
 const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${selectedRepo.value}`, {
-  server: false,
-  immediate: import.meta.client && !('startViewTransition' in document),
   default: () => [],
 })
 
@@ -23,7 +26,6 @@ onMounted(async () => {
     })
     watch(clusters, () => document.startViewTransition(() => promise), { flush: 'pre' })
     watch(clusters, () => nextTick(finishTransition), { flush: 'post' })
-    refresh()
   }
 })
 
@@ -57,55 +59,41 @@ async function updateSearch() {}
         proof of concept
       </p>
     </nav>
-    <p class="flex gap-2 items-center">
-      {{ selectedRepo }}
-      <button
-        class="rounded-full w-7 h-7 flex items-center justify-center border-solid border border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex-shrink-0"
-        :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
-        @click="() => refresh()"
-      >
+    <form @submit.prevent="() => refresh()">
+      <p class="flex gap-2 items-center">
+        {{ selectedRepo }}
+        <button
+          class="rounded-full w-7 h-7 flex items-center justify-center border-solid border border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex-shrink-0"
+          :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
+          type="submit"
+        >
+          <Icon
+            size="medium"
+            class="text-gray-400 flex-shrink-0"
+            name="tabler-refresh"
+          />
+          <span class="sr-only">refresh data</span>
+        </button>
+      </p>
+      <label class="w-full border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
+        <span class="sr-only">pick a repository to cluster issues</span>
+        <select
+          class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
+          @change="(event) => navigateTo({ query: { repo: (event.target as HTMLSelectElement).value } })"
+        >
+          <option
+            v-for="repo in allowedRepos"
+            :key="repo"
+          >
+            {{ repo }}
+          </option>
+        </select>
         <Icon
-          size="medium"
-          class="text-gray-400 flex-shrink-0"
-          name="tabler-refresh"
-          alt="refresh data"
+          size="large"
+          class="absolute ml-2 text-gray-400 flex-shrink-0"
+          name="tabler-search"
         />
-      </button>
-    </p>
-    <form
-      class="border-solid border border-gray-600 rounded-md flex flex-row items-center relative"
-      disabled
-      @submit.prevent="updateSearch"
-    >
-      <!-- <label>
-        <input
-          id="show-closed"
-          type="checkbox"
-          class="mr-2"
-        >
-        include closed issues
-      </label> -->
-      <!-- <input
-        type="text"
-        class="bg-transparent pl-8 pr-2 py-2 color-white border-0 flex-grow"
-        placeholder="repository"
-      > -->
-      <select
-        class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
-        @change="(event) => navigateTo({ query: { repo: (event.target as HTMLSelectElement).value } })"
-      >
-        <option
-          v-for="repo in allowedRepos"
-          :key="repo"
-        >
-          {{ repo }}
-        </option>
-      </select>
-      <Icon
-        size="large"
-        class="absolute ml-2 text-gray-400 flex-shrink-0"
-        name="tabler-search"
-      />
+      </label>
     </form>
     <template v-if="status === 'idle' || status === 'pending'">
       <section
@@ -194,6 +182,7 @@ async function updateSearch() {}
         <button
           v-if="cluster.length > 5 && openState[c] !== true"
           class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
+          type="button"
           @click="openState[c] = !openState[c]"
         >
           show {{ cluster.length - 5 }} more

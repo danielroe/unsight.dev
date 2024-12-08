@@ -16,6 +16,7 @@
     "@iconify-json/tabler": "1.2.10",
     "@nuxt/icon": "^1.9.1",
     "@nuxthub/core": "^0.8.7",
+    "@nuxtjs/html-validator": "1.8.2",
     "@octokit/rest": "^21.0.2",
     "@unocss/nuxt": "^0.65.1",
     "hex-rgb": "^5.0.0",
