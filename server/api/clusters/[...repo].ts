@@ -1,7 +1,7 @@
 import { clusterEmbeddings } from '../../utils/cluster'
 import { getEmbeddingsForIssue } from '../../utils/embeddings'
 
-import { isAllowedRepo, type AllowedRepo } from '~~/shared/repos'
+import { isAllowedRepo, type AllowedRepo } from '#shared/repos'
 
 const linkedRepos: Record<string, AllowedRepo[]> = {
   'danielroe/beasties': ['GoogleChromeLabs/critters'],

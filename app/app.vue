@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import hexRgb from 'hex-rgb'
 
-import { allowedRepos } from '~~/shared/repos'
+import { allowedRepos } from '#shared/repos'
 
 const repo = ref('nuxt/nuxt')
 

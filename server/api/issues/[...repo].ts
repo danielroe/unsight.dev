@@ -1,7 +1,7 @@
 import { Octokit } from '@octokit/rest'
 
 import { getLabels, type Issue } from '../../utils/github'
-import { isAllowedRepo } from '~~/shared/repos'
+import { isAllowedRepo } from '#shared/repos'
 
 const labelsToExclude = ['documentation', 'invalid', 'enhancement']
 const knownBots = new Set(['renovate', 'renovate[bot]'])
