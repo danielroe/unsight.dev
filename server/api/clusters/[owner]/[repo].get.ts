@@ -1,5 +1,6 @@
 import { clusterEmbeddings } from '~~/server/utils/cluster'
 import { getEmbeddingsForIssue } from '~~/server/utils/embeddings'
+import type { Issue } from '~~/server/utils/github'
 
 import { isAllowedRepo, type AllowedRepo } from '#shared/repos'
 
@@ -29,7 +30,7 @@ export default defineCachedEventHandler(async (event) => {
   }
 
   const repos = [source, ...linkedRepos[source] || []]
-  const issues = await Promise.all(repos.map(async repo => $fetch(`/api/issues/${repo}`)))
+  const issues = await Promise.all(repos.map(async repo => $fetch<Issue[]>(`/api/issues/${repo}`)))
     .then(r => r.flat())
 
   console.log('fetched', issues.length, 'issues')
@@ -54,6 +55,7 @@ export default defineCachedEventHandler(async (event) => {
       state: i.state,
       pull_request: i.pull_request,
       title: i.title,
+      number: i.number,
       repository: i.repository ? i.repository?.owner.name + '/' + i.repository?.name : undefined,
       updated_at: i.updated_at,
       avgSimilarity: i.avgSimilarity,

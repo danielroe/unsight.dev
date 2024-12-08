@@ -3,7 +3,24 @@ import { Octokit } from '@octokit/rest'
 import { isAllowedRepo } from '#shared/repos'
 import { getEmbeddingsForIssue, getStoredEmbeddingsForIssue } from '~~/server/utils/embeddings'
 
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
+  const handled = handleCors(event, {
+    methods: ['GET', 'OPTIONS', 'HEAD'],
+    preflight: {
+      statusCode: 204,
+    },
+    origin: [import.meta.dev ? 'http://localhost:3000' : 'https://unsight.dev', 'https://github.com'],
+  })
+
+  console.log({ handled, method: event.method })
+  if (handled || event.method !== 'GET') {
+    return
+  }
+
+  return issueHandler(event)
+})
+
+const issueHandler = defineCachedEventHandler(async (event) => {
   const { owner, repo, number } = getRouterParams(event)
 
   if (!owner || !repo || !number) {
