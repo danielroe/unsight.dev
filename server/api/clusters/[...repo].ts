@@ -57,7 +57,7 @@ export default defineCachedEventHandler(async (event) => {
       repository: i.repository ? i.repository?.owner.name + '/' + i.repository?.name : undefined,
       updated_at: i.updated_at,
       avgSimilarity: i.avgSimilarity,
-      labels: i.labels,
+      labels: i.labels.map(l => typeof l === 'string' ? l : { name: l.name, color: l.color }),
     })))
 }, {
   swr: true,

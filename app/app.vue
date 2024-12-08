@@ -211,16 +211,16 @@ const openState = reactive<Record<string, boolean>>({})
       </section>
     </template>
   </main>
-  <footer class="font-sans mt-auto p-2 text-center text-sm opacity-75 hover:opacity-100">
+  <footer class="justify-center flex gap-2 font-sans mt-auto p-2 text-center text-sm opacity-75 hover:opacity-100">
     <a
-      class="hover:underline text-white"
+      class="no-underline hover:underline text-white"
       href="https://github.com/danielroe/unsight.dev"
     >
       source
     </a>
     &middot;
     made with ❤️ by <a
-      class="font-semibold hover:underline text-white"
+      class="no-underline font-semibold hover:underline text-white"
       href="https://bsky.app/profile/danielroe.dev"
     >
       @danielroe.dev
