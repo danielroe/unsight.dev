@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import hexRgb from 'hex-rgb'
 
-import { allowedRepos, isAllowedRepo } from '#shared/repos'
+import { allowedRepos } from '#shared/repos'
 
 const route = useRoute()
-const selectedRepo = computed(() => {
-  const query = route.query.repo as string | undefined
-  return query && isAllowedRepo(query) ? query : 'nuxt/nuxt'
-})
+const selectedRepo = computed(() => route.query.repo || 'nuxt/nuxt')
 
 useSeoMeta({
   title: 'unsight.dev',
