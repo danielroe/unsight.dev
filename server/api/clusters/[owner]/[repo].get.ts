@@ -1,5 +1,5 @@
-import { clusterEmbeddings } from '../../utils/cluster'
-import { getEmbeddingsForIssue } from '../../utils/embeddings'
+import { clusterEmbeddings } from '../../../utils/cluster'
+import { getEmbeddingsForIssue } from '../../../utils/embeddings'
 
 import { isAllowedRepo, type AllowedRepo } from '#shared/repos'
 
@@ -11,7 +11,7 @@ const linkedRepos: Record<string, AllowedRepo[]> = {
 }
 
 export default defineCachedEventHandler(async (event) => {
-  const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
+  const { owner, repo } = getRouterParams(event)
   if (!owner || !repo) {
     throw createError({
       status: 400,

@@ -1,13 +1,13 @@
 import { Octokit } from '@octokit/rest'
 
-import { getLabels, type Issue } from '../../utils/github'
+import { getLabels, type Issue } from '../../../utils/github'
 import { isAllowedRepo } from '#shared/repos'
 
 const labelsToExclude = ['documentation', 'invalid', 'enhancement']
 const knownBots = new Set(['renovate', 'renovate[bot]'])
 
 export default defineCachedEventHandler(async (event) => {
-  const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
+  const { owner, repo } = getRouterParams(event)
   if (!owner || !repo) {
     throw createError({
       status: 400,

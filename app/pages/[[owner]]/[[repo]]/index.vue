@@ -62,7 +62,7 @@ const openState = reactive<Record<string, boolean>>({})
         <select
           :value="selectedRepo"
           class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
-          @change="(event) => navigateTo(`/${(event.target as HTMLSelectElement).value}`)"
+          @change="(event: Event) => { navigateTo(`/${(event.target as HTMLSelectElement).value}`) }"
         >
           <option
             v-for="repo in allowedRepos"
