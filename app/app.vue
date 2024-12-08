@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import hexRgb from 'hex-rgb'
 
-const { data: clusters, refresh, status } = useFetch('/api/clusters/nuxt/nuxt', {
+import { allowedRepos } from '~~/shared/repos'
+
+const repo = ref('nuxt/nuxt')
+
+const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${repo.value}`, {
   server: false,
   immediate: import.meta.client && !('startViewTransition' in document),
   default: () => [],
@@ -13,8 +17,8 @@ onMounted(async () => {
     const promise = new Promise<void>((resolve) => {
       finishTransition = resolve
     })
-    watch(clusters, () => document.startViewTransition(() => promise), { flush: 'pre', once: true })
-    watch(clusters, () => nextTick(finishTransition), { flush: 'post', once: true })
+    watch(clusters, () => document.startViewTransition(() => promise), { flush: 'pre' })
+    watch(clusters, () => nextTick(finishTransition), { flush: 'post' })
     refresh()
   }
 })
@@ -32,7 +36,6 @@ function labelColors(color: string) {
 const stateColors: Record<string, string> = {
   open: 'text-green-500',
   closed: 'text-purple-500',
-  merged: 'text-purple-500',
 }
 
 const openState = reactive<Record<string, boolean>>({})
@@ -51,7 +54,7 @@ async function updateSearch() {}
       </p>
     </nav>
     <p class="flex gap-2 items-center">
-      nuxt/nuxt
+      {{ repo }}
       <button
         class="rounded-full w-7 h-7 flex place-items-center border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
         :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
@@ -66,7 +69,6 @@ async function updateSearch() {}
       </button>
     </p>
     <form
-      v-if="false"
       class="border-solid border border-gray-600 rounded-md flex flex-row items-center relative"
       disabled
       @submit.prevent="updateSearch"
@@ -79,18 +81,29 @@ async function updateSearch() {}
         >
         include closed issues
       </label> -->
-      <input
+      <!-- <input
         type="text"
         class="bg-transparent pl-8 pr-2 py-2 color-white border-0 flex-grow"
         placeholder="repository"
+      > -->
+      <select
+        v-model="repo"
+        class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
       >
+        <option
+          v-for="repo in allowedRepos"
+          :key="repo"
+        >
+          {{ repo }}
+        </option>
+      </select>
       <Icon
         size="large"
         class="absolute ml-2 text-gray-400"
         name="tabler-search"
       />
     </form>
-    <template v-if="status === 'idle'">
+    <template v-if="status === 'idle' || status === 'pending'">
       <section
         v-for="i in 7"
         :key="i"

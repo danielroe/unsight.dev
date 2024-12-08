@@ -1,11 +1,10 @@
 import { Octokit } from '@octokit/rest'
 
 import { getLabels, type Issue } from '../../utils/github'
+import { isAllowedRepo } from '~~/shared/repos'
 
 const labelsToExclude = ['documentation', 'invalid', 'enhancement']
 const knownBots = new Set(['renovate', 'renovate[bot]'])
-
-const allowedRepos = ['nuxt/nuxt', 'vuejs/core', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties', 'unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch']
 
 export default defineCachedEventHandler(async (event) => {
   const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
@@ -16,7 +15,7 @@ export default defineCachedEventHandler(async (event) => {
     })
   }
 
-  if (!allowedRepos.includes(`${owner}/${repo}`)) {
+  if (!isAllowedRepo(`${owner}/${repo}`)) {
     throw createError({
       status: 400,
       message: 'Repository not allowed',

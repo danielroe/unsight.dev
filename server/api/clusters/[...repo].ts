@@ -1,13 +1,14 @@
 import { clusterEmbeddings } from '../../utils/cluster'
 import { getEmbeddingsForIssue } from '../../utils/embeddings'
 
-const linkedRepos: Record<string, string[]> = {
+import { isAllowedRepo, type AllowedRepo } from '~~/shared/repos'
+
+const linkedRepos: Record<string, AllowedRepo[]> = {
   'danielroe/beasties': ['GoogleChromeLabs/critters'],
   'nitrojs/nitro': ['unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch'],
-  // 'nuxt/nuxt': ['vuejs/core', 'vitejs/vite', 'nitrojs/nitro'],
+  'vitejs/vite': ['rollup/rollup'],
+  'nuxt/nuxt': ['nitrojs/nitro'],
 }
-
-const allowedRepos = ['nuxt/nuxt', 'vuejs/core', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties', 'unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch']
 
 export default defineCachedEventHandler(async (event) => {
   const [owner, repo] = getRouterParam(event, 'repo')?.split('/') || []
@@ -20,7 +21,7 @@ export default defineCachedEventHandler(async (event) => {
 
   const source = `${owner}/${repo}`
 
-  if (!allowedRepos.includes(source)) {
+  if (!isAllowedRepo(source)) {
     throw createError({
       status: 400,
       message: 'Repository not allowed',
