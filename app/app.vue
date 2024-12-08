@@ -144,7 +144,7 @@ async function updateSearch() {}
           :key="i"
         >
           <NuxtLink
-            class="flex flex-row gap-2 leading-tightest no-underline color-current"
+            class="flex flex-row gap-2 leading-tightest no-underline color-current hover:underline"
             :href="issue.html_url"
           >
             <Icon
