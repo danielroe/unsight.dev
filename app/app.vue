@@ -9,7 +9,12 @@ useSeoMeta({
   <main class="font-sans m-2">
     <nav class="flex flex-row items-center gap-2 ">
       <h1 class="text-lg">
-        unsight.dev
+        <NuxtLink
+          to="/"
+          class="no-underline color-current"
+        >
+          unsight.dev
+        </NuxtLink>
       </h1>
       <p class="flex gap-1 items-center bg-yellow-400 rounded-full color-black px-2 py-[2px] text-xs font-bold">
         proof of concept
