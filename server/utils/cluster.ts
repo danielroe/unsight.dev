@@ -13,7 +13,7 @@ export function clusterEmbeddings(issues: Issue[], embeddings: number[][]) {
   }
 
   // Determine the number of clusters (this is a simplistic approach; we might want to use a more sophisticated method)
-  const k = Math.max(10, Math.floor(Math.sqrt(embeddings.length) / 2))
+  const k = embeddings.length < 11 ? Math.ceil(embeddings.length / 2) : Math.max(10, Math.floor(Math.sqrt(embeddings.length) / 2))
   const { clusters } = kmeans(embeddings, k, {})
 
   const clusteredIssues: Record<string, Issue[]> = {}
