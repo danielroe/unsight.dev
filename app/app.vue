@@ -4,11 +4,20 @@ import hexRgb from 'hex-rgb'
 import { allowedRepos } from '#shared/repos'
 
 const route = useRoute()
-const selectedRepo = computed(() => route.query.repo || 'nuxt/nuxt')
+const selectedRepo = computed(() => route.path.slice(1) || 'nuxt/nuxt')
 
 useSeoMeta({
   title: 'unsight.dev',
   description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
+})
+
+useServerHead({
+  link: [
+    {
+      rel: 'canonical',
+      href: `https://unsight.dev/${selectedRepo.value}`,
+    },
+  ],
 })
 
 const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${selectedRepo.value}`, {
@@ -75,7 +84,7 @@ const openState = reactive<Record<string, boolean>>({})
         <select
           :value="selectedRepo"
           class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
-          @change="(event) => navigateTo({ query: { repo: (event.target as HTMLSelectElement).value } })"
+          @change="(event) => navigateTo(`/${(event.target as HTMLSelectElement).value}`)"
         >
           <option
             v-for="repo in allowedRepos"
@@ -118,6 +127,23 @@ const openState = reactive<Record<string, boolean>>({})
         </article>
       </section>
     </template>
+    <template v-else-if="!clusters.length">
+      <section
+        class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
+      >
+        <h2 class="flex items-center">
+          <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
+        </h2>
+        <p class="flex flex-row gap-2 leading-tightest">
+          <Icon
+            size="large"
+            class="flex-shrink-0 text-gray-400"
+            name="tabler-alert-triangle"
+          />
+          no clusters could be identified
+        </p>
+      </section>
+    </template>
     <template v-else>
       <section
         v-for="(cluster, c) of clusters"
@@ -139,7 +165,7 @@ const openState = reactive<Record<string, boolean>>({})
             <Icon
               size="large"
               class="flex-shrink-0"
-              :class="stateColors[issue.state] || 'text-gray-800'"
+              :class="stateColors[issue.state] || 'text-gray-400'"
               :name="issue.pull_request ? 'tabler-git-pull-request' : issue.state === 'closed' ? 'tabler-circle-check' : 'tabler-circle-dot'"
             />
             <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
