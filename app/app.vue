@@ -1,56 +1,8 @@
 <script setup lang="ts">
-import hexRgb from 'hex-rgb'
-
-import { allowedRepos } from '#shared/repos'
-
-const route = useRoute()
-const selectedRepo = computed(() => route.path.slice(1) || 'nuxt/nuxt')
-
 useSeoMeta({
   title: 'unsight.dev',
   description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
 })
-
-useServerHead({
-  link: [
-    {
-      rel: 'canonical',
-      href: `https://unsight.dev/${selectedRepo.value}`,
-    },
-  ],
-})
-
-const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${selectedRepo.value}`, {
-  default: () => [],
-})
-
-onMounted(async () => {
-  if ('startViewTransition' in document) {
-    let finishTransition: () => void
-    const promise = new Promise<void>((resolve) => {
-      finishTransition = resolve
-    })
-    watch(clusters, () => document.startViewTransition(() => promise), { flush: 'pre' })
-    watch(clusters, () => nextTick(finishTransition), { flush: 'post' })
-  }
-})
-
-function labelColors(color: string) {
-  const value = hexRgb(color)
-
-  return {
-    '--label-r': value.red,
-    '--label-g': value.green,
-    '--label-b': value.blue,
-  }
-}
-
-const stateColors: Record<string, string> = {
-  open: 'text-green-500',
-  closed: 'text-purple-500',
-}
-
-const openState = reactive<Record<string, boolean>>({})
 </script>
 
 <template>
@@ -63,153 +15,7 @@ const openState = reactive<Record<string, boolean>>({})
         proof of concept
       </p>
     </nav>
-    <form @submit.prevent="() => refresh()">
-      <p class="flex gap-2 items-center">
-        {{ selectedRepo }}
-        <button
-          class="rounded-full w-7 h-7 flex items-center justify-center border-solid border border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex-shrink-0"
-          :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
-          type="submit"
-        >
-          <Icon
-            size="medium"
-            class="text-gray-400 flex-shrink-0"
-            name="tabler-refresh"
-          />
-          <span class="sr-only">refresh data</span>
-        </button>
-      </p>
-      <label class="w-full border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
-        <span class="sr-only">pick a repository to cluster issues</span>
-        <select
-          :value="selectedRepo"
-          class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
-          @change="(event) => navigateTo(`/${(event.target as HTMLSelectElement).value}`)"
-        >
-          <option
-            v-for="repo in allowedRepos"
-            :key="repo"
-            :selected="repo === selectedRepo"
-          >
-            {{ repo }}
-          </option>
-        </select>
-        <Icon
-          size="large"
-          class="absolute ml-2 text-gray-400 flex-shrink-0"
-          name="tabler-search"
-        />
-      </label>
-    </form>
-    <template v-if="status === 'idle' || status === 'pending'">
-      <section
-        v-for="i in 7"
-        :key="i"
-        :style="{ '--section-index': i }"
-        class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid animate-pulse"
-      >
-        <h2 class="flex items-center">
-          <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
-          <span class="inline-block rounded-md h-5 bg-gray-500 w-5" />
-        </h2>
-        <article>
-          <div
-            class="flex flex-row gap-2 leading-tightest no-underline color-current"
-          >
-            <Icon
-              size="large"
-              class="flex-shrink-0"
-              :class="'text-gray-500'"
-              :name="'tabler-circle-dot'"
-            />
-            <div class="rounded-full h-4 bg-gray-500 w-70" />
-          </div>
-        </article>
-      </section>
-    </template>
-    <template v-else-if="!clusters.length">
-      <section
-        class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
-      >
-        <h2 class="flex items-center">
-          <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
-        </h2>
-        <p class="flex flex-row gap-2 leading-tightest">
-          <Icon
-            size="large"
-            class="flex-shrink-0 text-gray-400"
-            name="tabler-alert-triangle"
-          />
-          no clusters could be identified
-        </p>
-      </section>
-    </template>
-    <template v-else>
-      <section
-        v-for="(cluster, c) of clusters"
-        :key="c"
-        :style="{ '--section-index': c }"
-        class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
-      >
-        <h2>
-          <span class="text-gray-500 inline-block mr-1 font-normal">#</span>{{ c + 1 }}
-        </h2>
-        <article
-          v-for="(issue, i) of openState[c] !== true ? cluster.slice(0, 5) : cluster"
-          :key="i"
-        >
-          <NuxtLink
-            class="flex flex-row gap-2 leading-tightest no-underline color-current hover:underline"
-            :href="issue.html_url"
-          >
-            <Icon
-              size="large"
-              class="flex-shrink-0"
-              :class="stateColors[issue.state] || 'text-gray-400'"
-              :name="issue.pull_request ? 'tabler-git-pull-request' : issue.state === 'closed' ? 'tabler-circle-check' : 'tabler-circle-dot'"
-            />
-            <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
-              <span class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0">
-                {{ issue.title }}
-              </span>
-              <span
-                class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
-              >
-                <span v-if="issue.repository">
-                  {{ issue.repository }}
-                </span>
-                &middot;
-                updated
-                <NuxtTime
-                  :datetime="issue.updated_at"
-                  relative
-                />
-                &middot;
-                {{ Math.floor(issue.avgSimilarity * 100) }}% similar
-              </span>
-              <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
-                <span
-                  v-for="(label, j) of issue.labels"
-                  :key="j"
-                  class="label bg-gray-200 text-gray-800 rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 text-xs inline-block leading-tight"
-                  :style="labelColors(typeof label === 'string' ? '000000' : label.color || '000000')"
-                >
-                  {{ typeof label === 'string' ? label : label.name }}
-                </span>
-              </div>
-            </div>
-          </NuxtLink>
-        </article>
-        <button
-          v-if="cluster.length > 5 && openState[c] !== true"
-          class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
-          type="button"
-          @click="openState[c] = !openState[c]"
-        >
-          show {{ cluster.length - 5 }} more
-        </button>
-      </section>
-    </template>
+    <NuxtPage />
   </main>
   <footer class="justify-center flex gap-2 font-sans mt-auto p-2 text-center text-sm opacity-75 hover:opacity-100">
     <a
@@ -227,17 +33,6 @@ const openState = reactive<Record<string, boolean>>({})
     </a>
   </footer>
 </template>
-
-<style scoped>
-.label {
-  background: rgba(var(--label-r), var(--label-g), var(--label-b), 0.30);
-  color: white;
-  border-color: rgba(var(--label-r), var(--label-g), var(--label-b), 0.7);
-}
-section:first-of-type {
-  view-transition-name: var(--section-index);
-}
-</style>
 
 <style>
 :root {

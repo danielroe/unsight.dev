@@ -27,8 +27,7 @@
     "ohash": "^1.1.4",
     "openai": "^4.76.0",
     "unocss": "^0.65.1",
-    "vue": "latest",
-    "vue-router": "latest"
+    "unplugin-vue-router": "^0.10.9"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.7.2",
