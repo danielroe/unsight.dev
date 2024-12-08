@@ -4,7 +4,7 @@ import { getEmbeddingsForIssue } from '../../utils/embeddings'
 const linkedRepos: Record<string, string[]> = {
   'danielroe/beasties': ['GoogleChromeLabs/critters'],
   'nitrojs/nitro': ['unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch'],
-  'nuxt/nuxt': ['vuejs/core', 'vitejs/vite', 'nitrojs/nitro'],
+  // 'nuxt/nuxt': ['vuejs/core', 'vitejs/vite', 'nitrojs/nitro'],
 }
 
 const allowedRepos = ['nuxt/nuxt', 'vuejs/core', 'vitejs/vite', 'nitrojs/nitro', 'danielroe/beasties', 'unjs/h3', 'unjs/c12', 'unjs/unenv', 'unjs/ofetch']
