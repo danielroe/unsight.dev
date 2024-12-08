@@ -22,6 +22,9 @@ export default defineNuxtConfig({
       token: '',
     },
   },
+  sourcemap: {
+    client: true,
+  },
   future: { compatibilityVersion: 4 },
   experimental: {
     typedPages: true,
