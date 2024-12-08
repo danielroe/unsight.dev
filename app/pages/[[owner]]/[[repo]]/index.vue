@@ -85,7 +85,7 @@ const openState = reactive<Record<string, boolean>>({})
           </option>
         </select>
         <span
-          class="absolute ml-2 text-gray-400 flex-shrink-0 i-tabler-search inline-block w-6 h-6"
+          class="absolute ml-2 text-gray-400 flex-shrink-0 i-tabler-search inline-block w-5 h-5"
         />
       </label>
     </form>
@@ -105,7 +105,7 @@ const openState = reactive<Record<string, boolean>>({})
             class="flex flex-row gap-2 leading-tightest no-underline color-current"
           >
             <span
-              class="flex-shrink-0 text-gray-500 i-tabler-circle-dot inline-block w-6 h-6"
+              class="flex-shrink-0 text-gray-500 i-tabler-circle-dot inline-block w-5 h-5"
             />
             <div class="rounded-full h-4 bg-gray-500 w-70" />
           </div>
@@ -121,7 +121,7 @@ const openState = reactive<Record<string, boolean>>({})
         </h2>
         <p class="flex flex-row gap-2 leading-tightest">
           <span
-            class="flex-shrink-0 text-gray-400 i-tabler-alert-triangle inline-block w-6 h-6"
+            class="flex-shrink-0 text-gray-400 i-tabler-alert-triangle inline-block w-5 h-5"
           />
           no clusters could be identified
         </p>
@@ -143,7 +143,7 @@ const openState = reactive<Record<string, boolean>>({})
           class="flex flex-row gap-2 leading-tightest"
         >
           <span
-            class="flex-shrink-0 inline-block w-6 h-6"
+            class="flex-shrink-0 inline-block w-5 h-5"
             :class="[stateColors[issue.state] || 'text-gray-400', issue.pull_request ? 'i-tabler-git-pull-request' : issue.state === 'closed' ? 'i-tabler-circle-check' : 'i-tabler-circle-dot']"
           />
           <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
