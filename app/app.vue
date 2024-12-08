@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import hexRgb from 'hex-rgb'
 
-import { allowedRepos } from '#shared/repos'
+import { allowedRepos, isAllowedRepo } from '#shared/repos'
 
-const repo = ref('nuxt/nuxt')
+const route = useRoute()
+const selectedRepo = computed(() => {
+  const query = route.query.repo as string | undefined
+  return query && isAllowedRepo(query) ? query : 'nuxt/nuxt'
+})
 
-const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${repo.value}`, {
+const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${selectedRepo.value}`, {
   server: false,
   immediate: import.meta.client && !('startViewTransition' in document),
   default: () => [],
@@ -54,7 +58,7 @@ async function updateSearch() {}
       </p>
     </nav>
     <p class="flex gap-2 items-center">
-      {{ repo }}
+      {{ selectedRepo }}
       <button
         class="rounded-full w-7 h-7 flex items-center justify-center border-solid border border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex-shrink-0"
         :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
@@ -87,8 +91,8 @@ async function updateSearch() {}
         placeholder="repository"
       > -->
       <select
-        v-model="repo"
         class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
+        @change="(event) => navigateTo({ query: { repo: (event.target as HTMLSelectElement).value } })"
       >
         <option
           v-for="repo in allowedRepos"
