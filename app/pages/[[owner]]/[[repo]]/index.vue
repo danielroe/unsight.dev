@@ -135,48 +135,47 @@ const openState = reactive<Record<string, boolean>>({})
         <article
           v-for="(issue, i) of openState[c] !== true ? cluster.slice(0, 5) : cluster"
           :key="i"
+          class="flex flex-row gap-2 leading-tightest"
         >
-          <NuxtLink
-            class="flex flex-row gap-2 leading-tightest no-underline color-current hover:underline"
-            :href="issue.html_url"
-          >
-            <Icon
-              size="large"
-              class="flex-shrink-0"
-              :class="stateColors[issue.state] || 'text-gray-400'"
-              :name="issue.pull_request ? 'tabler-git-pull-request' : issue.state === 'closed' ? 'tabler-circle-check' : 'tabler-circle-dot'"
-            />
-            <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
-              <span class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0">
-                {{ issue.title }}
+          <Icon
+            size="large"
+            class="flex-shrink-0"
+            :class="stateColors[issue.state] || 'text-gray-400'"
+            :name="issue.pull_request ? 'tabler-git-pull-request' : issue.state === 'closed' ? 'tabler-circle-check' : 'tabler-circle-dot'"
+          />
+          <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
+            <NuxtLink
+              class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
+              :href="issue.html_url"
+            >
+              {{ issue.title }}
+            </NuxtLink>
+            <span
+              class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
+            >
+              <span v-if="issue.repository">
+                {{ issue.repository }}
               </span>
+              &middot;
+              updated
+              <NuxtTime
+                :datetime="issue.updated_at"
+                relative
+              />
+              &middot;
+              {{ Math.floor(issue.avgSimilarity * 100) }}% similar
+            </span>
+            <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
               <span
-                class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
+                v-for="(label, j) of issue.labels"
+                :key="j"
+                class="label bg-gray-200 text-gray-800 rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 text-xs inline-block leading-tight"
+                :style="labelColors(typeof label === 'string' ? '000000' : label.color || '000000')"
               >
-                <span v-if="issue.repository">
-                  {{ issue.repository }}
-                </span>
-                &middot;
-                updated
-                <NuxtTime
-                  :datetime="issue.updated_at"
-                  relative
-                />
-                &middot;
-                {{ Math.floor(issue.avgSimilarity * 100) }}% similar
+                {{ typeof label === 'string' ? label : label.name }}
               </span>
-              <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
-                <span
-                  v-for="(label, j) of issue.labels"
-                  :key="j"
-                  class="label bg-gray-200 text-gray-800 rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 text-xs inline-block leading-tight"
-                  :style="labelColors(typeof label === 'string' ? '000000' : label.color || '000000')"
-                >
-                  {{ typeof label === 'string' ? label : label.name }}
-                </span>
-              </div>
             </div>
-          </NuxtLink>
+          </div>
         </article>
         <button
           v-if="cluster.length > 5 && openState[c] !== true"
