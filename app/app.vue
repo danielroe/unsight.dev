@@ -56,7 +56,7 @@ async function updateSearch() {}
     <p class="flex gap-2 items-center">
       {{ repo }}
       <button
-        class="rounded-full w-7 h-7 flex place-items-center border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
+        class="rounded-full w-7 h-7 flex items-center justify-center border-solid border border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex-shrink-0"
         :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
         @click="() => refresh()"
       >
