@@ -80,6 +80,7 @@ const openState = reactive<Record<string, boolean>>({})
           <option
             v-for="repo in allowedRepos"
             :key="repo"
+            :selected="repo === selectedRepo"
           >
             {{ repo }}
           </option>
