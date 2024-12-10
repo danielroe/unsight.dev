@@ -27,7 +27,7 @@ export default defineCachedEventHandler(async (event) => {
   return clusters
     .map(cluster => cluster.map(i => ({
       owner: i.owner,
-      repository: i.repository.split,
+      repository: i.repository,
       number: i.number,
       title: i.title,
       url: i.url,

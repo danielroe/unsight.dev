@@ -149,17 +149,17 @@ const openState = reactive<Record<string, boolean>>({})
               class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
             >
               <NuxtLink
-                v-if="issue.repository"
+                v-if="issue.owner && issue.repository"
                 class="no-underline hover:underline color-current"
                 :to="{
                   name: 'owner-repo',
                   params: {
-                    owner: issue.repository.split('/')[0],
-                    repo: issue.repository.split('/')[1],
+                    owner: issue.owner,
+                    repo: issue.repository,
                   },
                 }"
               >
-                {{ issue.repository }}
+                {{ issue.owner }}/{{ issue.repository }}
               </NuxtLink>
               &middot;
               updated
