@@ -5,14 +5,16 @@ const isCallback = ref(!!useRoute().query.installation_id)
 const numRepos = allowedRepos.value?.length
 
 if (import.meta.client && isCallback.value) {
-  setInterval(() => {
+  const interval = setInterval(() => {
     refresh()
   }, 1000)
-  watch(allowedRepos, (newRepos) => {
+  const unsub = watch(allowedRepos, (newRepos) => {
     if (newRepos.length === numRepos) return
 
     isCallback.value = false
-  }, { once: true })
+    clearInterval(interval)
+    unsub()
+  })
 }
 </script>
 
@@ -36,9 +38,12 @@ if (import.meta.client && isCallback.value) {
       </template>
     </NuxtLink>
     <hr>
-    <section class="text-center">
+    <section
+      v-if="allowedRepos.length"
+      class="text-center"
+    >
       or pick a repository to browse issue clusters
-      <ul class="p-0">
+      <ul class="p-0 flex flex-col gap-2">
         <li
           v-for="repo in allowedRepos"
           :key="repo"
@@ -46,8 +51,7 @@ if (import.meta.client && isCallback.value) {
         >
           <NuxtLink
             :to="`/${repo}`"
-            class="no-underline text-gray-400 hover:underline active:text-white"
-          >
+            class="no-underline text-gray-400 hover:underline active:text-          >
             {{ repo }}
           </NuxtLink>
         </li>
