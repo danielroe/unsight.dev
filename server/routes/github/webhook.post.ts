@@ -1,6 +1,7 @@
 import type { Installation, InstallationLite, WebhookEvent } from '@octokit/webhooks-types'
 import type { H3Event } from 'h3'
-import { App } from 'octokit'
+import { createAppAuth } from '@octokit/auth-app'
+import { Octokit } from '@octokit/rest'
 
 import { indexIssue, removeIssue, storagePrefixForRepo } from '../../utils/embeddings'
 
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const promises: Promise<unknown>[] = []
   if ('action' in body && 'installation' in body && !('client_payload' in body)) {
     if (body.action === 'created' && 'repositories' in body) {
-      await addRepos(event, body.installation, body.repositories || [])
+      promises.push(addRepos(event, body.installation, body.repositories || []))
     }
     if (body.action === 'deleted' && 'repositories' in body) {
       for (const repo of body.repositories || []) {
@@ -33,7 +34,7 @@ export default defineEventHandler(async (event) => {
       }
     }
     if (body.action === 'publicized' && body.installation) {
-      await addRepos(event, body.installation, [body.repository])
+      promises.push(addRepos(event, body.installation, [body.repository]))
     }
     if (body.action === 'privatized') {
       promises.push(deleteRepo(event, body.repository))
@@ -71,11 +72,14 @@ export type InstallationRepo = {
 
 async function addRepos(event: H3Event, installation: Installation | InstallationLite, repos: InstallationRepo[]) {
   const config = useRuntimeConfig(event)
-  const app = new App({
-    appId: config.github.appId,
-    privateKey: config.github.privateKey,
+  const octokit = new Octokit({
+    authStrategy: createAppAuth,
+    auth: {
+      appId: config.github.appId,
+      privateKey: config.github.privateKey,
+      installationId: installation.id,
+    },
   })
-  const octokit = await app.getInstallationOctokit(installation.id)
 
   for (const repo of repos) {
     if (repo.private) {
