@@ -51,7 +51,8 @@ if (import.meta.client && isCallback.value) {
         >
           <NuxtLink
             :to="`/${repo}`"
-            class="no-underline text-gray-400 hover:underline active:text-          >
+            class="no-underline text-gray-400 hover:underline active:text-white"
+          >
             {{ repo }}
           </NuxtLink>
         </li>
