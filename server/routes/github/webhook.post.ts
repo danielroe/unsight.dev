@@ -1,7 +1,6 @@
 import type { Installation, InstallationLite, WebhookEvent } from '@octokit/webhooks-types'
 import type { H3Event } from 'h3'
-import { createAppAuth } from '@octokit/auth-app'
-import { Octokit } from '@octokit/rest'
+import { App } from 'octokit'
 
 import { indexIssue, removeIssue, storagePrefixForRepo } from '../../utils/embeddings'
 
@@ -14,58 +13,52 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<WebhookEvent>(event)
   const promises: Promise<unknown>[] = []
-  try {
-    if ('action' in body && 'installation' in body && !('client_payload' in body)) {
-      if (body.action === 'created' && 'repositories' in body) {
-        await addRepos(event, body.installation, body.repositories || [])
+  if ('action' in body && 'installation' in body && !('client_payload' in body)) {
+    if (body.action === 'created' && 'repositories' in body) {
+      await addRepos(event, body.installation, body.repositories || [])
+    }
+    if (body.action === 'deleted' && 'repositories' in body) {
+      for (const repo of body.repositories || []) {
+        promises.push(deleteRepo(event, repo))
       }
-      if (body.action === 'deleted' && 'repositories' in body) {
-        for (const repo of body.repositories || []) {
+    }
+    if ((body.action === 'added' || body.action === 'removed')) {
+      if ('repositories_added' in body) {
+        promises.push(addRepos(event, body.installation, body.repositories_added))
+      }
+      if ('repositories_removed' in body) {
+        for (const repo of body.repositories_removed) {
           promises.push(deleteRepo(event, repo))
         }
       }
-      if ((body.action === 'added' || body.action === 'removed')) {
-        if ('repositories_added' in body) {
-          await addRepos(event, body.installation, body.repositories_added)
-        }
-        if ('repositories_removed' in body) {
-          for (const repo of body.repositories_removed) {
-            promises.push(deleteRepo(event, repo))
-          }
-        }
-      }
-      if (body.action === 'publicized' && body.installation) {
-        await addRepos(event, body.installation, [body.repository])
-      }
-      if (body.action === 'privatized') {
-        promises.push(deleteRepo(event, body.repository))
-      }
     }
-
-    if ('issue' in body) {
-      switch (body.action) {
-        case 'created':
-        case 'edited':
-        case 'opened':
-        case 'reopened':
-          promises.push(indexIssue(body.issue, body.repository))
-          break
-
-        case 'closed':
-        case 'deleted':
-          promises.push(removeIssue(body.issue, body.repository))
-          break
-      }
+    if (body.action === 'publicized' && body.installation) {
+      await addRepos(event, body.installation, [body.repository])
     }
-
-    event.waitUntil(Promise.allSettled(promises))
-
-    return null
+    if (body.action === 'privatized') {
+      promises.push(deleteRepo(event, body.repository))
+    }
   }
-  catch (err) {
-    console.error(err)
-    throw err
+
+  if ('issue' in body) {
+    switch (body.action) {
+      case 'created':
+      case 'edited':
+      case 'opened':
+      case 'reopened':
+        promises.push(indexIssue(body.issue, body.repository))
+        break
+
+      case 'closed':
+      case 'deleted':
+        promises.push(removeIssue(body.issue, body.repository))
+        break
+    }
   }
+
+  event.waitUntil(Promise.allSettled(promises))
+
+  return null
 })
 
 export type InstallationRepo = {
@@ -78,14 +71,11 @@ export type InstallationRepo = {
 
 async function addRepos(event: H3Event, installation: Installation | InstallationLite, repos: InstallationRepo[]) {
   const config = useRuntimeConfig(event)
-  const octokit = new Octokit({
-    authStrategy: createAppAuth,
-    auth: {
-      appId: config.github.appId,
-      privateKey: config.github.privateKey,
-      installationId: installation.id,
-    },
+  const app = new App({
+    appId: config.github.appId,
+    privateKey: config.github.privateKey,
   })
+  const octokit = await app.getInstallationOctokit(installation.id)
 
   for (const repo of repos) {
     if (repo.private) {

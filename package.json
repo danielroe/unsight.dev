@@ -26,6 +26,7 @@
     "nuxt": "latest",
     "nuxt-time": "1.0.3",
     "nuxt-webhook-validators": "0.1.4",
+    "octokit": "^4.0.2",
     "ohash": "^1.1.4",
     "openai": "^4.76.0",
     "rgb-to-hsl": "^0.0.3",
