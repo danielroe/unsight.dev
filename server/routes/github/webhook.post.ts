@@ -15,6 +15,12 @@ export default defineEventHandler(async (event) => {
   const body = await readBody<WebhookEvent>(event)
   const promises: Promise<unknown>[] = []
   if ('action' in body && 'installation' in body && !('client_payload' in body)) {
+    if ('repository' in body && body.installation && body.repository) {
+      const repoMetadata = await hubKV().getItem<RepoMetadata>(`repo:${body.repository.owner.login}:${body.repository.name}`)
+      if (repoMetadata && !repoMetadata.indexed) {
+        promises.push(addRepos(event, body.installation, [body.repository]))
+      }
+    }
     if (body.action === 'created' && 'repositories' in body) {
       promises.push(addRepos(event, body.installation, body.repositories || []))
     }
@@ -70,6 +76,10 @@ export type InstallationRepo = {
   private: boolean
 }
 
+type RepoMetadata = InstallationRepo & {
+  indexed: boolean
+}
+
 async function addRepos(event: H3Event, installation: Installation | InstallationLite, repos: InstallationRepo[]) {
   const config = useRuntimeConfig(event)
   const octokit = new Octokit({
@@ -92,7 +102,7 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
     const [owner, name] = repo.full_name.split('/')
 
     const promises: Array<Promise<unknown>> = []
-    promises.push(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: false }))
+    promises.push(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: false } satisfies RepoMetadata))
 
     await octokit.paginate(octokit.rest.issues.listForRepo, {
       owner: owner!,
@@ -115,7 +125,7 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
 
     console.log('added', promises.length - 1, 'issues from', `${owner}/${name}`, 'to the index')
 
-    event.waitUntil(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: true }))
+    event.waitUntil(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: true } satisfies RepoMetadata))
   }
 }
 
