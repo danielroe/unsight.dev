@@ -1,4 +1,4 @@
-import type { Installation, WebhookEvent } from '@octokit/webhooks-types'
+import type { Installation, InstallationLite, WebhookEvent } from '@octokit/webhooks-types'
 import type { H3Event } from 'h3'
 import { App } from 'octokit'
 
@@ -15,7 +15,6 @@ export default defineEventHandler(async (event) => {
   const promises: Promise<unknown>[] = []
 
   if ('action' in body && 'installation' in body && !('client_payload' in body)) {
-    // new installation
     if (body.action === 'created' && 'repositories' in body) {
       for (const repo of body.repositories || []) {
         promises.push(addRepo(event, body.installation, repo))
@@ -37,6 +36,12 @@ export default defineEventHandler(async (event) => {
           promises.push(deleteRepo(event, repo))
         }
       }
+    }
+    if (body.action === 'publicized' && body.installation) {
+      promises.push(addRepo(event, body.installation, body.repository))
+    }
+    if (body.action === 'privatized') {
+      promises.push(deleteRepo(event, body.repository))
     }
   }
 
@@ -69,7 +74,10 @@ export type InstallationRepo = {
   private: boolean
 }
 
-async function addRepo(event: H3Event, installation: Installation, repo: InstallationRepo) {
+async function addRepo(event: H3Event, installation: Installation | InstallationLite, repo: InstallationRepo) {
+  if (repo.private) {
+    return
+  }
   const config = useRuntimeConfig(event)
   const app = new App({
     appId: config.github.appId,
