@@ -49,13 +49,6 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
   const text = chunkIssue(issue)
   const issueHash = hash(text)
 
-  // const res = await storage.getItem<StoredEmbeddings>(storageKey)
-  // if (res && (res.mtime <= issueUpdatedTime || res.hash === issueHash)) {
-  //   return res.embeddings
-  // }
-
-  const embeddings = await generateEmbedding(text)
-
   const issueMetadata: IssueMetadata = {
     owner: repository.owner.login,
     repository: repository.name,
@@ -65,6 +58,25 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
     updated_at: issue.updated_at,
     labels: issue.labels?.map(l => typeof l === 'string' ? l : JSON.stringify({ name: l.name, color: l.color })),
   }
+
+  const res = await storage.getItem<StoredEmbeddings>(storageKey)
+  if (res && (res.mtime <= issueUpdatedTime || res.hash === issueHash)) {
+    return await Promise.all([
+      vectorize?.insert([{
+        id: storageKey,
+        values: res.embeddings,
+        metadata: issueMetadata,
+      }]),
+      storage.setItem(storageKey, {
+        metadata: issueMetadata,
+        mtime: issueUpdatedTime,
+        hash: issueHash,
+        embeddings: res.embeddings,
+      }),
+    ])
+  }
+
+  const embeddings = await generateEmbedding(text)
 
   await Promise.all([
     vectorize?.insert([{
