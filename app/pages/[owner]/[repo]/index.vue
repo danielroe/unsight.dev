@@ -4,6 +4,8 @@ import rgbToHSL from 'rgb-to-hsl'
 
 import { allowedRepos } from '#shared/repos'
 
+const { data: allowedRepos } = useFetch('/api/repos')
+
 const route = useRoute('owner-repo')
 const selectedRepo = computed(() => route.params.owner && route.params.repo ? `${route.params.owner}/${route.params.repo}` : 'nuxt/nuxt')
 
@@ -42,11 +44,6 @@ function labelColors(color: string) {
     '--label-s': Math.round(Number.parseInt(saturation)),
     '--label-l': Math.round(Number.parseInt(lightness)),
   }
-}
-
-const stateColors: Record<string, string> = {
-  open: 'text-green-500',
-  closed: 'text-purple-500',
 }
 
 const openState = reactive<Record<string, boolean>>({})
@@ -142,14 +139,11 @@ const openState = reactive<Record<string, boolean>>({})
           :key="i"
           class="flex flex-row gap-2 leading-tightest"
         >
-          <span
-            class="flex-shrink-0 inline-block w-5 h-5"
-            :class="[stateColors[issue.state] || 'text-gray-400', issue.pull_request ? 'i-tabler-git-pull-request' : issue.state === 'closed' ? 'i-tabler-circle-check' : 'i-tabler-circle-dot']"
-          />
+          <span class="flex-shrink-0 inline-block w-5 h-5 i-tabler-circle-dot text-green-500" />
           <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
             <NuxtLink
               class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
-              :href="issue.html_url"
+              :href="issue.url"
             >
               {{ issue.title }}
             </NuxtLink>

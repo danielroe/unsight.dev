@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     'nuxt-time',
     '@nuxtjs/html-validator',
     // TODO: 'nuxt-og-image',
+    'nuxt-webhook-validators',
   ],
   devtools: { enabled: true },
   app: {
@@ -20,6 +21,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     github: {
+      appId: '',
+      privateKey: '',
       token: '',
     },
   },
@@ -40,6 +43,10 @@ export default defineNuxtConfig({
       issues: {
         dimensions: 1024,
         metric: 'euclidean',
+        metadataIndexes: {
+          owner: 'string',
+          repository: 'string',
+        },
       },
     },
     kv: true,

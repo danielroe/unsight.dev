@@ -1,9 +1,7 @@
 import { kmeans } from 'ml-kmeans'
 import { similarity } from 'ml-distance'
 
-import type { Issue } from './github'
-
-export function clusterEmbeddings(issues: Issue[], embeddings: number[][]) {
+export function clusterEmbeddings<T extends { number: number, title: string }>(issues: T[], embeddings: number[][]) {
   for (let i = issues.length - 1; i >= 0; i--) {
     if (embeddings[i]!.length === 0) {
       console.warn(`Failed to generate embedding for an issue: [#${issues[i]!.number}] ${issues[i]!.title}`)
@@ -16,13 +14,13 @@ export function clusterEmbeddings(issues: Issue[], embeddings: number[][]) {
   const k = embeddings.length < 11 ? Math.ceil(embeddings.length / 2) : Math.max(10, Math.floor(Math.sqrt(embeddings.length) / 2))
   const { clusters } = kmeans(embeddings, k, {})
 
-  const clusteredIssues: Record<string, Issue[]> = {}
+  const clusteredIssues: Record<string, T[]> = {}
   for (let i = 0; i < issues.length; i++) {
     clusteredIssues[clusters[i]!] ||= []
     clusteredIssues[clusters[i]!]!.push(issues[i]!)
   }
 
-  const sortedClusters: Array<Array<Issue & { avgSimilarity: number }>> = []
+  const sortedClusters: Array<Array<T & { avgSimilarity: number }>> = []
 
   for (const cluster in clusteredIssues) {
     const chunk = clusteredIssues[cluster]!

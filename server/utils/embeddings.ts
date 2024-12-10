@@ -1,67 +1,104 @@
-import type { H3Event } from 'h3'
 import { hash } from 'ohash'
+import type { Repository, Issue } from '@octokit/webhooks-types'
+import type { RestEndpointMethodTypes } from '@octokit/rest'
 
-import { getLabels, type Issue } from './github'
+type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 
-export async function getStoredEmbeddingsForIssue(event: H3Event, owner: string, repo: string, number: number | string) {
-  const storage = hubKV()
-  const storageKey = `issue:${owner}:${repo}:${number}`
-  const res = await storage.getItem<StoredEmbeddings>(storageKey)
-  return res?.embeddings
+export function storageKeyForIssue(owner: string, repo: string, number: number | string) {
+  return `issue:${owner}:${repo}:${number}`
 }
 
-export async function getEmbeddingsForIssue(event: H3Event, issue: Issue) {
+export function storagePrefixForRepo(owner: string, repo: string) {
+  return `issue:${owner}:${repo}:`
+}
+
+export async function getStoredMetadataForIssue(owner: string, repo: string, number: number) {
+  const kv = hubKV()
+  const res = await kv.getItem<StoredEmbeddings>(storageKeyForIssue(owner, repo, number))
+  return res?.metadata
+}
+
+export async function getStoredEmbeddingsForRepo(owner: string, repo: string) {
+  const kv = hubKV()
+  const keys = await kv.getKeys(storagePrefixForRepo(owner, repo))
+  const res = await kv.getItems(keys)
+  return res.map(i => i.value as StoredEmbeddings)
+}
+
+export async function removeIssue(issue: Issue, repo: Repository) {
   const storage = hubKV()
-  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
-  if (!issue.repository) {
-    const match = issue.repository_url.match(/\/(?<owner>[^/]+)\/(?<name>[^/]+)$/)
-    if (match) {
-      issue.repository = {
-        owner: { name: match.groups!.owner! },
-        name: match.groups!.name!,
-      } as NonNullable<Issue['repository']>
-    }
-    else throw new Error('Issue does not have a repository')
+  await storage.removeItem(storageKeyForIssue(repo.owner.login, repo.name, issue.number))
+  console.log('removed issue:', repo.owner.login, repo.name, issue.number)
+}
+
+const knownBots = new Set(['renovate', 'renovate[bot]'])
+export async function indexIssue(issue: Issue | RestIssue, repository: { owner: { login: string }, name: string }) {
+  if (issue.user && (knownBots.has(issue.user.login) || issue.user.login.endsWith('[bot]'))) {
+    return
+  }
+  if (issue.pull_request) {
+    return
   }
 
-  const storageKey = `issue:${issue.repository!.owner.name}:${issue.repository!.name}:${issue.number}`
+  const storage = hubKV()
+  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
+
+  const storageKey = storageKeyForIssue(repository.owner.login, repository.name, issue.number)
   const issueUpdatedTime = new Date(issue.updated_at).getTime()
 
   const text = chunkIssue(issue)
   const issueHash = hash(text)
 
-  const res = await storage.getItem<StoredEmbeddings>(storageKey)
-  if (res && res.mtime >= issueUpdatedTime && res.hash === issueHash) {
-    return res.embeddings
-  }
+  // const res = await storage.getItem<StoredEmbeddings>(storageKey)
+  // if (res && (res.mtime <= issueUpdatedTime || res.hash === issueHash)) {
+  //   return res.embeddings
+  // }
 
-  const embeddings = await generateEmbedding(event, text)
+  const embeddings = await generateEmbedding(text)
+
+  const issueMetadata: IssueMetadata = {
+    owner: repository.owner.login,
+    repository: repository.name,
+    number: issue.number,
+    title: issue.title,
+    url: issue.html_url,
+    updated_at: issue.updated_at,
+    labels: issue.labels?.map(l => typeof l === 'string' ? l : JSON.stringify({ name: l.name, color: l.color })),
+  }
 
   await Promise.all([
     vectorize?.insert([{
       id: storageKey,
       values: embeddings,
-      metadata: {
-        title: issue.title,
-        body: issue.body || '',
-        owner: issue.repository!.owner.name!,
-        repository: issue.repository!.name,
-        number: issue.number,
-      },
+      metadata: issueMetadata,
     }]),
     storage.setItem(storageKey, {
+      metadata: issueMetadata,
       mtime: issueUpdatedTime,
       hash: issueHash,
       embeddings,
     }),
   ])
 
+  console.log('indexed issue:', issueMetadata)
+
   return embeddings
 }
 
-type StoredEmbeddings = {
+export type IssueMetadata = {
+  owner: string
+  repository: string
+  number: number
+  title: string
+  url: string
+  updated_at: string
+  labels?: string[]
+}
+
+export type StoredEmbeddings = {
   mtime: number
   hash: string
+  metadata: IssueMetadata
   embeddings: number[]
 }
 
@@ -74,12 +111,12 @@ function preprocessText(text: string): string {
     .trim()
 }
 
-function chunkIssue(issue: Issue, exclude?: Set<string>) {
+function chunkIssue(issue: Issue | RestIssue, exclude?: Set<string>) {
   const labels = getLabels(issue).filter(l => !exclude?.has(l))
   return preprocessText(`${issue.title}\n${labels.join(', ')}\n${issue.body}`)
 }
 
-async function generateEmbedding(event: H3Event, text: string): Promise<number[]> {
+async function generateEmbedding(text: string): Promise<number[]> {
   const ai = hubAI()
   try {
     const { data } = await ai.run('@cf/baai/bge-large-en-v1.5', { text })
@@ -88,4 +125,8 @@ async function generateEmbedding(event: H3Event, text: string): Promise<number[]
   catch {
     return []
   }
+}
+
+function getLabels(issue: Issue | RestIssue) {
+  return issue.labels?.map(label => (typeof label === 'string' ? label : label.name!).toLowerCase()).filter(Boolean) || []
 }

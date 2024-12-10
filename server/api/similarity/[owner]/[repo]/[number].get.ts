@@ -1,7 +1,4 @@
-import { Octokit } from '@octokit/rest'
-
-import { isAllowedRepo } from '#shared/repos'
-import { getEmbeddingsForIssue, getStoredEmbeddingsForIssue } from '~~/server/utils/embeddings'
+import { getStoredMetadataForIssue, storageKeyForIssue, type IssueMetadata } from '~~/server/utils/embeddings'
 
 export default defineEventHandler(async (event) => {
   const handled = handleCors(event, {
@@ -12,7 +9,6 @@ export default defineEventHandler(async (event) => {
     origin: [import.meta.dev ? 'http://localhost:3000' : 'https://unsight.dev', 'https://github.com'],
   })
 
-  console.log({ handled, method: event.method })
   if (handled || event.method !== 'GET') {
     return
   }
@@ -30,60 +26,40 @@ const issueHandler = defineCachedEventHandler(async (event) => {
     })
   }
 
-  const source = `${owner}/${repo}`
-
-  if (!isAllowedRepo(source)) {
-    throw createError({
-      status: 400,
-      message: 'Repository not allowed',
-    })
-  }
-
   const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
 
-  let issueEmbeddings = await getStoredEmbeddingsForIssue(event, owner, repo, number)
-  if (!issueEmbeddings) {
-    const options = owner !== 'unjs' ? { auth: useRuntimeConfig(event).github.token } : {}
-    const octokit = new Octokit(options)
+  // TODO: support similar repos
+  const issueVector = await vectorize?.getByIds([storageKeyForIssue(owner, repo, number)])
+  const results = issueVector?.[0] ? await vectorize?.query(issueVector[0].values) : undefined
 
-    const { data: issue } = await octokit.issues.get({
-      owner,
-      repo,
-      issue_number: parseInt(number),
-    })
-
-    issueEmbeddings = await getEmbeddingsForIssue(event, issue)
-  }
-
-  const results = await vectorize?.query(issueEmbeddings, {
-    // TODO: support similar repos
-    // filter: {
-    //   owner,
-    //   repository: repo,
-    // },
-  })
-
-  return results?.matches.map((m) => {
+  return await Promise.all(results?.matches.map(async (m) => {
+    const issueMetadata = m.metadata as IssueMetadata
     const groups = m.id.match(/^issue:(?<owner>[^:]+):(?<repo>[^:]+):(?<number>\d+)$/)?.groups
     if (!groups) {
       console.error('Invalid match', m.id)
       return
     }
+
+    const issue = await getStoredMetadataForIssue(groups.owner!, groups.repo!, parseInt(groups.number!))
+
     return {
-      owner: groups.owner,
-      repo: groups.repo,
-      number: parseInt(groups.number!),
+      ...issue,
+      labels: issue?.labels?.map((l) => {
+        try {
+          return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : l
+        }
+        catch {
+          return l
+        }
+      }),
+      ...issueMetadata,
       score: m.score,
     }
-  }).filter(Boolean)
+  }) || [])
 }, {
   swr: true,
   getKey(event) {
     const { owner, repo, number } = getRouterParams(event)
-    return `issue:${owner}:${repo}:${number}`.toLowerCase()
+    return `v1:issue:${owner}:${repo}:${number}`.toLowerCase()
   },
-  maxAge: 60 * 60 * 1000,
-  staleMaxAge: 60 * 60 * 1000,
-  shouldBypassCache: event => getHeader(event, 'force') === 'true',
-  shouldInvalidateCache: event => getHeader(event, 'force') === 'true',
 })
