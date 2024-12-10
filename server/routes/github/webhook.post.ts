@@ -106,6 +106,7 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
       state: 'open',
       per_page: 100,
     }, (response) => {
+      console.log(response.headers)
       for (const issue of response.data) {
         promises.push(indexIssue(issue, { owner: { login: owner! }, name: name! }))
       }
