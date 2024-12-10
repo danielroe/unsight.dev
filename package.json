@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.2",
-    "@octokit/rest": "^21.0.2",
+    "@octokit/rest": "21.0.2",
     "lint-staged": "15.2.10",
     "simple-git-hooks": "2.11.1",
     "typescript": "5.6.3",
