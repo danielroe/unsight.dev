@@ -91,6 +91,17 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
     },
   })
 
+  const kv = hubKV()
+
+  event.waitUntil(Promise.all(repos.map((repo) => {
+    if (repo.private) {
+      return
+    }
+
+    const [owner, name] = repo.full_name.split('/')
+    return kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: false } satisfies RepoMetadata)
+  })))
+
   for (const repo of repos) {
     if (repo.private) {
       continue
@@ -98,11 +109,9 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
 
     console.log('starting to index', `${repo.full_name}`)
 
-    const kv = hubKV()
     const [owner, name] = repo.full_name.split('/')
 
     const promises: Array<Promise<unknown>> = []
-    promises.push(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: false } satisfies RepoMetadata))
 
     await octokit.paginate(octokit.rest.issues.listForRepo, {
       owner: owner!,
