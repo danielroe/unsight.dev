@@ -16,9 +16,7 @@ export default defineEventHandler(async (event) => {
 
   if ('action' in body && 'installation' in body && !('client_payload' in body)) {
     if (body.action === 'created' && 'repositories' in body) {
-      for (const repo of body.repositories || []) {
-        promises.push(addRepo(event, body.installation, repo))
-      }
+      promises.push(addRepos(event, body.installation, body.repositories || []))
     }
     if (body.action === 'deleted' && 'repositories' in body) {
       for (const repo of body.repositories || []) {
@@ -27,9 +25,7 @@ export default defineEventHandler(async (event) => {
     }
     if ((body.action === 'added' || body.action === 'removed')) {
       if ('repositories_added' in body) {
-        for (const repo of body.repositories_added) {
-          promises.push(addRepo(event, body.installation, repo))
-        }
+        promises.push(addRepos(event, body.installation, body.repositories_added))
       }
       if ('repositories_removed' in body) {
         for (const repo of body.repositories_removed) {
@@ -38,7 +34,7 @@ export default defineEventHandler(async (event) => {
       }
     }
     if (body.action === 'publicized' && body.installation) {
-      promises.push(addRepo(event, body.installation, body.repository))
+      promises.push(addRepos(event, body.installation, [body.repository]))
     }
     if (body.action === 'privatized') {
       promises.push(deleteRepo(event, body.repository))
@@ -74,10 +70,7 @@ export type InstallationRepo = {
   private: boolean
 }
 
-async function addRepo(event: H3Event, installation: Installation | InstallationLite, repo: InstallationRepo) {
-  if (repo.private) {
-    return
-  }
+async function addRepos(event: H3Event, installation: Installation | InstallationLite, repos: InstallationRepo[]) {
   const config = useRuntimeConfig(event)
   const app = new App({
     appId: config.github.appId,
@@ -85,33 +78,41 @@ async function addRepo(event: H3Event, installation: Installation | Installation
   })
   const octokit = await app.getInstallationOctokit(installation.id)
 
-  const kv = hubKV()
-  const [owner, name] = repo.full_name.split('/')
-
-  const promises: Array<Promise<unknown>> = []
-  promises.push(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: false }))
-
-  await octokit.paginate(octokit.rest.issues.listForRepo, {
-    owner: owner!,
-    repo: name!,
-    state: 'open',
-    per_page: 100,
-  }, (response) => {
-    for (const issue of response.data) {
-      promises.push(indexIssue(issue, { owner: { login: owner! }, name: name! }))
+  for (const repo of repos) {
+    if (repo.private) {
+      continue
     }
-    return []
-  })
 
-  await Promise.allSettled(promises).then((r) => {
-    if (r.some(p => p.status === 'rejected')) {
-      console.error('Failed to fetch some issues from', `${owner}/${name}`)
-    }
-  })
+    console.log('starting to index', `${repo.full_name}`)
 
-  console.log('added', promises.length - 1, 'issues from', `${owner}/${name}`, 'to the index')
+    const kv = hubKV()
+    const [owner, name] = repo.full_name.split('/')
 
-  event.waitUntil(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: true }))
+    const promises: Array<Promise<unknown>> = []
+    promises.push(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: false }))
+
+    await octokit.paginate(octokit.rest.issues.listForRepo, {
+      owner: owner!,
+      repo: name!,
+      state: 'open',
+      per_page: 100,
+    }, (response) => {
+      for (const issue of response.data) {
+        promises.push(indexIssue(issue, { owner: { login: owner! }, name: name! }))
+      }
+      return []
+    })
+
+    await Promise.allSettled(promises).then((r) => {
+      if (r.some(p => p.status === 'rejected')) {
+        console.error('Failed to fetch some issues from', `${owner}/${name}`)
+      }
+    })
+
+    console.log('added', promises.length - 1, 'issues from', `${owner}/${name}`, 'to the index')
+
+    event.waitUntil(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: true }))
+  }
 }
 
 async function deleteRepo(event: H3Event, repo: InstallationRepo) {
