@@ -1,6 +1,7 @@
 import type { Installation, InstallationLite, WebhookEvent } from '@octokit/webhooks-types'
 import type { H3Event } from 'h3'
-import { App } from 'octokit'
+import { createAppAuth } from '@octokit/auth-app'
+import { Octokit } from '@octokit/rest'
 
 import { indexIssue, removeIssue, storagePrefixForRepo } from '../../utils/embeddings'
 
@@ -77,11 +78,14 @@ export type InstallationRepo = {
 
 async function addRepos(event: H3Event, installation: Installation | InstallationLite, repos: InstallationRepo[]) {
   const config = useRuntimeConfig(event)
-  const app = new App({
-    appId: config.github.appId,
-    privateKey: config.github.privateKey,
+  const octokit = new Octokit({
+    authStrategy: createAppAuth,
+    auth: {
+      appId: config.github.appId,
+      privateKey: config.github.privateKey,
+      installationId: installation.id,
+    },
   })
-  const octokit = await app.getInstallationOctokit(installation.id)
 
   for (const repo of repos) {
     if (repo.private) {
