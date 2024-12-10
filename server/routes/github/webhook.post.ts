@@ -13,53 +13,58 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<WebhookEvent>(event)
   const promises: Promise<unknown>[] = []
-
-  if ('action' in body && 'installation' in body && !('client_payload' in body)) {
-    if (body.action === 'created' && 'repositories' in body) {
-      promises.push(addRepos(event, body.installation, body.repositories || []))
-    }
-    if (body.action === 'deleted' && 'repositories' in body) {
-      for (const repo of body.repositories || []) {
-        promises.push(deleteRepo(event, repo))
+  try {
+    if ('action' in body && 'installation' in body && !('client_payload' in body)) {
+      if (body.action === 'created' && 'repositories' in body) {
+        await addRepos(event, body.installation, body.repositories || [])
       }
-    }
-    if ((body.action === 'added' || body.action === 'removed')) {
-      if ('repositories_added' in body) {
-        promises.push(addRepos(event, body.installation, body.repositories_added))
-      }
-      if ('repositories_removed' in body) {
-        for (const repo of body.repositories_removed) {
+      if (body.action === 'deleted' && 'repositories' in body) {
+        for (const repo of body.repositories || []) {
           promises.push(deleteRepo(event, repo))
         }
       }
+      if ((body.action === 'added' || body.action === 'removed')) {
+        if ('repositories_added' in body) {
+          await addRepos(event, body.installation, body.repositories_added)
+        }
+        if ('repositories_removed' in body) {
+          for (const repo of body.repositories_removed) {
+            promises.push(deleteRepo(event, repo))
+          }
+        }
+      }
+      if (body.action === 'publicized' && body.installation) {
+        await addRepos(event, body.installation, [body.repository])
+      }
+      if (body.action === 'privatized') {
+        promises.push(deleteRepo(event, body.repository))
+      }
     }
-    if (body.action === 'publicized' && body.installation) {
-      promises.push(addRepos(event, body.installation, [body.repository]))
+
+    if ('issue' in body) {
+      switch (body.action) {
+        case 'created':
+        case 'edited':
+        case 'opened':
+        case 'reopened':
+          promises.push(indexIssue(body.issue, body.repository))
+          break
+
+        case 'closed':
+        case 'deleted':
+          promises.push(removeIssue(body.issue, body.repository))
+          break
+      }
     }
-    if (body.action === 'privatized') {
-      promises.push(deleteRepo(event, body.repository))
-    }
+
+    event.waitUntil(Promise.allSettled(promises))
+
+    return null
   }
-
-  if ('issue' in body) {
-    switch (body.action) {
-      case 'created':
-      case 'edited':
-      case 'opened':
-      case 'reopened':
-        promises.push(indexIssue(body.issue, body.repository))
-        break
-
-      case 'closed':
-      case 'deleted':
-        promises.push(removeIssue(body.issue, body.repository))
-        break
-    }
+  catch (err) {
+    console.error(err)
+    throw err
   }
-
-  event.waitUntil(Promise.allSettled(promises))
-
-  return null
 })
 
 export type InstallationRepo = {
