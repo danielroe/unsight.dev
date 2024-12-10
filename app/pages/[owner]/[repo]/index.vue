@@ -2,8 +2,6 @@
 import hexRgb from 'hex-rgb'
 import rgbToHSL from 'rgb-to-hsl'
 
-import { allowedRepos } from '#shared/repos'
-
 const { data: allowedRepos } = useFetch('/api/repos')
 
 const route = useRoute('owner-repo')
