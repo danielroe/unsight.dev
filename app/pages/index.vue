@@ -4,8 +4,8 @@
       cluster issues by similarity across multiple repositories
     </p>
     <NuxtLink
-      class="bg-green-700 rounded-md px-5 py-3 font-medium flex flex-row gap-2 items-center"
-      href="https://github.com/apps/unsight-dev"
+      class="bg-green-700 rounded-md px-5 py-3 font-medium flex flex-row gap-2 items-center color-white no-underline focus:bg-green-800 hover:bg-green-800 transition-colors shadow-lg"
+      href="https://github.com/apps/unsight-dev/installations/new"
     >
       <span class="i-ri:github-fill inline-block w-5 h-5" />
       install as a github app
