@@ -4,7 +4,8 @@ const { data: allowedRepos, refresh } = useFetch('/api/repos', {
   default: () => [],
 })
 
-const isCallback = ref(!!useRoute().query.installation_id)
+const route = useRoute()
+const isCallback = ref(!!route.query.installation_id)
 const numRepos = allowedRepos.value?.length
 
 if (import.meta.client && isCallback.value) {
@@ -35,7 +36,7 @@ const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10
     >
       <template v-if="isCallback">
         <span class="i-tabler-refresh animate-spin inline-block w-5 h-5" />
-        indexing repositories
+        updating repositories
       </template>
       <template v-else>
         <span class="i-ri:github-fill inline-block w-5 h-5" />
