@@ -31,7 +31,7 @@ const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10
     </p>
     <NuxtLink
       class="bg-green-700 rounded-md px-5 py-3 font-medium flex flex-row gap-2 items-center color-white no-underline focus:bg-green-800 hover:bg-green-800 transition-colors shadow-lg"
-      :href="isCallback ? null : 'https://github.com/apps/unsight-dev/installations/new'"
+      :href="isCallback ? '' : 'https://github.com/apps/unsight-dev/installations/new'"
       :class="{ 'pointer-events-none opacity-50': isCallback }"
     >
       <template v-if="isCallback">
