@@ -25,7 +25,7 @@
     "ml-kmeans": "^6.0.0",
     "nuxt": "latest",
     "nuxt-time": "1.0.3",
-    "nuxt-webhook-validators": "0.1.4",
+    "nuxt-webhook-validators": "0.1.5",
     "ohash": "^1.1.4",
     "openai": "^4.76.0",
     "rgb-to-hsl": "^0.0.3",
@@ -35,11 +35,11 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.2",
-    "lint-staged": "15.2.10",
+    "lint-staged": "15.2.11",
     "simple-git-hooks": "2.11.1",
     "typescript": "5.6.3",
     "vue-tsc": "2.1.10",
-    "wrangler": "3.93.0"
+    "wrangler": "3.95.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
