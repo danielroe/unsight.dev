@@ -23,7 +23,7 @@ export default defineCachedCorsEventHandler(async (event) => {
     })
 
   const clusters = clusterEmbeddings(issues, embeddings)
-  console.log('generated', clusters.length, 'clusters')
+  console.log('generated', clusters.length, 'clusters from', issues.length, embeddings.length)
 
   return clusters
     .map(cluster => cluster.map(i => ({

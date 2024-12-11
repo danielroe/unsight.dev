@@ -93,35 +93,46 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
       continue
     }
 
-    console.log('starting to index', `${repo.full_name}`)
+    await indexRepo(octokit, repo)
 
     const [owner, name] = repo.full_name.split('/')
-
-    const promises: Array<Promise<unknown>> = []
-
-    await octokit.paginate(octokit.rest.issues.listForRepo, {
-      owner: owner!,
-      repo: name!,
-      state: 'open',
-      per_page: 100,
-    }, (response) => {
-      console.log(response.headers)
-      for (const issue of response.data) {
-        promises.push(indexIssue(issue, { owner: { login: owner! }, name: name! }))
-      }
-      return []
-    })
-
-    await Promise.allSettled(promises).then((r) => {
-      if (r.some(p => p.status === 'rejected')) {
-        console.error('Failed to fetch some issues from', `${owner}/${name}`)
-      }
-    })
-
-    console.log('added', promises.length - 1, 'issues from', `${owner}/${name}`, 'to the index')
-
     event.waitUntil(setMetadataForRepo(owner!, name!, { ...repo, indexed: true }))
   }
+}
+
+export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
+  if (repo.private) {
+    return
+  }
+
+  console.log('starting to index', `${repo.full_name}`)
+
+  const [owner, name] = repo.full_name.split('/')
+
+  const promises: Array<Promise<unknown>> = []
+
+  await octokit.paginate(octokit.rest.issues.listForRepo, {
+    owner: owner!,
+    repo: name!,
+    state: 'open',
+    per_page: 100,
+  }, (response) => {
+    for (const issue of response.data) {
+      promises.push(indexIssue(issue, { owner: { login: owner! }, name: name! }))
+    }
+    if (parseInt(response.headers['x-ratelimit-remaining'] || '999') < 100) {
+      console.info(parseInt(response.headers['x-ratelimit-remaining']!), 'requests remaining')
+    }
+    return []
+  })
+
+  await Promise.allSettled(promises).then((r) => {
+    if (r.some(p => p.status === 'rejected')) {
+      console.error('Failed to fetch some issues from', `${owner}/${name}`)
+    }
+  })
+
+  console.log('added', promises.length, 'issues from', `${owner}/${name}`, 'to the index')
 }
 
 async function deleteRepo(event: H3Event, repo: InstallationRepo) {

@@ -27,6 +27,7 @@ export default defineNuxtConfig({
       },
     },
     github: {
+      token: '',
       appId: '',
       privateKey: '',
     },
@@ -40,6 +41,11 @@ export default defineNuxtConfig({
     typedPages: true,
   },
   compatibilityDate: '2024-04-03',
+  nitro: {
+    experimental: {
+      tasks: true,
+    },
+  },
   hub: {
     ai: true,
     analytics: true,
