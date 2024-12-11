@@ -19,6 +19,8 @@ if (import.meta.client && isCallback.value) {
     unsub()
   })
 }
+
+const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10))
 </script>
 
 <template>
@@ -46,17 +48,21 @@ if (import.meta.client && isCallback.value) {
       class="text-center"
     >
       or pick a repository to browse issue clusters
-      <ul class="p-0 flex flex-col gap-2">
+      <ul class="p-0 flex flex-row flex-wrap gap-4 justify-center">
         <li
-          v-for="repo in allowedRepos"
-          :key="repo"
+          v-for="repo in repos"
+          :key="repo.repo"
           class="list-none"
         >
           <NuxtLink
-            :to="`/${repo}`"
-            class="no-underline text-gray-400 hover:underline active:text-white"
+            :to="`/${repo.repo}`"
+            class="no-underline text-gray-400 hover:underline active:text-white flex flex-row gap-1 items-center"
           >
-            {{ repo }}
+            <span
+              class="h-1.5 w-1.5 inline-block rounded-full shadow-sm bg-opacity-90 mt-0.5"
+              :class="repo.indexed ? 'bg-green-600' : 'bg-gray-200'"
+            />
+            {{ repo.repo }}
           </NuxtLink>
         </li>
       </ul>
