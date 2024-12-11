@@ -142,6 +142,7 @@ const openState = reactive<Record<string, boolean>>({})
             <NuxtLink
               class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
               :href="issue.url"
+              target="_blank"
             >
               {{ issue.title }}
             </NuxtLink>
