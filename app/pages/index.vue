@@ -1,8 +1,12 @@
 <script setup lang="ts">
+const config = useRuntimeConfig()
+
 const { data: allowedRepos, refresh } = useFetch('/api/repos', {
-  baseURL: useRuntimeConfig().public.remote,
+  baseURL: config.public.remote,
   default: () => [],
 })
+
+const installationURL = `https://github.com/apps/${config.public.github.appSlug}/installations/new`
 
 const route = useRoute()
 const isCallback = ref(!!route.query.installation_id)
@@ -31,7 +35,7 @@ const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10
     </p>
     <NuxtLink
       class="bg-green-700 rounded-md px-5 py-3 font-medium flex flex-row gap-2 items-center color-white no-underline focus:bg-green-800 hover:bg-green-800 transition-colors shadow-lg"
-      :href="isCallback ? '' : 'https://github.com/apps/unsight-dev/installations/new'"
+      :href="isCallback ? '' : installationURL"
       :class="{ 'pointer-events-none opacity-50': isCallback }"
     >
       <template v-if="isCallback">

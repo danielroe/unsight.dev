@@ -22,6 +22,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       remote: '/',
+      github: {
+        appSlug: 'unsight-dev',
+      },
     },
     github: {
       appId: '',
