@@ -62,7 +62,7 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
   const res = await storage.getItem<StoredEmbeddings>(storageKey)
   if (res && (res.mtime <= issueUpdatedTime || res.hash === issueHash)) {
     return await Promise.all([
-      vectorize?.insert([{
+      vectorize?.upsert([{
         id: storageKey,
         values: res.embeddings,
         metadata: issueMetadata,
@@ -79,7 +79,7 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
   const embeddings = await generateEmbedding(text)
 
   await Promise.all([
-    vectorize?.insert([{
+    vectorize?.upsert([{
       id: storageKey,
       values: embeddings,
       metadata: issueMetadata,
