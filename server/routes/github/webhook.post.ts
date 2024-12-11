@@ -4,6 +4,7 @@ import { createAppAuth } from '@octokit/auth-app'
 import { Octokit } from '@octokit/rest'
 
 import { indexIssue, removeIssue, storagePrefixForRepo } from '../../utils/embeddings'
+import { getMetadataForRepo, removeMetadataForRepo, setMetadataForRepo, type InstallationRepo } from '~~/server/utils/metadata'
 
 export default defineEventHandler(async (event) => {
   const isValidWebhook = await isValidGithubWebhook(event)
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
   const promises: Promise<unknown>[] = []
   if ('action' in body && 'installation' in body && !('client_payload' in body)) {
     if ('repository' in body && body.installation && body.repository) {
-      const repoMetadata = await hubKV().getItem<RepoMetadata>(`repo:${body.repository.owner.login}:${body.repository.name}`)
+      const repoMetadata = await getMetadataForRepo(body.repository.owner.login, body.repository.name)
       if (repoMetadata && !repoMetadata.indexed) {
         promises.push(addRepos(event, body.installation, [body.repository]))
       }
@@ -68,18 +69,6 @@ export default defineEventHandler(async (event) => {
   return null
 })
 
-export type InstallationRepo = {
-  id: number
-  node_id: string
-  name: string
-  full_name: string
-  private: boolean
-}
-
-type RepoMetadata = InstallationRepo & {
-  indexed: boolean
-}
-
 async function addRepos(event: H3Event, installation: Installation | InstallationLite, repos: InstallationRepo[]) {
   const config = useRuntimeConfig(event)
   const octokit = new Octokit({
@@ -91,15 +80,12 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
     },
   })
 
-  const kv = hubKV()
-
   event.waitUntil(Promise.all(repos.map((repo) => {
     if (repo.private) {
       return
     }
-
     const [owner, name] = repo.full_name.split('/')
-    return kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: false } satisfies RepoMetadata)
+    return setMetadataForRepo(owner!, name!, { ...repo, indexed: false })
   })))
 
   for (const repo of repos) {
@@ -134,16 +120,16 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
 
     console.log('added', promises.length - 1, 'issues from', `${owner}/${name}`, 'to the index')
 
-    event.waitUntil(kv.setItem(`repo:${owner}:${name}`, { ...repo, indexed: true } satisfies RepoMetadata))
+    event.waitUntil(setMetadataForRepo(owner!, name!, { ...repo, indexed: true }))
   }
 }
 
 async function deleteRepo(event: H3Event, repo: InstallationRepo) {
   const [owner, name] = repo.full_name.split('/')
+
   const kv = hubKV()
 
-  event.waitUntil(kv.removeItem(`repo:${owner}:${name}`))
-
+  event.waitUntil(removeMetadataForRepo(owner!, name!))
   const keys = await kv.getKeys(storagePrefixForRepo(owner!, name!))
   await Promise.allSettled(keys.map(async key => kv.removeItem(key))).then((r) => {
     if (r.some(p => p.status === 'rejected')) {
