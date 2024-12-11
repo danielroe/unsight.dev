@@ -26,7 +26,6 @@ export default defineNuxtConfig({
     github: {
       appId: '',
       privateKey: '',
-      token: '',
     },
   },
   sourcemap: {
