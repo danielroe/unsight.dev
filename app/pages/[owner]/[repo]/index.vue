@@ -76,11 +76,11 @@ const openState = reactive<Record<string, boolean>>({})
           @change="navigateToRepo"
         >
           <option
-            v-for="repo in allowedRepos"
-            :key="repo"
-            :selected="repo === selectedRepo"
+            v-for="repo in allowedRepos.filter((repo) => repo.issuesIndexed > 0)"
+            :key="repo.repo"
+            :selected="repo.repo === selectedRepo"
           >
-            {{ repo }}
+            {{ repo.repo }}
           </option>
         </select>
         <span
