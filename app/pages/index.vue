@@ -49,7 +49,7 @@ const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10
       class="text-center"
     >
       or pick a repository to browse issue clusters
-      <ul class="p-0 flex flex-row flex-wrap gap-4 justify-center">
+      <ul class="p-0 flex flex-row flex-wrap gap-4 justify-center px-10">
         <li
           v-for="repo in repos"
           :key="repo.repo"
