@@ -20,6 +20,9 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    public: {
+      remote: '/',
+    },
     github: {
       appId: '',
       privateKey: '',

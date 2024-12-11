@@ -1,7 +1,8 @@
+import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
 import { clusterEmbeddings } from '~~/server/utils/cluster'
 import { getStoredEmbeddingsForRepo, type IssueMetadata } from '~~/server/utils/embeddings'
 
-export default defineCachedEventHandler(async (event) => {
+export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo } = getRouterParams(event)
   if (!owner || !repo) {
     throw createError({

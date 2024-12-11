@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const { data: allowedRepos, refresh } = useFetch('/api/repos', { default: () => [] })
+const { data: allowedRepos, refresh } = useFetch('/api/repos', {
+  baseURL: useRuntimeConfig().public.remote,
+  default: () => [],
+})
 
 const isCallback = ref(!!useRoute().query.installation_id)
 const numRepos = allowedRepos.value?.length

@@ -1,22 +1,7 @@
+import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
 import { getStoredMetadataForIssue, storageKeyForIssue, type IssueMetadata } from '~~/server/utils/embeddings'
 
-export default defineEventHandler(async (event) => {
-  const handled = handleCors(event, {
-    methods: ['GET', 'OPTIONS', 'HEAD'],
-    preflight: {
-      statusCode: 204,
-    },
-    origin: [import.meta.dev ? 'http://localhost:3000' : 'https://unsight.dev', 'https://github.com'],
-  })
-
-  if (handled || event.method !== 'GET') {
-    return
-  }
-
-  return issueHandler(event)
-})
-
-const issueHandler = defineCachedEventHandler(async (event) => {
+export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo, number } = getRouterParams(event)
 
   if (!owner || !repo || !number) {

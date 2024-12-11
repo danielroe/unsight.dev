@@ -2,12 +2,16 @@
 import hexRgb from 'hex-rgb'
 import rgbToHSL from 'rgb-to-hsl'
 
-const { data: allowedRepos } = useFetch('/api/repos')
+const { data: allowedRepos } = useFetch('/api/repos', {
+  baseURL: useRuntimeConfig().public.remote,
+  default: () => [],
+})
 
 const route = useRoute('owner-repo')
 const selectedRepo = computed(() => route.params.owner && route.params.repo ? `${route.params.owner}/${route.params.repo}` : 'nuxt/nuxt')
 
 const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${selectedRepo.value}`, {
+  baseURL: useRuntimeConfig().public.remote,
   default: () => [],
 })
 
