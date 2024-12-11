@@ -10,7 +10,7 @@ export function defineCachedCorsEventHandler(eventHandler: EventHandler, cacheOp
       preflight: {
         statusCode: 204,
       },
-      origin: [import.meta.dev ? 'http://localhost:3000' : 'https://unsight.dev', 'https://github.com'],
+      origin: ['http://localhost:3000', 'https://unsight.dev', 'https://github.com'],
     })
 
     if (handled || event.method !== 'GET') {
