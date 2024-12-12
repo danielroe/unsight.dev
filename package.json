@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@iconify-json/ri": "1.2.3",
-    "@iconify-json/tabler": "1.2.10",
+    "@iconify-json/tabler": "1.2.11",
     "@nuxthub/core": "^0.8.7",
     "@nuxtjs/html-validator": "1.8.2",
     "@octokit/auth-app": "^7.1.3",
