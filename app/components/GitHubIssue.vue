@@ -15,7 +15,7 @@ defineProps({
     type: Number,
     required: true,
   },
-  labels: Array as () => Array<string | { name: string, color: string }>,
+  labels: Array as () => Array<string | { name: string, color?: string }>,
   // eslint-disable-next-line vue/prop-name-casing
   updated_at: {
     type: String,
@@ -47,7 +47,7 @@ function labelColors(color: string) {
         :href="url"
         target="_blank"
       >
-        {{ title }}
+        {{ title?.trim() }}
       </NuxtLink>
       <div
         class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
@@ -72,7 +72,19 @@ function labelColors(color: string) {
           relative
         />
         &middot;
-        {{ Math.floor(avgSimilarity * 100) }}% similar
+        <NuxtLink
+          class="no-underline hover:underline color-current"
+          :to="owner && repository ? {
+            name: 'owner-repo-issue',
+            params: {
+              owner: owner,
+              repo: repository,
+              issue: number,
+            },
+          } : ''"
+        >
+          {{ Math.floor(avgSimilarity * 100) }}% similar
+        </NuxtLink>
       </div>
       <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
         <span

@@ -34,8 +34,10 @@ const openState = reactive<Record<string, boolean>>({})
 <template>
   <div>
     <form @submit.prevent="() => refresh()">
-      <p class="flex gap-2 items-center">
-        {{ selectedRepo }}
+      <div class="flex gap-2 items-center">
+        <h2 class="text-base font-normal">
+          {{ selectedRepo }}
+        </h2>
         <button
           class="rounded-full w-7 h-7 flex items-center justify-center border-solid border border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex-shrink-0"
           :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
@@ -47,7 +49,7 @@ const openState = reactive<Record<string, boolean>>({})
           />
           <span class="sr-only">refresh data</span>
         </button>
-      </p>
+      </div>
       <label class="w-full border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
         <span class="sr-only">pick a repository to cluster issues</span>
         <select
@@ -79,16 +81,10 @@ const openState = reactive<Record<string, boolean>>({})
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
           <span class="inline-block rounded-md h-5 bg-gray-500 w-5" />
         </h2>
-        <article>
-          <div
-            class="flex flex-row gap-2 leading-tightest no-underline color-current"
-          >
-            <span
-              class="flex-shrink-0 text-gray-500 i-tabler-circle-dot inline-block w-5 h-5"
-            />
-            <div class="rounded-full h-4 bg-gray-500 w-70" />
-          </div>
-        </article>
+        <GitHubIssueLoading
+          v-for="s in Math.round(Math.random() * 3) + 1"
+          :key="s"
+        />
       </section>
     </template>
     <template v-else-if="!clusters.length">
