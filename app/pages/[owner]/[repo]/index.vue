@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import hexRgb from 'hex-rgb'
-import rgbToHSL from 'rgb-to-hsl'
-
 const { data: allowedRepos } = useRepos()
 
 const route = useRoute('owner-repo')
@@ -29,20 +26,6 @@ function navigateToRepo(event: Event) {
     name: 'owner-repo',
     params: { owner, repo },
   })
-}
-
-function labelColors(color: string) {
-  const value = hexRgb(color)
-  const [hue, saturation, lightness] = rgbToHSL(value.red, value.green, value.blue)
-
-  return {
-    '--label-r': Math.round(value.red),
-    '--label-g': Math.round(value.green),
-    '--label-b': Math.round(value.blue),
-    '--label-h': Math.round(hue),
-    '--label-s': Math.round(Number.parseInt(saturation)),
-    '--label-l': Math.round(Number.parseInt(lightness)),
-  }
 }
 
 const openState = reactive<Record<string, boolean>>({})
@@ -133,57 +116,18 @@ const openState = reactive<Record<string, boolean>>({})
         <h2>
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>{{ c + 1 }}
         </h2>
-        <article
+        <GitHubIssue
           v-for="(issue, i) of openState[c] !== true ? cluster.slice(0, 5) : cluster"
           :key="i"
-          class="flex flex-row gap-2 leading-tightest"
-        >
-          <span class="flex-shrink-0 inline-block w-5 h-5 i-tabler-circle-dot text-green-500" />
-          <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
-            <NuxtLink
-              class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
-              :href="issue.url"
-              target="_blank"
-            >
-              {{ issue.title }}
-            </NuxtLink>
-            <div
-              class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
-            >
-              <NuxtLink
-                v-if="issue.owner && issue.repository"
-                class="no-underline hover:underline color-current"
-                :to="{
-                  name: 'owner-repo',
-                  params: {
-                    owner: issue.owner,
-                    repo: issue.repository,
-                  },
-                }"
-              >
-                {{ issue.owner }}/{{ issue.repository }}
-              </NuxtLink>
-              &middot;
-              updated
-              <NuxtTime
-                :datetime="issue.updated_at"
-                relative
-              />
-              &middot;
-              {{ Math.floor(issue.avgSimilarity * 100) }}% similar
-            </div>
-            <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
-              <span
-                v-for="(label, j) of issue.labels"
-                :key="j"
-                class="label rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 text-xs inline-block leading-tight"
-                :style="labelColors(typeof label === 'string' ? '000000' : label.color || '000000')"
-              >
-                {{ typeof label === 'string' ? label : label.name }}
-              </span>
-            </div>
-          </div>
-        </article>
+          :url="issue.url"
+          :title="issue.title"
+          :owner="issue.owner"
+          :repository="issue.repository"
+          :number="issue.number"
+          :avg-similarity="issue.avgSimilarity"
+          :labels="issue.labels"
+          :updated_at="issue.updated_at"
+        />
         <button
           v-if="cluster.length > 5 && openState[c] !== true"
           class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
@@ -198,15 +142,6 @@ const openState = reactive<Record<string, boolean>>({})
 </template>
 
 <style scoped>
-.label {
-  --lightness-threshold: 0.6;
-  --perceived-lightness: calc(((var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) + (var(--label-b) * 0.0722)) / 255);
-  --lightness-switch: max(0, min(calc((var(--perceived-lightness) - var(--lightness-threshold)) * -1000), 1));
-  --lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
-  background: rgba(var(--label-r), var(--label-g), var(--label-b), 0.18);
-  color: hsl(var(--label-h),calc(var(--label-s) * 1%),calc((var(--label-l) + var(--lighten-by)) * 1%));
-  border-color: rgba(var(--label-r), var(--label-g), var(--label-b), 0.7);
-}
 section:first-of-type {
   view-transition-name: var(--section-index);
 }
