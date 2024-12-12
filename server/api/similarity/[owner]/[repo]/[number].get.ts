@@ -15,7 +15,13 @@ export default defineCachedCorsEventHandler(async (event) => {
 
   // TODO: support similar repos
   const issueVector = await vectorize?.getByIds([storageKeyForIssue(owner, repo, number)])
-  const results = issueVector?.[0] ? await vectorize?.query(issueVector[0].values) : undefined
+  const results = issueVector?.[0]
+    ? await vectorize?.query(issueVector[0].values, {
+      filter: {
+        owner,
+      },
+    })
+    : undefined
 
   return await Promise.all(results?.matches.map(async (m) => {
     const issueMetadata = m.metadata as IssueMetadata
