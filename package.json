@@ -33,7 +33,7 @@
     "unplugin-vue-router": "^0.10.9"
   },
   "devDependencies": {
-    "@nuxt/eslint": "0.7.2",
+    "@nuxt/eslint": "0.7.3",
     "lint-staged": "15.2.11",
     "simple-git-hooks": "2.11.1",
     "typescript": "5.6.3",
