@@ -2,10 +2,7 @@
 import hexRgb from 'hex-rgb'
 import rgbToHSL from 'rgb-to-hsl'
 
-const { data: allowedRepos } = useFetch('/api/repos', {
-  baseURL: useRuntimeConfig().public.remote,
-  default: () => [],
-})
+const { data: allowedRepos } = useRepos()
 
 const route = useRoute('owner-repo')
 const selectedRepo = computed(() => route.params.owner && route.params.repo ? `${route.params.owner}/${route.params.repo}` : 'nuxt/nuxt')
@@ -27,7 +24,7 @@ onMounted(async () => {
 })
 
 function navigateToRepo(event: Event) {
-  const [owner, repo] = (event.target as HTMLSelectElement).value.split('/')
+  const [owner, repo] = (event.target as HTMLSelectElement).value.split('/') as [string, string]
   return navigateTo({
     name: 'owner-repo',
     params: { owner, repo },

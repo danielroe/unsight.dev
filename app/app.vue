@@ -3,6 +3,8 @@ useSeoMeta({
   title: 'unsight.dev',
   description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
 })
+
+const { data: repos } = useRepos()
 </script>
 
 <template>
@@ -37,6 +39,8 @@ useSeoMeta({
       >
         @danielroe.dev
       </a>
+      &middot;
+      {{ repos.length }} repos
     </footer>
   </div>
 </template>

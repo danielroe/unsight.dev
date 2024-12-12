@@ -1,10 +1,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
 
-const { data: allowedRepos, refresh } = useFetch('/api/repos', {
-  baseURL: config.public.remote,
-  default: () => [],
-})
+const { data: allowedRepos, refresh } = useRepos()
 
 const installationURL = `https://github.com/apps/${config.public.github.appSlug}/installations/new`
 
