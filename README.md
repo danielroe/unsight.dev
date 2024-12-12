@@ -105,6 +105,14 @@ You can now visit http://localhost:3000 and click 'Install as a GitHub app'.
 
 You can now directly visit `http://localhost:3000/<your-user-name>/<your-repo>` to view your clusters.
 
+## Preset repo
+For local development, you can preset repo(s) using `NUXT_PRESET_REPO`.
+
+```ini
+NUXT_PRESET_REPO=nuxt/nuxt,nitrojs/nitro
+```
+The preset repo(s) will be indexed at startup.
+
 ## License
 
 Made with ❤️
