@@ -10,7 +10,7 @@ export default defineTask({
     const kv = hubKV()
     const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
     if (!vectorize) {
-      return { error: 'Vectorize not available' }
+      return { result: 'Vectorize not available' }
     }
     const keys = await kv.getKeys('issue:').then(r => r.reverse())
     console.info('Loaded', keys.length, 'issues')
@@ -36,9 +36,9 @@ export default defineTask({
       } while (keys.length > 0)
     }
     catch {
-      return { keys }
+      return { result: `Error while processing ${keys.length} issues` }
     }
 
-    return { count }
+    return { result: `Processed ${count} issues` }
   },
 })

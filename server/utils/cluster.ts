@@ -46,3 +46,37 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(i
 
   return sortedClusters
 }
+
+export function findDuplicates<T extends { number: number, title: string }>(issues: T[], embeddings: number[][]) {
+  for (let i = issues.length - 1; i >= 0; i--) {
+    if (embeddings[i]!.length === 0) {
+      console.warn(`Failed to generate embedding for an issue: [#${issues[i]!.number}] ${issues[i]!.title}`)
+      issues.splice(i, 1)
+      embeddings.splice(i, 1)
+    }
+  }
+
+  const duplicates: Map<T, [T, number][]> = new Map()
+  const scores: number[] = []
+  for (let i = 0; i < issues.length; i++) {
+    const embedding = embeddings[i]
+    console.log(i)
+    for (let j = i; j < issues.length; j++) {
+      const issue = issues[j]!
+      if (issue === issues[i]) {
+        continue
+      }
+      if (duplicates.has(issues[i]!) && duplicates.get(issues[i]!)!.some(([i]) => i === issue)) {
+        continue
+      }
+      const score = similarity.cosine(embedding, embeddings[issues.indexOf(issue)])
+      scores.push(score)
+      console.log(i)
+      if (score > 0.85) {
+        duplicates.set(issues[i]!, [...duplicates.get(issues[i]!) || [], [issue, score]])
+      }
+    }
+  }
+  // console.log(scores, Math.max(...scores), Math.min(...scores), scores.reduce((a, b) => a + b, 0) / scores.length)
+  return [...duplicates.entries()]
+}

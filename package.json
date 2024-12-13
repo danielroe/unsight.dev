@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare && simple-git-hooks",
     "lint": "eslint .",
-    "test:types": "vue-tsc --noEmit"
+    "test:types": "vue-tsc -b --noEmit"
   },
   "dependencies": {
     "@iconify-json/ri": "1.2.3",

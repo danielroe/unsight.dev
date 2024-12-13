@@ -34,6 +34,6 @@ export default defineTask({
       }
     }
 
-    return indexed
+    return { result: indexed }
   },
 })

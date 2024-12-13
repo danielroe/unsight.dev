@@ -9,6 +9,12 @@ const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${sele
   default: () => [],
 })
 
+const showDuplicates = ref(false)
+const { data: duplicates, status: duplicateStatus } = useFetch(() => `/api/duplicates/${selectedRepo.value}`, {
+  baseURL: useRuntimeConfig().public.remote,
+  default: () => [],
+})
+
 onMounted(async () => {
   if ('startViewTransition' in document) {
     let finishTransition: () => void
@@ -70,6 +76,49 @@ const openState = reactive<Record<string, boolean>>({})
         />
       </label>
     </form>
+
+    <section
+      v-if="duplicates.length || duplicateStatus !== 'success'"
+      class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 flex-wrap border-b-solid"
+    >
+      <h2>duplicates</h2>
+      <section
+        v-for="(pair, i) of duplicates"
+        :key="i"
+        class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pt-4 pb-3 border-b-solid"
+      >
+        <GitHubIssue
+          v-for="(issue, j) of pair"
+          :key="j"
+          :url="issue.url"
+          :title="issue.title"
+          :owner="issue.owner"
+          :repository="issue.repository"
+          :number="issue.number"
+          :avg-similarity="issue.score"
+          :labels="issue.labels"
+          :updated_at="issue.updated_at"
+        />
+      </section>
+      <div
+        v-if="duplicateStatus !== 'success'"
+        class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex items-center gap-2 justify-center pointer-events-none text-sm animate-pulse"
+      >
+        <span
+          size="medium"
+          class="text-gray-400 flex-shrink-0 i-tabler-refresh inline-block w-4 h-4 animate-spin"
+        />
+        loading
+      </div>
+      <button
+        v-else
+        class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex items-center gap-2 justify-center"
+        type="button"
+        @click="showDuplicates = true"
+      >
+        show {{ duplicates?.length }} duplicates
+      </button>
+    </section>
     <template v-if="status === 'idle' || status === 'pending'">
       <section
         v-for="i in 7"
