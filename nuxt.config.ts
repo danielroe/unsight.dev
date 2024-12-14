@@ -19,6 +19,9 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'en' },
     },
   },
+  css: [
+    '@unocss/reset/tailwind-compat.css',
+  ],
   runtimeConfig: {
     public: {
       remote: '/',
@@ -69,5 +72,14 @@ export default defineNuxtConfig({
   },
   unocss: {
     icons: true,
+    theme: {
+      colors: {
+        'shark-500': '#202830',
+        'shark-400': '#333c45',
+        'shark-300': '#3F4953',
+        'shark-200': '#4F5A65',
+        'shark-100': '#636E7A',
+      },
+    },
   },
 })
