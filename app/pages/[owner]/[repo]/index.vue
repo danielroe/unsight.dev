@@ -35,7 +35,7 @@ const openState = reactive<Record<string, boolean>>({})
   <div>
     <form @submit.prevent="() => refresh()">
       <div class="flex gap-2 items-center">
-        <h2 class="text-base font-normal">
+        <h2 class="text-base my-3 font-normal">
           {{ selectedRepo }}
         </h2>
         <button
@@ -50,7 +50,7 @@ const openState = reactive<Record<string, boolean>>({})
           <span class="sr-only">refresh data</span>
         </button>
       </div>
-      <label class="w-full border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
+      <label class="w-full text-xs border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
         <span class="sr-only">pick a repository to cluster issues</span>
         <select
           :value="selectedRepo"
@@ -77,7 +77,7 @@ const openState = reactive<Record<string, boolean>>({})
         :style="{ '--section-index': i }"
         class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid animate-pulse"
       >
-        <h2 class="flex items-center">
+        <h2 class="flex items-center my-4 font-bold text-2xl">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
           <span class="inline-block rounded-md h-5 bg-gray-500 w-5" />
         </h2>
@@ -91,7 +91,7 @@ const openState = reactive<Record<string, boolean>>({})
       <section
         class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
       >
-        <h2 class="flex items-center">
+        <h2 class="flex items-center my-4 font-bold text-2xl">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
         </h2>
         <p class="flex flex-row gap-2 leading-tightest">
@@ -109,7 +109,7 @@ const openState = reactive<Record<string, boolean>>({})
         :style="{ '--section-index': c }"
         class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
       >
-        <h2>
+        <h2 class="my-4 font-bold text-2xl">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>{{ c + 1 }}
         </h2>
         <GitHubIssue
@@ -126,7 +126,7 @@ const openState = reactive<Record<string, boolean>>({})
         />
         <button
           v-if="cluster.length > 5 && openState[c] !== true"
-          class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
+          class="rounded-md text-sm border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
           type="button"
           @click="openState[c] = !openState[c]"
         >
