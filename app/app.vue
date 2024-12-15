@@ -1,8 +1,8 @@
 <script setup lang="ts">
 useHead({
-    bodyAttrs: {
-        class: 'bg-shark-500 text-white',
-    },
+  bodyAttrs: {
+    class: 'bg-shark-500 text-white',
+  },
 })
 
 useSeoMeta({
