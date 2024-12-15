@@ -2,9 +2,11 @@ import { Octokit } from '@octokit/rest'
 import { defineTask } from 'nitropack/runtime'
 import { indexRepo } from '~~/server/routes/github/webhook.post'
 
-interface TaskPayload {
+export interface TaskPayload {
+  /**
+   * Filter repositories to index
+   */
   filter?: string[]
-  tryResolveMeta?: boolean
 }
 
 export default defineTask({
@@ -23,27 +25,8 @@ export default defineTask({
 
       try {
         const [owner, name] = repo.repo.split('/')
-        let meta = await getMetadataForRepo(owner!, name!)
-        if (!meta) {
-          if (payload.tryResolveMeta !== true) {
-            continue
-          }
-
-          const fetchedRepo = await octokit.repos.get({ owner: owner!, repo: name! })
-
-          if (!fetchedRepo.data || fetchedRepo.data.private) {
-            continue
-          }
-
-          meta = {
-            id: fetchedRepo.data.id,
-            node_id: fetchedRepo.data.node_id,
-            name: fetchedRepo.data.name,
-            full_name: fetchedRepo.data.full_name,
-            private: fetchedRepo.data.private,
-            indexed: false,
-          }
-        }
+        const meta = await getMetadataForRepo(owner!, name!)
+        if (!meta) continue
 
         await indexRepo(octokit, meta)
         indexed.push(repo.repo)

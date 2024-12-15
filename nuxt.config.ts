@@ -9,11 +9,6 @@ export default defineNuxtConfig({
     // TODO: 'nuxt-og-image',
     'nuxt-webhook-validators',
   ],
-  $development: {
-    runtimeConfig: {
-      presetRepo: '',
-    },
-  },
   devtools: { enabled: true },
   app: {
     pageTransition: false,
@@ -47,7 +42,6 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-04-03',
   nitro: {
-    plugins: ['plugins/preset-repo.ts'],
     experimental: {
       tasks: true,
     },
