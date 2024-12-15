@@ -1,10 +1,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
 
-const { data: allowedRepos, refresh } = useFetch('/api/repos', {
-  baseURL: config.public.remote,
-  default: () => [],
-})
+const { data: allowedRepos, refresh } = useRepos()
 
 const installationURL = `https://github.com/apps/${config.public.github.appSlug}/installations/new`
 
@@ -34,7 +31,7 @@ const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10
       cluster issues by similarity across multiple repositories
     </p>
     <NuxtLink
-      class="bg-green-700 rounded-md px-5 py-3 font-medium flex flex-row gap-2 items-center color-white no-underline focus:bg-green-800 hover:bg-green-800 transition-colors shadow-lg"
+      class="bg-green-700 rounded-md px-5 py-2.5 font-medium flex flex-row gap-2 items-center color-white no-underline focus:bg-green-800 hover:bg-green-800 transition-colors shadow-lg"
       :href="isCallback ? '' : installationURL"
       :class="{ 'pointer-events-none opacity-50': isCallback }"
     >
@@ -47,13 +44,13 @@ const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10
         install as a github app
       </template>
     </NuxtLink>
-    <hr>
+    <hr class="w-32 border-shark-400">
     <section
       v-if="allowedRepos.length"
       class="text-center"
     >
       or pick a repository to browse issue clusters
-      <ul class="p-0 flex flex-row flex-wrap gap-4 justify-center px-10">
+      <ul class="p-0 flex flex-row flex-wrap gap-x-4 gap-y-3 justify-center px-10 my-4">
         <li
           v-for="repo in repos"
           :key="repo.repo"

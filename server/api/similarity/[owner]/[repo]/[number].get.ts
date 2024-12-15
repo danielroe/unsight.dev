@@ -1,5 +1,6 @@
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
-import { getStoredMetadataForIssue, storageKeyForIssue, type IssueMetadata } from '~~/server/utils/embeddings'
+import { storageKeyForIssue } from '~~/server/utils/embeddings'
+import type { IssueMetadata } from '~~/server/utils/embeddings'
 
 export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo, number } = getRouterParams(event)
@@ -15,21 +16,22 @@ export default defineCachedCorsEventHandler(async (event) => {
 
   // TODO: support similar repos
   const issueVector = await vectorize?.getByIds([storageKeyForIssue(owner, repo, number)])
-  const results = issueVector?.[0] ? await vectorize?.query(issueVector[0].values) : undefined
+  const results = issueVector?.[0]
+    ? await vectorize?.query(issueVector[0].values, {
+      returnMetadata: 'all',
+      topK: 10,
+      filter: {
+        owner,
+      },
+    })
+    : undefined
 
-  return await Promise.all(results?.matches.map(async (m) => {
+  return results?.matches.map((m) => {
     const issueMetadata = m.metadata as IssueMetadata
-    const groups = m.id.match(/^issue:(?<owner>[^:]+):(?<repo>[^:]+):(?<number>\d+)$/)?.groups
-    if (!groups) {
-      console.error('Invalid match', m.id)
-      return
-    }
-
-    const issue = await getStoredMetadataForIssue(groups.owner!, groups.repo!, parseInt(groups.number!))
 
     return {
-      ...issue,
-      labels: issue?.labels?.map((l) => {
+      ...issueMetadata,
+      labels: issueMetadata?.labels?.map((l) => {
         try {
           return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : l
         }
@@ -37,10 +39,9 @@ export default defineCachedCorsEventHandler(async (event) => {
           return l
         }
       }),
-      ...issueMetadata,
       score: m.score,
     }
-  }) || [])
+  }) || []
 }, {
   swr: true,
   getKey(event) {

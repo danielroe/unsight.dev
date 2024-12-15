@@ -20,6 +20,7 @@
     "@octokit/rest": "^21.0.2",
     "@octokit/webhooks-types": "^7.6.1",
     "@unocss/nuxt": "^0.65.1",
+    "@unocss/reset": "^0.65.1",
     "defu": "^6.1.4",
     "hex-rgb": "^5.0.0",
     "ml-distance": "^4.0.1",

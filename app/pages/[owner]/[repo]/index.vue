@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import hexRgb from 'hex-rgb'
-import rgbToHSL from 'rgb-to-hsl'
-
-const { data: allowedRepos } = useFetch('/api/repos', {
-  baseURL: useRuntimeConfig().public.remote,
-  default: () => [],
-})
+const { data: allowedRepos } = useRepos()
 
 const route = useRoute('owner-repo')
 const selectedRepo = computed(() => route.params.owner && route.params.repo ? `${route.params.owner}/${route.params.repo}` : 'nuxt/nuxt')
@@ -27,25 +21,11 @@ onMounted(async () => {
 })
 
 function navigateToRepo(event: Event) {
-  const [owner, repo] = (event.target as HTMLSelectElement).value.split('/')
+  const [owner, repo] = (event.target as HTMLSelectElement).value.split('/') as [string, string]
   return navigateTo({
     name: 'owner-repo',
     params: { owner, repo },
   })
-}
-
-function labelColors(color: string) {
-  const value = hexRgb(color)
-  const [hue, saturation, lightness] = rgbToHSL(value.red, value.green, value.blue)
-
-  return {
-    '--label-r': Math.round(value.red),
-    '--label-g': Math.round(value.green),
-    '--label-b': Math.round(value.blue),
-    '--label-h': Math.round(hue),
-    '--label-s': Math.round(Number.parseInt(saturation)),
-    '--label-l': Math.round(Number.parseInt(lightness)),
-  }
 }
 
 const openState = reactive<Record<string, boolean>>({})
@@ -54,8 +34,10 @@ const openState = reactive<Record<string, boolean>>({})
 <template>
   <div>
     <form @submit.prevent="() => refresh()">
-      <p class="flex gap-2 items-center">
-        {{ selectedRepo }}
+      <div class="flex gap-2 items-center">
+        <h2 class="text-base my-3 font-normal">
+          {{ selectedRepo }}
+        </h2>
         <button
           class="rounded-full w-7 h-7 flex items-center justify-center border-solid border border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex-shrink-0"
           :class="{ 'animate-spin opacity-50 pointer-events-none': status === 'pending' || status === 'idle' }"
@@ -67,8 +49,8 @@ const openState = reactive<Record<string, boolean>>({})
           />
           <span class="sr-only">refresh data</span>
         </button>
-      </p>
-      <label class="w-full border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
+      </div>
+      <label class="w-full text-xs border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
         <span class="sr-only">pick a repository to cluster issues</span>
         <select
           :value="selectedRepo"
@@ -95,27 +77,21 @@ const openState = reactive<Record<string, boolean>>({})
         :style="{ '--section-index': i }"
         class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid animate-pulse"
       >
-        <h2 class="flex items-center">
+        <h2 class="flex items-center my-4 font-bold text-2xl">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
           <span class="inline-block rounded-md h-5 bg-gray-500 w-5" />
         </h2>
-        <article>
-          <div
-            class="flex flex-row gap-2 leading-tightest no-underline color-current"
-          >
-            <span
-              class="flex-shrink-0 text-gray-500 i-tabler-circle-dot inline-block w-5 h-5"
-            />
-            <div class="rounded-full h-4 bg-gray-500 w-70" />
-          </div>
-        </article>
+        <GitHubIssueLoading
+          v-for="s in Math.round(Math.random() * 3) + 1"
+          :key="s"
+        />
       </section>
     </template>
     <template v-else-if="!clusters.length">
       <section
         class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
       >
-        <h2 class="flex items-center">
+        <h2 class="flex items-center my-4 font-bold text-2xl">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
         </h2>
         <p class="flex flex-row gap-2 leading-tightest">
@@ -133,63 +109,24 @@ const openState = reactive<Record<string, boolean>>({})
         :style="{ '--section-index': c }"
         class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
       >
-        <h2>
+        <h2 class="my-4 font-bold text-2xl">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>{{ c + 1 }}
         </h2>
-        <article
+        <GitHubIssue
           v-for="(issue, i) of openState[c] !== true ? cluster.slice(0, 5) : cluster"
           :key="i"
-          class="flex flex-row gap-2 leading-tightest"
-        >
-          <span class="flex-shrink-0 inline-block w-5 h-5 i-tabler-circle-dot text-green-500" />
-          <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
-            <NuxtLink
-              class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
-              :href="issue.url"
-              target="_blank"
-            >
-              {{ issue.title }}
-            </NuxtLink>
-            <div
-              class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
-            >
-              <NuxtLink
-                v-if="issue.owner && issue.repository"
-                class="no-underline hover:underline color-current"
-                :to="{
-                  name: 'owner-repo',
-                  params: {
-                    owner: issue.owner,
-                    repo: issue.repository,
-                  },
-                }"
-              >
-                {{ issue.owner }}/{{ issue.repository }}
-              </NuxtLink>
-              &middot;
-              updated
-              <NuxtTime
-                :datetime="issue.updated_at"
-                relative
-              />
-              &middot;
-              {{ Math.floor(issue.avgSimilarity * 100) }}% similar
-            </div>
-            <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
-              <span
-                v-for="(label, j) of issue.labels"
-                :key="j"
-                class="label rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 text-xs inline-block leading-tight"
-                :style="labelColors(typeof label === 'string' ? '000000' : label.color || '000000')"
-              >
-                {{ typeof label === 'string' ? label : label.name }}
-              </span>
-            </div>
-          </div>
-        </article>
+          :url="issue.url"
+          :title="issue.title"
+          :owner="issue.owner"
+          :repository="issue.repository"
+          :number="issue.number"
+          :avg-similarity="issue.avgSimilarity"
+          :labels="issue.labels"
+          :updated_at="issue.updated_at"
+        />
         <button
           v-if="cluster.length > 5 && openState[c] !== true"
-          class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
+          class="rounded-md text-sm border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
           type="button"
           @click="openState[c] = !openState[c]"
         >
@@ -201,15 +138,6 @@ const openState = reactive<Record<string, boolean>>({})
 </template>
 
 <style scoped>
-.label {
-  --lightness-threshold: 0.6;
-  --perceived-lightness: calc(((var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) + (var(--label-b) * 0.0722)) / 255);
-  --lightness-switch: max(0, min(calc((var(--perceived-lightness) - var(--lightness-threshold)) * -1000), 1));
-  --lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
-  background: rgba(var(--label-r), var(--label-g), var(--label-b), 0.18);
-  color: hsl(var(--label-h),calc(var(--label-s) * 1%),calc((var(--label-l) + var(--lighten-by)) * 1%));
-  border-color: rgba(var(--label-r), var(--label-g), var(--label-b), 0.7);
-}
 section:first-of-type {
   view-transition-name: var(--section-index);
 }

@@ -1,15 +1,23 @@
 <script setup lang="ts">
+useHead({
+  bodyAttrs: {
+    class: 'bg-shark-500 text-white',
+  },
+})
+
 useSeoMeta({
   title: 'unsight.dev',
   description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
 })
+
+const { data: repos } = useRepos()
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <main class="flex flex-col font-sans m-2 flex-grow">
+    <main class="flex flex-col font-sans m-4 flex-grow">
       <nav class="flex flex-row items-center gap-2 ">
-        <h1 class="text-lg">
+        <h1 class="text-lg font-bold my-4">
           <NuxtLink
             to="/"
             class="no-underline color-current"
@@ -37,13 +45,8 @@ useSeoMeta({
       >
         @danielroe.dev
       </a>
+      &middot;
+      {{ repos.length }} repos
     </footer>
   </div>
 </template>
-
-<style>
-:root {
-  background-color: #202830;
-  color: white;
-}
-</style>

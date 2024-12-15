@@ -35,6 +35,9 @@ importers:
       defu:
         specifier: ^6.1.4
         version: 6.1.4
+      '@unocss/reset':
+        specifier: ^0.65.1
+        version: 0.65.1
       hex-rgb:
         specifier: ^5.0.0
         version: 5.0.0
