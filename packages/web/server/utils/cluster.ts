@@ -65,17 +65,21 @@ export function findDuplicates<T extends { number: number, title: string }>(_iss
   const issues = validIndices.map(i => _issues[i]!)
   const embeddings = validIndices.map(i => _embeddings[i]!)
 
-  const duplicates: Map<T, [T, number][]> = new Map()
+  const duplicates: Array<Array<T & { score: number }>> = []
   for (let i = 0; i < issues.length; i++) {
     const embedding = embeddings[i]
+    const chunk: Array<T & { score: number }> = []
     for (let j = i + 1; j < issues.length; j++) {
       const issue = issues[j]!
       const score = similarity.cosine(embedding, embeddings[j])
       if (score > 0.85) {
-        duplicates.set(issues[i]!, [...duplicates.get(issues[i]!) || [], [issue, score]])
+        chunk.push({ ...issue, score })
       }
+    }
+    if (chunk.length > 0) {
+      duplicates.push([{ ...issues[i]!, score: 1 }, ...chunk])
     }
   }
 
-  return [...duplicates.entries()]
+  return duplicates
 }

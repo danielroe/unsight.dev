@@ -23,26 +23,24 @@ export default defineCachedCorsEventHandler(async (event) => {
     })
 
   const duplicates = findDuplicates(issues, embeddings)
-  console.log('identified', duplicates.length, 'duplicates from', issues.length, embeddings.length)
 
-  return duplicates
-    .flatMap(([a, duplicates]) => duplicates.map(([b, score]) => [a, b].map(i => ({
-      owner: i.owner,
-      score: Math.round(score * 100) / 100,
-      repository: i.repository,
-      number: i.number,
-      title: i.title,
-      url: i.url,
-      updated_at: i.updated_at,
-      labels: i.labels?.map((l) => {
-        try {
-          return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : l
-        }
-        catch {
-          return l
-        }
-      }),
-    }))))
+  return duplicates.map(issues => issues.map(i => ({
+    owner: i.owner,
+    score: Math.round(i.score * 100) / 100,
+    repository: i.repository,
+    number: i.number,
+    title: i.title,
+    url: i.url,
+    updated_at: i.updated_at,
+    labels: i.labels?.map((l) => {
+      try {
+        return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : l
+      }
+      catch {
+        return l
+      }
+    }),
+  })))
 }, {
   swr: true,
   getKey(event) {
