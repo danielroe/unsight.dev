@@ -5,6 +5,8 @@ useHead({
   },
 })
 
+const version = useRuntimeConfig().public.version
+
 useSeoMeta({
   title: 'unsight.dev',
   description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
@@ -25,8 +27,8 @@ const { data: repos } = useRepos()
             unsight.dev
           </NuxtLink>
         </h1>
-        <p class="flex gap-1 items-center bg-yellow-400 rounded-full color-black px-2 py-[2px] text-xs font-bold">
-          proof of concept
+        <p class="flex gap-1 items-center bg-pink-400 rounded-full color-black px-2 py-[2px] text-xs font-bold">
+          v{{ version }}
         </p>
       </nav>
       <NuxtPage />
