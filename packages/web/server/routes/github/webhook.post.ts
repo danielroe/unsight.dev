@@ -4,7 +4,7 @@ import { createAppAuth } from '@octokit/auth-app'
 import { Octokit } from '@octokit/rest'
 
 import { getMetadataForRepo, type InstallationRepo, removeMetadataForRepo, setMetadataForRepo } from '~~/server/utils/metadata'
-import { indexIssue, removeIssue, storagePrefixForRepo } from '../../utils/embeddings'
+import { indexIssue, removeIssue, removeStoredEmbeddingsForRepo } from '../../utils/embeddings'
 
 export default defineEventHandler(async (event) => {
   const isValidWebhook = await isValidGithubWebhook(event)
@@ -138,15 +138,6 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
 async function deleteRepo(event: H3Event, repo: InstallationRepo) {
   const [owner, name] = repo.full_name.split('/')
 
-  const kv = hubKV()
-
   event.waitUntil(removeMetadataForRepo(owner!, name!))
-  const keys = await kv.getKeys(storagePrefixForRepo(owner!, name!))
-  await Promise.allSettled(keys.map(async key => kv.removeItem(key))).then((r) => {
-    if (r.some(p => p.status === 'rejected')) {
-      console.error('Failed to remove some issues from', `${owner}/${name}`)
-    }
-  })
-
-  console.log('removed', keys.length, 'issues from', `${owner}/${name}`, 'to the index')
+  await removeStoredEmbeddingsForRepo(owner!, name!)
 }

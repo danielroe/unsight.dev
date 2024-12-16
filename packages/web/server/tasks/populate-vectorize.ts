@@ -36,9 +36,13 @@ export default defineTask({
       } while (keys.length > 0)
     }
     catch {
-      return { keys }
+      return {
+        result: `Failed to populate Vectorize with issue embeddings`,
+      }
     }
 
-    return { count }
+    return {
+      result: `Populated Vectorize with ${total} issue embeddings`,
+    }
   },
 })

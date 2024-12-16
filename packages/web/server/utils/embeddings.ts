@@ -25,6 +25,18 @@ export async function getStoredEmbeddingsForRepo(owner: string, repo: string) {
   return res.map(i => i.value as StoredEmbeddings)
 }
 
+export async function removeStoredEmbeddingsForRepo(owner: string, repo: string) {
+  const kv = hubKV()
+  const keys = await kv.getKeys(storagePrefixForRepo(owner!, repo!))
+  await Promise.allSettled(keys.map(async key => kv.removeItem(key))).then((r) => {
+    if (r.some(p => p.status === 'rejected')) {
+      console.error('Failed to remove some issues from', `${owner}/${repo}`)
+    }
+  })
+
+  console.log('removed all', keys.length, 'issues from', `${owner}/${repo}`)
+}
+
 export async function removeIssue(issue: Issue, repo: Repository) {
   const storage = hubKV()
   await storage.removeItem(storageKeyForIssue(repo.owner.login, repo.name, issue.number))
@@ -56,7 +68,7 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
     title: issue.title,
     url: issue.html_url,
     updated_at: issue.updated_at,
-    labels: issue.labels?.map(l => typeof l === 'string' ? l : JSON.stringify({ name: l.name, color: l.color })),
+    labels: issue.labels?.map(l => typeof l === 'string' ? l : JSON.stringify({ name: l.name, color: l.color })) || [],
   }
 
   const res = await storage.getItem<StoredEmbeddings>(storageKey)
@@ -104,7 +116,8 @@ export interface IssueMetadata {
   title: string
   url: string
   updated_at: string
-  labels?: string[]
+  labels: string[]
+  [key: string]: string | number | boolean | string[]
 }
 
 export interface StoredEmbeddings {
