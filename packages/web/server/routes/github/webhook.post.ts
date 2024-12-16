@@ -3,8 +3,8 @@ import type { H3Event } from 'h3'
 import { createAppAuth } from '@octokit/auth-app'
 import { Octokit } from '@octokit/rest'
 
+import { getMetadataForRepo, type InstallationRepo, removeMetadataForRepo, setMetadataForRepo } from '~~/server/utils/metadata'
 import { indexIssue, removeIssue, storagePrefixForRepo } from '../../utils/embeddings'
-import { getMetadataForRepo, removeMetadataForRepo, setMetadataForRepo, type InstallationRepo } from '~~/server/utils/metadata'
 
 export default defineEventHandler(async (event) => {
   const isValidWebhook = await isValidGithubWebhook(event)
@@ -82,7 +82,7 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
 
   event.waitUntil(Promise.all(repos.map((repo) => {
     if (repo.private) {
-      return
+      return undefined
     }
     const [owner, name] = repo.full_name.split('/')
     return setMetadataForRepo(owner!, name!, { ...repo, indexed: false })
@@ -120,8 +120,8 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
     for (const issue of response.data) {
       promises.push(indexIssue(issue, { owner: { login: owner! }, name: name! }))
     }
-    if (parseInt(response.headers['x-ratelimit-remaining'] || '999') < 100) {
-      console.info(parseInt(response.headers['x-ratelimit-remaining']!), 'requests remaining')
+    if (Number.parseInt(response.headers['x-ratelimit-remaining'] || '999') < 100) {
+      console.info(Number.parseInt(response.headers['x-ratelimit-remaining']!), 'requests remaining')
     }
     return []
   })

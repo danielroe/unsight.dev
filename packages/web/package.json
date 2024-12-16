@@ -1,14 +1,13 @@
 {
   "name": "web",
-  "private": true,
   "type": "module",
+  "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare && simple-git-hooks",
-    "lint": "eslint .",
+    "postinstall": "nuxt prepare",
     "test:types": "vue-tsc --noEmit"
   },
   "dependencies": {
@@ -35,9 +34,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.3",
-    "typescript": "5.6.3",
     "vue-tsc": "2.1.10",
     "wrangler": "3.95.0"
-  },
-  "packageManager": "pnpm@9.15.0"
+  }
 }

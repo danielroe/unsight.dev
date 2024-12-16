@@ -1,25 +1,16 @@
-import path from 'path';
-import { glob } from 'glob';
-import {join} from 'path';
+import antfu from '@antfu/eslint-config'
+// @ts-check
+import withNuxt from './packages/web/.nuxt/eslint.config.mjs'
 
-const rootDir = path.dirname(new URL(import.meta.url).pathname);
-
-// Get all package eslint configs and only apply them to files in that package
-const packageConfigs = await Promise.all(
-  glob.sync(join(rootDir, 'packages/*/eslint.config.js')).map(async (configPath) => {
-    const packageConfig = await import(configPath);
-    const packageDir = path.dirname(configPath);
-
-    return {
-      ...packageConfig.default,
-      files: [`${packageDir}/**/*`]
-    };
-  })
-);
-
-export default [
-  ...packageConfigs,
-  {
-    files: ['*.js'],
-  }
-];
+export default withNuxt(
+  antfu(),
+).append({
+  rules: {
+    'no-console': 'off',
+  },
+}, {
+  files: ['**/*.yml'],
+  rules: {
+    '@stylistic/spaced-comment': 'off',
+  },
+})

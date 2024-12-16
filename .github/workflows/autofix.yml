@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: pnpm
 
       - name: 📦 Install dependencies
         run: pnpm install
@@ -28,7 +28,7 @@ jobs:
       #   run: pnpm playwright install
 
       - name: 🔠 Fix lint errors
-        run: pnpm -F web lint --fix
+        run: pnpm lint --fix
 
       # - name: 🧪 Update unit test snapshots
       #   run: pnpm test:unit -u

@@ -1,5 +1,5 @@
-import { defineTask } from 'nitropack/runtime'
 import type { StoredEmbeddings } from '~~/server/utils/embeddings'
+import { defineTask } from 'nitropack/runtime'
 
 export default defineTask({
   meta: {

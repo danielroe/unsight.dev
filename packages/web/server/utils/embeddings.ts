@@ -1,6 +1,6 @@
-import { hash } from 'ohash'
-import type { Repository, Issue } from '@octokit/webhooks-types'
 import type { RestEndpointMethodTypes } from '@octokit/rest'
+import type { Issue, Repository } from '@octokit/webhooks-types'
+import { hash } from 'ohash'
 
 type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 
@@ -97,7 +97,7 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
   return embeddings
 }
 
-export type IssueMetadata = {
+export interface IssueMetadata {
   owner: string
   repository: string
   number: number
@@ -107,7 +107,7 @@ export type IssueMetadata = {
   labels?: string[]
 }
 
-export type StoredEmbeddings = {
+export interface StoredEmbeddings {
   mtime: number
   hash: string
   metadata: IssueMetadata

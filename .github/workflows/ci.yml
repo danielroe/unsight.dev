@@ -24,7 +24,7 @@ jobs:
         run: pnpm install
 
       - name: 🔠 Lint project
-        run: pnpm -F web lint
+        run: pnpm lint
 
   test:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
         run: pnpm install
 
       - name: 💪 Type check
-        run: pnpm -F web test:types
+        run: pnpm test:types
 
       # - name: 🧪 Unit test
       #   run: pnpm test:unit
