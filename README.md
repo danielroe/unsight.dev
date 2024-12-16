@@ -76,7 +76,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in <path to the download
 
 ### Configure your secrets
 
-Create a `.env` file with the following content (the private key was generated in the last step and can be multi-line, just add a quote before and after it):
+Create a `packages/web/.env` file with the following content (the private key was generated in the last step and can be multi-line, just add a quote before and after it):
 
 ```ini
 NUXT_WEBHOOK_GITHUB_SECRET_KEY=<random GUID or password you put in the Webhook Secret field when creating your GitHub App>
@@ -96,10 +96,11 @@ We use Workers AI and to do that locally we'll need to hook up to Cloudflare. Th
 Then run this command in your app directory:
 
 ```sh
+cd packages/web/
 npx nuxthub link
 ```
 
-You can select 'Create a new project'. Any storage region should be fine. Your Nuxt dev server should restart, and you'll see a new `NUXT_HUB_PROJECT_KEY` variable in your `.env` file.
+You can select 'Create a new project'. Any storage region should be fine. Your Nuxt dev server should restart, and you'll see a new `NUXT_HUB_PROJECT_KEY` variable in your `packages/web/.env` file.
 
 You can now visit http://localhost:3000 and click 'Install as a GitHub app'.
 
