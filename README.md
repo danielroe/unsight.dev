@@ -58,7 +58,7 @@ Note the URL under `Forwarding`. It should look something like `https://<GUID>.n
   - **GitHub App name**: Pick any name at all. I normally add `[dev]` at the end of any apps I'm using in development only.
   - **Homepage URL**: Doesn't matter; just pick a URL: `https://unsight.dev` would be fine.
   - **Setup URL**: `http://localhost:3000`. Tick the 'Redirect on update' checkbox underneath.
-  - **Webhook URL**: Put the URL you got when starting ngrok, plus `/github/webhook`: `https://<GUID>.ngrok-free.app/github/webhook`. For the 'Secret' field underneath the URL, create a random GUID or password and make a note of it. 
+  - **Webhook URL**: Put the URL you got when starting ngrok, plus `/github/webhook`: `https://<GUID>.ngrok-free.app/github/webhook`. For the 'Secret' field underneath the URL, create a random GUID or password and make a note of it.
   - **Repository permissions**: Select 'Issues': 'Read-only'.
   - **Subscribe to events**: Select 'Installation target', 'Issues', 'Meta' and 'Repository'.
 

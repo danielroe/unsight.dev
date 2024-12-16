@@ -1,4 +1,4 @@
-export type InstallationRepo = {
+export interface InstallationRepo {
   id: number
   node_id: string
   name: string

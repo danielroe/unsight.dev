@@ -1,5 +1,5 @@
-import { kmeans } from 'ml-kmeans'
 import { similarity } from 'ml-distance'
+import { kmeans } from 'ml-kmeans'
 
 export function clusterEmbeddings<T extends { number: number, title: string }>(issues: T[], embeddings: number[][]) {
   for (let i = issues.length - 1; i >= 0; i--) {

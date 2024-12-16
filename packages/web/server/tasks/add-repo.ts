@@ -1,6 +1,6 @@
-import { defineTask } from 'nitropack/runtime'
-import { Octokit } from '@octokit/rest'
 import type { TaskPayload as IndexRepoTaskPayload } from '~~/server/tasks/index-repo'
+import { Octokit } from '@octokit/rest'
+import { defineTask } from 'nitropack/runtime'
 
 export interface TaskPayload {
   /**
@@ -24,7 +24,8 @@ export default defineTask({
 
     for (const repo of payload.repos) {
       const [owner, name] = repo.split('/')
-      if (await getMetadataForRepo(owner!, name!)) continue
+      if (await getMetadataForRepo(owner!, name!))
+        continue
 
       const fetchedRepo = await octokit.repos.get({ owner: owner!, repo: name! })
 

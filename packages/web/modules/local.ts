@@ -1,6 +1,7 @@
-import { addServerPlugin, createResolver, defineNuxtModule, updateRuntimeConfig, useRuntimeConfig } from 'nuxt/kit'
+import process from 'node:process'
 import consola from 'consola'
 import defu from 'defu'
+import { addServerPlugin, createResolver, defineNuxtModule, updateRuntimeConfig, useRuntimeConfig } from 'nuxt/kit'
 
 export interface ModuleOptions {
   /**

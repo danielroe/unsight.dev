@@ -21,12 +21,14 @@ export default defineTask({
     const indexed: string[] = []
     let count = 1
     for (const repo of repos) {
-      if (repo.indexed || (payload.filter && !payload.filter.includes(repo.repo))) continue
+      if (repo.indexed || (payload.filter && !payload.filter.includes(repo.repo)))
+        continue
 
       try {
         const [owner, name] = repo.repo.split('/')
         const meta = await getMetadataForRepo(owner!, name!)
-        if (!meta) continue
+        if (!meta)
+          continue
 
         await indexRepo(octokit, meta)
         indexed.push(repo.repo)
