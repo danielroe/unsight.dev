@@ -58,7 +58,7 @@ Note the URL under `Forwarding`. It should look something like `https://<GUID>.n
   - **GitHub App name**: Pick any name at all. I normally add `[dev]` at the end of any apps I'm using in development only.
   - **Homepage URL**: Doesn't matter; just pick a URL: `https://unsight.dev` would be fine.
   - **Setup URL**: `http://localhost:3000`. Tick the 'Redirect on update' checkbox underneath.
-  - **Webhook URL**: Put the URL you got when starting ngrok, plus `/github/webhook`: `https://<GUID>.ngrok-free.app/github/webhook`. For the 'Secret' field underneath the URL, create a random GUID or password and make a note of it. 
+  - **Webhook URL**: Put the URL you got when starting ngrok, plus `/github/webhook`: `https://<GUID>.ngrok-free.app/github/webhook`. For the 'Secret' field underneath the URL, create a random GUID or password and make a note of it.
   - **Repository permissions**: Select 'Issues': 'Read-only'.
   - **Subscribe to events**: Select 'Installation target', 'Issues', 'Meta' and 'Repository'.
 
@@ -104,6 +104,25 @@ You can select 'Create a new project'. Any storage region should be fine. Your N
 You can now visit http://localhost:3000 and click 'Install as a GitHub app'.
 
 You can now directly visit `http://localhost:3000/<your-user-name>/<your-repo>` to view your clusters.
+
+### Preset repo
+
+By default, in local development, we'll also index `nuxt/nuxt` and `nitrojs/nitro` so you don't have to register the GitHub app on any repository in order to see and play around with the cluster algorithm.
+
+If you want to customise this, you can configure the `DEV_REPOS_TO_INDEX` environment variable.
+
+```ini
+# disable the feature entirely
+DEV_REPOS_TO_INDEX=false
+
+# specify a comma-separated list of repositories
+DEV_REPOS_TO_INDEX=unjs/h3,vuejs/core
+```
+
+These repositories will automatically be indexed when you start your dev server.
+
+> [!IMPORTANT]
+> This only has an effect in development mode.
 
 ## License
 
