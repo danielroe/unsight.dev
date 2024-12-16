@@ -1,14 +1,19 @@
 import { similarity } from 'ml-distance'
 import { kmeans } from 'ml-kmeans'
 
-export function clusterEmbeddings<T extends { number: number, title: string }>(issues: T[], embeddings: number[][]) {
-  for (let i = issues.length - 1; i >= 0; i--) {
-    if (embeddings[i]!.length === 0) {
-      console.warn(`Failed to generate embedding for an issue: [#${issues[i]!.number}] ${issues[i]!.title}`)
-      issues.splice(i, 1)
-      embeddings.splice(i, 1)
+export function clusterEmbeddings<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][]) {
+  const validIndices = []
+  for (let i = 0; i < _issues.length; i++) {
+    if (_embeddings[i]!.length > 0) {
+      validIndices.push(i)
+    }
+    else {
+      console.warn(`Failed to generate embedding for an issue: [#${_issues[i]!.number}] ${_issues[i]!.title}`)
     }
   }
+
+  const issues = validIndices.map(i => _issues[i]!)
+  const embeddings = validIndices.map(i => _embeddings[i]!)
 
   // Determine the number of clusters (this is a simplistic approach; we might want to use a more sophisticated method)
   const k = embeddings.length < 11 ? Math.ceil(embeddings.length / 2) : Math.max(10, Math.floor(Math.sqrt(embeddings.length) / 2))
@@ -27,15 +32,14 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(i
     let sortedChunk = chunk.map((issue) => {
       let totalSimilarity = 0
       for (const other of chunk) {
-        if (issue === other) {
-          continue
+        if (issue !== other) {
+          totalSimilarity += similarity.cosine(embeddings[issues.indexOf(issue)], embeddings[issues.indexOf(other)])
         }
-        totalSimilarity += similarity.cosine(embeddings[issues.indexOf(issue)], embeddings[issues.indexOf(other)])
       }
       return { ...issue, avgSimilarity: Math.floor(100 * totalSimilarity / (chunk.length - 1)) / 100 }
     })
 
-    const similarityThreshold = 0.30 // 0.75
+    const similarityThreshold = 0.30
 
     sortedChunk = sortedChunk.filter(i => i.avgSimilarity >= similarityThreshold).sort((a, b) => b.avgSimilarity - a.avgSimilarity)
 
@@ -45,4 +49,37 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(i
   }
 
   return sortedClusters
+}
+
+export function findDuplicates<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][]) {
+  const validIndices = []
+  for (let i = 0; i < _issues.length; i++) {
+    if (_embeddings[i]!.length > 0) {
+      validIndices.push(i)
+    }
+    else {
+      console.warn(`Failed to generate embedding for an issue: [#${_issues[i]!.number}] ${_issues[i]!.title}`)
+    }
+  }
+
+  const issues = validIndices.map(i => _issues[i]!)
+  const embeddings = validIndices.map(i => _embeddings[i]!)
+
+  const duplicates: Array<Array<T & { score: number }>> = []
+  for (let i = 0; i < issues.length; i++) {
+    const embedding = embeddings[i]
+    const chunk: Array<T & { score: number }> = []
+    for (let j = i + 1; j < issues.length; j++) {
+      const issue = issues[j]!
+      const score = similarity.cosine(embedding, embeddings[j])
+      if (score > 0.85) {
+        chunk.push({ ...issue, score })
+      }
+    }
+    if (chunk.length > 0) {
+      duplicates.push([{ ...issues[i]!, score: 1 }, ...chunk])
+    }
+  }
+
+  return duplicates
 }
