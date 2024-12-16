@@ -54,10 +54,10 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
 
-    const { resolve } = createResolver(import.meta.url)
+    const resolver = createResolver(import.meta.url)
 
-    if (options.presetRepos.length) {
-      addServerPlugin(resolve('../server/plugins/preset-repo'))
+    if (options.presetRepos.length && !process.argv.includes('--remote')) {
+      addServerPlugin(resolver.resolve('../server/plugins/preset-repo'))
     }
   },
 })
