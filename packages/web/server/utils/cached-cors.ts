@@ -1,10 +1,10 @@
 import type { EventHandler, EventHandlerRequest, EventHandlerResponse } from 'h3'
 import type { CacheOptions } from 'nitropack/types'
 
-export function defineCachedCorsEventHandler<Request extends EventHandlerRequest = EventHandlerRequest, Response = EventHandlerResponse>(eventHandler: EventHandler<Request, Response>, cacheOptions?: CacheOptions) {
+export function defineCachedCorsEventHandler<Request extends EventHandlerRequest = EventHandlerRequest, Response = EventHandlerResponse>(eventHandler: EventHandler<Request, Response>, cacheOptions?: CacheOptions): EventHandler<Request, Response> {
   const handler = defineCachedEventHandler(eventHandler, cacheOptions)
 
-  return defineEventHandler(async (event) => {
+  return defineEventHandler((event) => {
     const handled = handleCors(event, {
       methods: ['GET', 'OPTIONS', 'HEAD'],
       preflight: {

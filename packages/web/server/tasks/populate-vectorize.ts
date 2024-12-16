@@ -10,7 +10,7 @@ export default defineTask({
     const kv = hubKV()
     const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
     if (!vectorize) {
-      return { error: 'Vectorize not available' }
+      return { result: 'Vectorize not available' }
     }
     const keys = await kv.getKeys('issue:').then(r => r.reverse())
     console.info('Loaded', keys.length, 'issues')
@@ -37,7 +37,7 @@ export default defineTask({
     }
     catch {
       return {
-        result: `Failed to populate Vectorize with issue embeddings`,
+        result: `Failed to populate Vectorize with issue embeddings while processing ${keys.length} issues`,
       }
     }
 

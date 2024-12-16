@@ -45,6 +45,17 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-04-03',
   nitro: {
+    typescript: {
+      tsConfig: {
+        compilerOptions: {
+          skipLibCheck: true,
+        },
+        exclude: [
+          '../app/**/*',
+          '../nuxt.config.*',
+        ],
+      },
+    },
     experimental: {
       tasks: true,
     },
