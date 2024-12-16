@@ -1,5 +1,6 @@
-import { defineNuxtModule, updateRuntimeConfig } from 'nuxt/kit'
+import process from 'node:process'
 import consola from 'consola'
+import { defineNuxtModule, updateRuntimeConfig } from 'nuxt/kit'
 
 export default defineNuxtModule({
   meta: {
