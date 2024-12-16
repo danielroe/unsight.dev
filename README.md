@@ -109,7 +109,7 @@ You can now directly visit `http://localhost:3000/<your-user-name>/<your-repo>` 
 
 By default, in local development, we'll also index `nuxt/nuxt` and `nitrojs/nitro` so you don't have to register the GitHub app on any repository in order to see and play around with the cluster algorithm.
 
-If you want to customise this, you can configure the `DEV_REPOS_TO_INDEX` environment variable
+If you want to customise this, you can configure the `DEV_REPOS_TO_INDEX` environment variable.
 
 ```ini
 # disable the feature entirely
@@ -122,7 +122,7 @@ DEV_REPOS_TO_INDEX=unjs/h3,vuejs/core
 These repositories will automatically be indexed when you start your dev server.
 
 > [!IMPORTANT]
-> This only has an effect in development mode
+> This only has an effect in development mode.
 
 ## License
 
