@@ -11,8 +11,7 @@ const packageConfigs = await Promise.all(
     const packageDir = path.dirname(configPath);
 
     return {
-      // default[0] is the default export from the config file
-      ...packageConfig.default[0],
+      ...packageConfig.default,
       files: [`${packageDir}/**/*`]
     };
   })
