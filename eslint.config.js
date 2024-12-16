@@ -1,5 +1,5 @@
-import antfu from '@antfu/eslint-config'
 // @ts-check
+import antfu from '@antfu/eslint-config'
 import withNuxt from './packages/web/.nuxt/eslint.config.mjs'
 
 export default withNuxt(antfu()).append(
