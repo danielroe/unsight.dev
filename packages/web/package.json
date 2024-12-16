@@ -11,8 +11,8 @@
     "test:types": "vue-tsc -b --noEmit"
   },
   "dependencies": {
-    "@iconify-json/ri": "1.2.3",
-    "@iconify-json/tabler": "1.2.12",
+    "@iconify-json/ri": "1.2.4",
+    "@iconify-json/tabler": "1.2.13",
     "@nuxthub/core": "^0.8.7",
     "@nuxtjs/html-validator": "1.8.2",
     "@octokit/auth-app": "^7.1.3",
