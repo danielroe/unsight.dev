@@ -21,7 +21,7 @@ importers:
         specifier: 2.11.1
         version: 2.11.1
       typescript:
-        specifier: ~5.6
+        specifier: 5.6.3
         version: 5.6.3
 
   packages/web:
