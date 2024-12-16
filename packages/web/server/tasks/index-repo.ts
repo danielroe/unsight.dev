@@ -14,7 +14,8 @@ export default defineTask({
     name: 'index-repo',
     description: 'Index repositories',
   },
-  async run({ payload }: { payload: TaskPayload }) {
+  async run(ctx) {
+    const payload = ctx.payload as unknown as TaskPayload
     const octokit = new Octokit({ auth: useRuntimeConfig().github.token })
 
     const repos = await $fetch('/api/repos')
@@ -43,6 +44,8 @@ export default defineTask({
       }
     }
 
-    return indexed
+    return {
+      result: `Indexed repositories (${indexed.join(', ')}).`,
+    }
   },
 })

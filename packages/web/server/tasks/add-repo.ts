@@ -19,7 +19,8 @@ export default defineTask({
     name: 'add-repo',
     description: 'Add new repositories',
   },
-  async run({ payload }: { payload: TaskPayload }) {
+  async run(ctx) {
+    const payload = ctx.payload as unknown as TaskPayload
     const octokit = new Octokit({ auth: useRuntimeConfig().github.token })
 
     for (const repo of payload.repos) {
@@ -44,11 +45,15 @@ export default defineTask({
     }
 
     if (payload.index) {
-      runTask('index-repo', {
+      return runTask('index-repo', {
         payload: {
           filter: payload.repos,
         } satisfies IndexRepoTaskPayload,
       })
+    }
+
+    return {
+      result: `Added repositories (${payload.repos.join(', ')}) ${payload.index ? ' and started indexing' : ''}.`,
     }
   },
 })

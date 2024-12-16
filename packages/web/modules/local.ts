@@ -1,7 +1,6 @@
 import process from 'node:process'
 import consola from 'consola'
-import defu from 'defu'
-import { addServerPlugin, createResolver, defineNuxtModule, updateRuntimeConfig, useRuntimeConfig } from 'nuxt/kit'
+import { addServerPlugin, createResolver, defineNuxtModule, updateRuntimeConfig } from 'nuxt/kit'
 
 export interface ModuleOptions {
   /**
@@ -16,7 +15,7 @@ export interface ModuleOptions {
   /**
    * Preset repos for local development
    *
-   * The preset repos will be indexed at startup
+   * Repositories to index at startup when running in local development mode
    *
    * @default []
    */
@@ -28,28 +27,24 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'local-dev',
     configKey: 'localDev',
   },
-  defaults: {
-    uiOnly: false,
-    presetRepos: [],
-  },
-  setup(_options, nuxt) {
-    const config = useRuntimeConfig()
-
-    const options: ModuleOptions = defu(config.public.localDev || {}, _options)
-
-    updateRuntimeConfig({
-      public: {
-        localDev: options,
-      },
-    })
-
-    if (!nuxt.options.dev) {
+  defaults: () => ({
+    uiOnly: process.argv.includes('--ui-only'),
+    presetRepos: ('DEV_REPOS_TO_INDEX' in process.env && process.env.DEV_REPOS_TO_INDEX)
+      ? process.env.DEV_REPOS_TO_INDEX.split(',').filter(Boolean)
+      : ['nitrojs/nitro', 'nuxt/nuxt'],
+  }),
+  setup(options, nuxt) {
+    if (!nuxt.options.dev && !nuxt.options._prepare) {
       return
     }
 
-    if (process.argv.includes('--ui-only') || options.uiOnly) {
+    // ensure types are correct even if we don't add the server plugin
+    updateRuntimeConfig({
+      localDev: { presetRepos: options.presetRepos },
+    })
+
+    if (options.uiOnly) {
       consola.info('Enabling UI-only mode for local development')
-      options.uiOnly = true
       updateRuntimeConfig({
         public: {
           remote: 'https://unsight.dev',
@@ -60,10 +55,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     const { resolve } = createResolver(import.meta.url)
-
-    if (process.env.PRESET_REPOS) {
-      options.presetRepos = process.env.PRESET_REPOS.split(',').filter(Boolean)
-    }
 
     if (options.presetRepos.length) {
       addServerPlugin(resolve('../server/plugins/preset-repo'))

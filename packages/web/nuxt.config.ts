@@ -65,6 +65,9 @@ export default defineNuxtConfig({
     },
     kv: true,
   },
+  typescript: {
+    hoist: ['nitropack/runtime'],
+  },
   eslint: {
     config: {
       standalone: false,
