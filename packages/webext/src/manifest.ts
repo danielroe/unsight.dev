@@ -1,6 +1,6 @@
 import type { Manifest } from 'webextension-polyfill'
-import fs from 'fs-extra'
 import type PkgType from '../package.json'
+import fs from 'fs-extra'
 import { isDev, isFirefox, port, r } from '../scripts/utils'
 
 export async function getManifest() {
