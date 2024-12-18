@@ -34,8 +34,12 @@ function generateUnsightDotDevUrl(issue: Issue): string {
       <div class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1">
         <a aria-current="page" :href="generateIssueUrl(issue)" class="no-underline hover:underline color-current">{{
           issue.repository }}</a>
-        · updated <time :datetime="issue.dateTime">{{ issue.dateTime }}</time> · <a
-          :href="generateUnsightDotDevUrl(issue)" class="no-underline hover:underline color-current"
+        · updated
+        <relative-time :datetime="issue.dateTime">
+          asdfasd
+        </relative-time> · <a
+          :href="generateUnsightDotDevUrl(issue)"
+          class="no-underline hover:underline color-current"
         >{{
           issue.similarityPercentage }}% similar </a>
       </div>
