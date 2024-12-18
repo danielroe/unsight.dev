@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
-import App from './views/App.vue'
 import { setupApp } from '~/logic/common-setup'
+import App from './views/App.vue'
 
 // Firefox `browser.tabs.executeScript()` requires scripts return a primitive value
 (() => {
@@ -32,7 +32,6 @@ import { setupApp } from '~/logic/common-setup'
     setupApp(app)
     app.mount(root)
 
-    // eslint-disable-next-line no-console
     console.info('unsight.dev browser extension loaded')
   }
 
