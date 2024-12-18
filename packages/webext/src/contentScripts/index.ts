@@ -13,8 +13,9 @@ import { setupApp } from '~/logic/common-setup'
     // We can check the path, but a getElementById is a fast check
     // Note that with GitHub, they change the UI occasionally so this might break
     const issueHeader = document.getElementById('partial-discussion-header')
-    if (!issueHeader)
+    if (!issueHeader) {
       return
+    }
 
     // communication example: send previous tab title from background page
     onMessage('tab-prev', ({ data }) => {
