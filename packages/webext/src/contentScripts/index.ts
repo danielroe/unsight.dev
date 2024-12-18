@@ -39,7 +39,4 @@ import { setupApp } from '~/logic/common-setup'
   document.addEventListener('turbo:load', () => {
     initializeApp()
   })
-
-  // Initial check if we're coming from a full server-side page load
-  initializeApp()
 })()
