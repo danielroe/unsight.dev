@@ -35,9 +35,7 @@ function generateUnsightDotDevUrl(issue: Issue): string {
         <a aria-current="page" :href="generateIssueUrl(issue)" class="no-underline hover:underline color-current">{{
           issue.repository }}</a>
         · updated
-        <relative-time :datetime="issue.dateTime">
-          asdfasd
-        </relative-time> · <a
+        <relative-time :datetime="issue.dateTime" /> · <a
           :href="generateUnsightDotDevUrl(issue)"
           class="no-underline hover:underline color-current"
         >{{
