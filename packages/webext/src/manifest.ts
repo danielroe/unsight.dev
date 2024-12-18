@@ -1,6 +1,6 @@
 import type { Manifest } from 'webextension-polyfill'
-import type PkgType from '../package.json'
 import fs from 'fs-extra'
+import type PkgType from '../package.json'
 import { isDev, isFirefox, port, r } from '../scripts/utils'
 
 export async function getManifest() {
@@ -40,7 +40,8 @@ export async function getManifest() {
       'activeTab',
       'sidePanel',
     ],
-    host_permissions: ['https://github.com/*'],
+    // TODO: lock down to unsight.dev for prod
+    host_permissions: ['*://*/*'],
     content_scripts: [
       {
         matches: [
