@@ -1,12 +1,9 @@
 import { createApp } from 'vue'
-import { onMessage } from 'webext-bridge/content-script'
-import { setupApp } from '~/logic/common-setup'
 import App from './views/App.vue'
+import { setupApp } from '~/logic/common-setup'
 
 // Firefox `browser.tabs.executeScript()` requires scripts return a primitive value
 (() => {
-  console.info('[vitesse-webext] Hello world from content script')
-
   // Function to initialize the app when the element is found
   const initializeApp = () => {
     // We can check the path, but a getElementById is a fast check
@@ -15,11 +12,6 @@ import App from './views/App.vue'
     if (!issueHeader) {
       return
     }
-
-    // communication example: send previous tab title from background page
-    onMessage('tab-prev', ({ data }) => {
-      console.log(`[vitesse-webext] Navigate from page "${data.title}"`)
-    })
 
     // mount component to context window
     const container = document.createElement('div')
@@ -39,11 +31,12 @@ import App from './views/App.vue'
     const app = createApp(App)
     setupApp(app)
     app.mount(root)
+
+    // eslint-disable-next-line no-console
+    console.info('unsight.dev browser extension loaded')
   }
 
-  // Listen for Turbo navigation events
   document.addEventListener('turbo:load', () => {
-    console.log('[vitesse-webext] Turbo navigation detected')
     initializeApp()
   })
 
