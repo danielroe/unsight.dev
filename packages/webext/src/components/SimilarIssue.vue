@@ -14,12 +14,15 @@ defineProps<{
   issue: Issue
 }>()
 
+const { VITE_UNSIGHT_DOT_DEV_BASE_URL } = import.meta.env
+const GITHUB_BASE_URL = 'https://github.com'
+
 function generateIssueUrl(issue: Issue): string {
-  return new URL(`/${issue.owner}/${issue.repository}/issues/${issue.number}`, 'https://github.com').toString()
+  return new URL(`/${issue.owner}/${issue.repository}/issues/${issue.number}`, GITHUB_BASE_URL).toString()
 }
 
 function generateUnsightDotDevUrl(issue: Issue): string {
-  return new URL(`/${issue.owner}/${issue.repository}`, 'https://unsight.dev').toString()
+  return new URL(`/${issue.owner}/${issue.repository}`, VITE_UNSIGHT_DOT_DEV_BASE_URL).toString()
 }
 
 function scoreAsPercentage(score: number): string {

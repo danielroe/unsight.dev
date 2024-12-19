@@ -96,8 +96,15 @@ pnpm i
 ### Development
 
 ```bash
-pnpm dev
+pnpm -F webext dev
+pnpm -F web dev # to run the API locally
 ```
+
+When building the project locally copy the .env.example file to .env and fill in the required values:
+
+`VITE_UNSIGHT_DOT_DEV_BASE_URL="http://localhost:3000"`
+
+```bash
 
 Then **load extension in browser with the `extension/` folder**.
 
