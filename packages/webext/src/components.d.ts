@@ -7,8 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Logo: typeof import('./components/Logo.vue')['default']
-    SharedSubtitle: typeof import('./components/SharedSubtitle.vue')['default']
     SimilarIssue: typeof import('./components/SimilarIssue.vue')['default']
   }
 }
