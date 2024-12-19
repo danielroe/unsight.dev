@@ -5,7 +5,7 @@
   "packageManager": "pnpm@9.15.1",
   "scripts": {
     "dev": "pnpm --filter web dev",
-    "lint": "eslint .",
+    "lint": "eslint --cache .",
     "test:types": "pnpm -r test:types",
     "postinstall": "simple-git-hooks"
   },
