@@ -37,7 +37,7 @@ function scoreAsPercentage(score: number): string {
       >{{
         issue.title
       }}</a>
-      <div class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1">
+      <div class="text-xs relative md:absolute md:mt-6 text-gray-700">
         <a
           aria-current="page" :href="generateUnsightDotDevUrl(issue)"
           class="no-underline hover:underline color-current"
@@ -50,7 +50,6 @@ function scoreAsPercentage(score: number): string {
         >{{
           scoreAsPercentage(issue.score) }}% similar </a>
       </div>
-      <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap" />
     </div>
   </article>
 </template>
