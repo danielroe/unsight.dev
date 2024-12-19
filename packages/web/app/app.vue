@@ -17,6 +17,7 @@ const { data: repos } = useRepos()
 
 <template>
   <div class="min-h-screen flex flex-col">
+    <NuxtRouteAnnouncer />
     <main class="flex flex-col font-sans m-4 flex-grow">
       <nav class="flex flex-row items-center gap-2 ">
         <h1 class="text-lg font-bold my-4">
