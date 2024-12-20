@@ -18,16 +18,23 @@ const { data: issues, error, isFetching } = useFetch<Issue[]>(issueUrl).json()
 </script>
 
 <template>
-  <details class="grid gap-2">
+  <details class="grid gap-2" aria-live="polite">
     <summary>Similar issues</summary>
     <div v-if="isFetching">
       Loading...
     </div>
-    <div v-else-if="error === 'error'" class="text-red-700">
+    <div v-else-if="error" class="text-red-700">
       Error loading similar issues
     </div>
     <template v-else-if="issues">
-      <SimilarIssue v-for="issue in issues" :key="issue.number" :issue="issue" />
+      <p v-if="issues.length === 0">
+        No similar issues
+      </p>
+      <ul v-else class="list-none grid gap-4" style="padding-inline-start: 0;">
+        <li v-for="issue in issues" :key="issue.number">
+          <SimilarIssue :issue="issue" />
+        </li>
+      </ul>
     </template>
   </details>
 </template>
