@@ -3,6 +3,9 @@ import type PkgType from '../package.json'
 import fs from 'fs-extra'
 import { isDev, isFirefox, port, r } from '../scripts/utils'
 
+const baseHostPermissions = ['https://github.com/*', 'https://unsight.dev/*']
+const devHostPermissions = ['http://localhost:3000/*']
+
 export async function getManifest() {
   const pkg = await fs.readJSON(r('package.json')) as typeof PkgType
 
@@ -40,8 +43,9 @@ export async function getManifest() {
       'activeTab',
       'sidePanel',
     ],
-    // TODO: lock down to unsight.dev for prod
-    host_permissions: ['*://*/*'],
+    host_permissions: isDev
+      ? [...baseHostPermissions, ...devHostPermissions]
+      : baseHostPermissions,
     content_scripts: [
       {
         matches: [
