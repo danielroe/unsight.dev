@@ -25,3 +25,6 @@ logs
 
 # ES Lint
 .eslintcache
+
+# Browser extension build artifacts
+packages/webext/extension
