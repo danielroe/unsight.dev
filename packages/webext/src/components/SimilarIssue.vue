@@ -37,7 +37,9 @@ function scoreAsPercentage(score: number): string {
       <a
         :href="generateIssueUrl(issue)" target="_blank"
         class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
-      >{{
+      ><span
+        class="sr-only"
+      >View issue: </span>{{
         issue.title
       }}</a>
       <div class="text-xs relative md:absolute md:mt-6 text-gray-700">
