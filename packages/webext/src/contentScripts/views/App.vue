@@ -14,16 +14,16 @@ const [, ownerPart, repoPart, , issuePart] = window.location.pathname.split('/')
 
 const issueUrl = computed(() => new URL(`/api/similarity/${ownerPart}/${repoPart}/${issuePart}`, VITE_UNSIGHT_DOT_DEV_BASE_URL).toString())
 
-const { data: issues, status } = useFetch<Issue[]>(issueUrl).json()
+const { data: issues, error, isFetching } = useFetch<Issue[]>(issueUrl).json()
 </script>
 
 <template>
   <details class="grid gap-2">
     <summary>Similar issues</summary>
-    <div v-if="status === 'loading'">
+    <div v-if="isFetching">
       Loading...
     </div>
-    <div v-else-if="status === 'error'" className="text-red-700">
+    <div v-else-if="error === 'error'" className="text-red-700">
       Error loading similar issues
     </div>
     <template v-else-if="issues">
