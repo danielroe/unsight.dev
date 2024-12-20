@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { setupApp } from '~/logic/common-setup'
+import { isGithubIssuePage } from '~/utils'
 import App from './views/App.vue'
 
 // Firefox `browser.tabs.executeScript()` requires scripts return a primitive value
@@ -9,7 +10,13 @@ import App from './views/App.vue'
     // We can check the path, but a getElementById is a fast check
     // Note that with GitHub, they change the UI occasionally so this might break
     const issueHeader = document.getElementById('partial-discussion-header')
+
+    if (!isGithubIssuePage(window.location.href)) {
+      return
+    }
+
     if (!issueHeader) {
+      console.error('Issue header not found. GitHub UI might have changed. Please report this issue at https://github.com/danielroe/unsight.dev/issues/new.')
       return
     }
 
