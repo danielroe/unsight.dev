@@ -23,7 +23,7 @@ const { data: issues, error, isFetching } = useFetch<Issue[]>(issueUrl).json()
     <div v-if="isFetching">
       Loading...
     </div>
-    <div v-else-if="error === 'error'" className="text-red-700">
+    <div v-else-if="error === 'error'" class="text-red-700">
       Error loading similar issues
     </div>
     <template v-else-if="issues">
