@@ -1,5 +1,7 @@
 # unsight.dev
 
+A browser extension (work in progress) that enhances GitHub issue pages by adding a "Similar Issues" section to the issue header. This feature helps users discover related issues more easily.
+
 > Detect duplicate GitHub issues, areas of concern and more across related repositories
 
 <p align="center">
