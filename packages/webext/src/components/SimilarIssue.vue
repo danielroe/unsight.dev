@@ -34,12 +34,8 @@ function scoreAsPercentage(score: number): string {
   <article class="flex flex-row gap-2 leading-tightest">
     <span class="flex-shrink-0 inline-block w-5 h-5 i-tabler-circle-dot text-green-500" />
     <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
-      <a
-        :href="generateIssueUrl(issue)" target="_blank"
-        class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
-      ><span
-        class="sr-only"
-      >View issue: </span>{{
+      <a :href="generateIssueUrl(issue)" target="_blank" class="issue-link"><span class="sr-only">View issue:
+      </span>{{
         issue.title
       }}</a>
       <div class="text-xs relative md:absolute md:mt-6 text-gray-700">
