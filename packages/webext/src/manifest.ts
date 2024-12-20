@@ -59,7 +59,7 @@ export async function getManifest() {
     web_accessible_resources: [
       {
         resources: ['dist/contentScripts/style.css'],
-        matches: ['<all_urls>'],
+        matches: ['https://github.com/*'],
       },
     ],
     content_security_policy: {
