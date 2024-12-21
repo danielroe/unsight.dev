@@ -1,13 +1,13 @@
 import type { Manifest } from 'webextension-polyfill'
 import type PkgType from '../package.json'
-import fs from 'fs-extra'
+import fs from 'node:fs/promises'
 import { isDev, isFirefox, port, r } from '../scripts/utils'
 
 const baseHostPermissions = ['https://github.com/*', 'https://unsight.dev/*']
 const devHostPermissions = ['http://localhost:3000/*']
 
 export async function getManifest() {
-  const pkg = await fs.readJSON(r('package.json')) as typeof PkgType
+  const pkg = await fs.readFile(r('package.json'), 'utf-8').then(r => JSON.parse(r) as typeof PkgType)
 
   // update this file to update this manifest.json
   // can also be conditional based on your need

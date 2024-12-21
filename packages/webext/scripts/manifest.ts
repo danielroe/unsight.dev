@@ -1,9 +1,9 @@
-import fs from 'fs-extra'
+import fs from 'node:fs/promises'
 import { getManifest } from '../src/manifest'
 import { log, r } from './utils'
 
 export async function writeManifest() {
-  await fs.writeJSON(r('extension/manifest.json'), await getManifest(), { spaces: 2 })
+  await fs.writeFile(r('extension/manifest.json'), JSON.stringify(await getManifest(), null, 2))
   log('PRE', 'write manifest.json')
 }
 
