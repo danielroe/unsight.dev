@@ -26,8 +26,8 @@
     "clear": "rimraf --glob extension/dist extension/manifest.json extension.*",
     "test": "vitest test",
     "test:e2e": "playwright test",
-    "postinstall": "simple-git-hooks",
-    "typecheck": "tsc --noEmit"
+    "test:types": "tsc --noEmit",
+    "postinstall": "simple-git-hooks"
   },
   "dependencies": {
     "@github/relative-time-element": "^4.4.4",
