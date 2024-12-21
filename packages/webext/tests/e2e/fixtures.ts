@@ -1,12 +1,13 @@
 import type { Manifest } from 'webextension-polyfill'
+import fs from 'node:fs'
 import path from 'node:path'
 import { setTimeout as sleep } from 'node:timers/promises'
+
 import { test as base, type BrowserContext, chromium } from '@playwright/test'
-import fs from 'fs-extra'
 
 export { name } from '../../package.json'
 
-export const extensionPath = path.join(__dirname, '../extension')
+export const extensionPath = path.join(__dirname, '../../extension')
 
 export const test = base.extend<{
   context: BrowserContext
@@ -40,7 +41,7 @@ export const test = base.extend<{
 export const expect = test.expect
 
 export function isDevArtifact() {
-  const manifest: Manifest.WebExtensionManifest = fs.readJsonSync(path.resolve(extensionPath, 'manifest.json'))
+  const manifest: Manifest.WebExtensionManifest = JSON.parse(fs.readFileSync(path.resolve(extensionPath, 'manifest.json'), 'utf-8'))
   return Boolean(
     typeof manifest.content_security_policy === 'object'
     && manifest.content_security_policy.extension_pages?.includes('localhost'),
