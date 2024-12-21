@@ -99,9 +99,6 @@ importers:
 
   packages/webext:
     dependencies:
-      '@github/relative-time-element':
-        specifier: ^4.4.4
-        version: 4.4.4
       '@vueuse/shared':
         specifier: ^12.0.0
         version: 12.0.0(typescript@5.6.3)
@@ -1121,9 +1118,6 @@ packages:
   '@fluent/syntax@0.19.0':
     resolution: {integrity: sha512-5D2qVpZrgpjtqU4eNOcWGp1gnUCgjfM+vKGE2y03kKN6z5EBhtx0qdRFbg8QuNNj8wXNoX93KJoYb+NqoxswmQ==}
     engines: {node: '>=14.0.0', npm: '>=7.0.0'}
-
-  '@github/relative-time-element@4.4.4':
-    resolution: {integrity: sha512-Oi8uOL8O+ZWLD7dHRWCkm2cudcTYtB3VyOYf9BtzCgDGm+OKomyOREtItNMtWl1dxvec62BTKErq36uy+RYxQg==}
 
   '@html-validate/stylish@4.2.0':
     resolution: {integrity: sha512-Nl8HCv0hGRSLQ+n1OD4Hk3a+Urwk9HH0vQkAzzCarT4KlA7bRl+6xEiS5PZVwOmjtC7XiH/oNe3as9Fxcr2A1w==}
@@ -7349,8 +7343,6 @@ snapshots:
       - typescript
 
   '@fluent/syntax@0.19.0': {}
-
-  '@github/relative-time-element@4.4.4': {}
 
   '@html-validate/stylish@4.2.0':
     dependencies:

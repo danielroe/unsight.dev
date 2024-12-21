@@ -28,7 +28,6 @@
     "test:types": "pnpm build && tsc --noEmit"
   },
   "dependencies": {
-    "@github/relative-time-element": "^4.4.4",
     "@vueuse/shared": "^12.0.0"
   },
   "devDependencies": {
