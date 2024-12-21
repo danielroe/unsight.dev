@@ -38,8 +38,6 @@ import App from './views/App.vue'
     const app = createApp(App)
     setupApp(app)
     app.mount(root)
-
-    console.info('unsight.dev browser extension loaded')
   }
 
   document.addEventListener('turbo:load', () => {

@@ -4,6 +4,7 @@ import withNuxt from './packages/web/.nuxt/eslint.config.mjs'
 
 export default withNuxt(antfu()).append(
   {
+    files: ['packages/web/**/*.ts'],
     rules: {
       'no-console': 'off',
     },

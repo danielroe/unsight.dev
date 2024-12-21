@@ -21,6 +21,7 @@ if (USE_SIDE_PANEL) {
 }
 
 browser.runtime.onInstalled.addListener((): void => {
+  // eslint-disable-next-line no-console
   console.log('Extension installed')
 })
 
@@ -44,7 +45,6 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
     return
   }
 
-  console.log('previous tab', tab)
   sendMessage('tab-prev', { title: tab.title }, { context: 'content-script', tabId })
 })
 
