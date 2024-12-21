@@ -58,4 +58,4 @@ And then pack files under `extension`, you can upload `extension.crx` or `extens
 
 ## Credits
 
-Thanks to [Anthony Fu](https://github.com/antfu) for the web browser extension template [vitesse-webext](https://github.com/antfu-collective/vitesse-webext) that this project is based on.
+Thanks to [Anthony Fu](https://github.com/antfu) for the web browser extension template [vitesse-webext](https://github.com/antfu-collective/vitesse-webext) that this project was originally built with.
