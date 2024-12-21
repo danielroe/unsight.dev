@@ -4,11 +4,7 @@ import { useFetch } from '@vueuse/core'
 import SimilarIssue from '~/components/SimilarIssue.vue'
 import 'uno.css'
 
-const { VITE_UNSIGHT_DOT_DEV_BASE_URL } = import.meta.env
-
-if (!VITE_UNSIGHT_DOT_DEV_BASE_URL) {
-  throw new Error('VITE_UNSIGHT_DOT_DEV_BASE_URL not found in env')
-}
+const VITE_UNSIGHT_DOT_DEV_BASE_URL = import.meta.env.VITE_UNSIGHT_DOT_DEV_BASE_URL || 'https://unsight.dev/'
 
 const [, ownerPart, repoPart, , issuePart] = window.location.pathname.split('/')
 
@@ -17,8 +13,7 @@ const issueUrl = computed(() => new URL(`/api/similarity/${ownerPart}/${repoPart
 const { 
   data: issues, 
   error, 
-  isFetching, 
-  execute: refetch 
+  isFetching,
 } = useFetch<Issue[]>(issueUrl, {
   immediate: true,
   timeout: 5000,
