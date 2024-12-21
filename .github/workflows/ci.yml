@@ -43,8 +43,8 @@ jobs:
       - name: 💪 Type check
         run: pnpm test:types
 
-      # - name: 🧪 Unit test
-      #   run: pnpm test:unit
+      - name: 🧪 Unit test
+        run: pnpm test:unit
 
       # - name: 🏃 Component tests
       #   run: pnpm test:nuxt
@@ -52,7 +52,7 @@ jobs:
   # browser:
   #   runs-on: ubuntu-latest
   #   container:
-  #     image: mcr.microsoft.com/playwright:v1.48.0-focal
+  #     image: mcr.microsoft.com/playwright:v1.49.1-noble
 
   #   steps:
   #     - uses: actions/checkout@v4
