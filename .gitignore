@@ -12,6 +12,7 @@ node_modules
 # Logs
 logs
 *.log
+test-results
 
 # Misc
 .DS_Store
@@ -26,5 +27,3 @@ logs
 # ES Lint
 .eslintcache
 
-# Browser extension build artifacts
-packages/webext/extension
