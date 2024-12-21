@@ -4,3 +4,5 @@ src/components.d.ts
 
 # Browser extension build artifacts
 extension
+!extension/icon.svg
+!extension/icon-512.png
