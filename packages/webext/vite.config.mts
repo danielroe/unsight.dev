@@ -24,7 +24,14 @@ export const sharedConfig: UserConfig = {
     __NAME__: JSON.stringify(packageJson.name),
   },
   plugins: [
-    Vue(),
+    Vue({
+      template: {
+        compilerOptions: {
+          // treat all tags with a dash as custom elements
+          isCustomElement: tag => tag === 'relative-time',
+        },
+      },
+    }),
 
     AutoImport({
       imports: [
