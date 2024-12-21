@@ -1,7 +1,5 @@
 # unsight.dev
 
-A browser extension (work in progress) that enhances GitHub issue pages by adding a "Similar Issues" section to the issue header. This feature helps users discover related issues more easily.
-
 > Detect duplicate GitHub issues, areas of concern and more across related repositories
 
 <p align="center">
@@ -12,6 +10,12 @@ A browser extension (work in progress) that enhances GitHub issue pages by addin
 
 - [👉 &nbsp;Check it out](https://unsight.dev/)
 
+<!--
+TODO: add listing on app stores
+
+A browser extension (work in progress) that enhances GitHub issue pages by adding a "Similar Issues" section to the issue header. This feature helps users discover related issues more easily.
+ -->
+
 ## ✨ Features
 
 - Built on [Nuxt](https://nuxt.com/)
@@ -19,6 +23,7 @@ A browser extension (work in progress) that enhances GitHub issue pages by addin
 - [GitHub API](https://docs.github.com/en/rest) and a [GitHub App](https://docs.github.com/en/apps/creating-github-apps)
 - [UnoCSS](https://unocss.dev/)
 - Deployed on [Cloudflare](https://cloudflare.com/) with [NuxtHub](https://hub.nuxt.com/), using [Workers AI](https://developers.cloudflare.com/workers-ai/#_top), [Workers KV](https://developers.cloudflare.com/kv/#_top) and [Vectorize](http://developers.cloudflare.com/vectorize/)
+- Browser extension coming soon!
 
 ## 🛝 Try it out locally
 
