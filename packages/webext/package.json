@@ -25,7 +25,7 @@
     "clear": "rimraf --glob extension/dist extension/manifest.json extension.*",
     "test:unit": "vitest test",
     "test:e2e": "playwright test",
-    "test:types": "tsc --noEmit"
+    "test:types": "pnpm build && tsc --noEmit"
   },
   "dependencies": {
     "@github/relative-time-element": "^4.4.4",
