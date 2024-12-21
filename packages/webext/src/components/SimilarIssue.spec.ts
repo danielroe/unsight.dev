@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
-import SimilarIssue from '../SimilarIssue.vue'
+import SimilarIssue from '../../src/components/SimilarIssue.vue'
 
 describe('similar issue component', () => {
   it('should render', () => {
