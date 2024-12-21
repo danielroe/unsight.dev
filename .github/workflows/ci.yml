@@ -43,8 +43,8 @@ jobs:
       - name: 💪 Type check
         run: pnpm test:types
 
-      # - name: 🧪 Unit test
-      #   run: pnpm test:unit
+      - name: 🧪 Unit test
+        run: pnpm test:unit
 
       # - name: 🏃 Component tests
       #   run: pnpm test:nuxt

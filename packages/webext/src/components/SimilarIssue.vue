@@ -14,7 +14,7 @@ defineProps<{
   issue: Issue
 }>()
 
-const { VITE_UNSIGHT_DOT_DEV_BASE_URL } = import.meta.env
+const VITE_UNSIGHT_DOT_DEV_BASE_URL = import.meta.env.VITE_UNSIGHT_DOT_DEV_BASE_URL || 'https://unsight.dev/'
 const GITHUB_BASE_URL = 'https://github.com'
 
 function generateIssueUrl(issue: Issue): string {

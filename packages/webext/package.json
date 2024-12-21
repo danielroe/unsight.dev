@@ -23,7 +23,7 @@
     "start:chromium": "web-ext run --source-dir ./extension --target=chromium",
     "start:firefox": "web-ext run --source-dir ./extension --target=firefox-desktop",
     "clear": "rimraf --glob extension/dist extension/manifest.json extension.*",
-    "test": "vitest test",
+    "test:unit": "vitest test",
     "test:e2e": "playwright test",
     "test:types": "tsc --noEmit"
   },
