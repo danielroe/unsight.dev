@@ -107,8 +107,8 @@ importers:
         specifier: 3.8.2
         version: 3.8.2(typescript@5.7.2)
       '@iconify/json':
-        specifier: 2.2.288
-        version: 2.2.288
+        specifier: 2.2.289
+        version: 2.2.289
       '@playwright/test':
         specifier: 1.49.1
         version: 1.49.1
@@ -1298,8 +1298,8 @@ packages:
   '@iconify-json/tabler@1.2.13':
     resolution: {integrity: sha512-vXnl0db3Q/v1e+lMEGmdrzJeFVyR//20gbUU2HFOrJP08nbz1EGRa8urNS4zL3oEV6Wjgo11AHJLSs628I6swQ==}
 
-  '@iconify/json@2.2.288':
-    resolution: {integrity: sha512-fit90o3pzIp5FblHE0uKp01PnKNM9buIYz8URQbSluQRtvB+93ghnDkRHqVTj3B1citaCaajeeQREGn8IUW4bg==}
+  '@iconify/json@2.2.289':
+    resolution: {integrity: sha512-wNAkS6TZsOKh+L4n96PKAqxsAPOYubIfy6/uU0dT32zYPy4mqmp7fqQVIwkLM22bnSQubAl9ynN1q71oz4lZ/g==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -7771,7 +7771,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/json@2.2.288':
+  '@iconify/json@2.2.289':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 1.1.2
