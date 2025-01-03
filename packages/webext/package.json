@@ -34,7 +34,7 @@
     "@ffflorian/jszip-cli": "3.8.2",
     "@iconify/json": "2.2.291",
     "@playwright/test": "1.49.1",
-    "@types/node": "22.10.3",
+    "@types/node": "22.10.5",
     "@types/webextension-polyfill": "0.12.1",
     "@unocss/reset": "0.65.3",
     "@vitejs/plugin-vue": "5.2.1",
