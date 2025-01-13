@@ -44,7 +44,7 @@
     "cross-env": "7.0.3",
     "crx": "5.0.1",
     "esno": "4.8.0",
-    "jsdom": "25.0.1",
+    "jsdom": "26.0.0",
     "kolorist": "1.8.0",
     "npm-run-all2": "7.0.2",
     "rimraf": "6.0.1",
