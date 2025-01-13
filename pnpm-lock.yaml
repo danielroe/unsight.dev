@@ -161,8 +161,8 @@ importers:
         specifier: 0.65.4
         version: 0.65.4(@unocss/webpack@0.65.4(rollup@4.29.2)(webpack@5.97.1))(postcss@8.4.49)(rollup@4.29.2)(vite@6.0.7(@types/node@22.10.6)(jiti@2.4.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))
       unplugin-auto-import:
-        specifier: 0.19.0
-        version: 0.19.0(@nuxt/kit@3.15.1(magicast@0.3.5)(rollup@4.29.2))(@vueuse/core@12.4.0(typescript@5.7.3))(rollup@4.29.2)
+        specifier: 19.0.0
+        version: 19.0.0(@nuxt/kit@3.15.1(magicast@0.3.5)(rollup@4.29.2))(@vueuse/core@12.4.0(typescript@5.7.3))(rollup@4.29.2)
       unplugin-icons:
         specifier: 22.0.0
         version: 22.0.0(@vue/compiler-sfc@3.5.13)
@@ -6503,8 +6503,8 @@ packages:
       vite:
         optional: true
 
-  unplugin-auto-import@0.19.0:
-    resolution: {integrity: sha512-W97gTDEWu/L1EcKCXY5Ni8bsMW1E9kv12wYQv3mYpd7zcFctXYlLKsqeva6sbCQbzS8t9AG/XdU5/WkEJKPlFw==}
+  unplugin-auto-import@19.0.0:
+    resolution: {integrity: sha512-TREXtXqCM6YLy3rE2tjvKZEaCiPlP2e5bmnRKaS8AM2MlNgjV7UP4RPieWIfs4Isv0GoeHmov956PIIvJYdqpQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@nuxt/kit': ^3.2.2
@@ -14960,7 +14960,7 @@ snapshots:
       - supports-color
       - vue
 
-  unplugin-auto-import@0.19.0(@nuxt/kit@3.15.1(magicast@0.3.5)(rollup@4.29.2))(@vueuse/core@12.4.0(typescript@5.7.3))(rollup@4.29.2):
+  unplugin-auto-import@19.0.0(@nuxt/kit@3.15.1(magicast@0.3.5)(rollup@4.29.2))(@vueuse/core@12.4.0(typescript@5.7.3))(rollup@4.29.2):
     dependencies:
       '@antfu/utils': 0.7.10
       '@rollup/pluginutils': 5.1.4(rollup@4.29.2)
