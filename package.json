@@ -11,11 +11,11 @@
     "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "3.12.1",
+    "@antfu/eslint-config": "3.14.0",
     "eslint": "9.17.0",
     "lint-staged": "15.3.0",
     "simple-git-hooks": "2.11.1",
-    "typescript": "5.7.2"
+    "typescript": "5.7.3"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
