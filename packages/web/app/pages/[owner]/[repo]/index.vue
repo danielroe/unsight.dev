@@ -70,7 +70,7 @@ useSeoMeta({
         <span class="sr-only">pick a repository to cluster issues</span>
         <select
           :value="selectedRepo"
-          class="pl-8 bg-transparent pr-2 py-2 color-white border-0 w-full"
+          class="pl-8 bg-shark-500 pr-2 py-2 color-white border-0 w-full"
           @change="navigateToRepo"
         >
           <option
