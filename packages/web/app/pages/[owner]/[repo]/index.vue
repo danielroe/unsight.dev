@@ -35,6 +35,16 @@ function navigateToRepo(event: Event) {
 }
 
 const openState = reactive<Record<string, boolean>>({})
+
+const title = ref('unsight.dev')
+
+useSeoMeta({
+  title,
+  titleTemplate: (pageTitle) => {
+    return pageTitle ? `${pageTitle} - Repository Page for ${route.params.owner}/${route.params.repo}` : 'unsight.dev'
+  },
+  description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
+})
 </script>
 
 <template>
