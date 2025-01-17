@@ -8,7 +8,10 @@ useHead({
 const version = useRuntimeConfig().public.version
 
 useSeoMeta({
-  title: 'unsight.dev',
+  titleTemplate: title => title ? `${title} - unsight.dev` : 'unsight.dev',
+})
+
+useServerSeoMeta({
   description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
 })
 

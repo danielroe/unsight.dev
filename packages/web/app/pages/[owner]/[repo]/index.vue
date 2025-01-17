@@ -1,7 +1,12 @@
 <script setup lang="ts">
+const route = useRoute('owner-repo')
+
+useSeoMeta({
+  title: () => `Issue clusters - ${route.params.owner}/${route.params.repo}`
+})
+
 const { data: allowedRepos } = useRepos()
 
-const route = useRoute('owner-repo')
 const selectedRepo = computed(() => route.params.owner && route.params.repo ? `${route.params.owner}/${route.params.repo}` as 'nuxt/nuxt' : 'nuxt/nuxt')
 
 const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${selectedRepo.value}`, {
