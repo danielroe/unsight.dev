@@ -35,22 +35,25 @@ const { data: repos } = useRepos()
       </nav>
       <NuxtPage />
     </main>
-    <footer class="justify-center flex gap-2 font-sans p-2 text-center text-sm opacity-75 hover:opacity-100 mb-4">
+    <footer class="justify-center flex flex-col md:flex-row gap-2 font-sans p-2 text-center text-sm opacity-75 hover:opacity-100 mb-4">
       <a
         class="no-underline hover:underline text-white"
         href="https://github.com/danielroe/unsight.dev"
       >
         source
       </a>
-      &middot;
-      made with ❤️ by <a
-        class="no-underline font-semibold hover:underline text-white"
-        href="https://bsky.app/profile/danielroe.dev"
-      >
-        @danielroe.dev
-      </a>
-      &middot;
-      {{ repos.length }} repos
+      <span class="before:hidden md:before:inline-block before:content-['·'] before:mr-2">
+        made with ❤️ by
+        <a
+          class="no-underline font-semibold hover:underline text-white"
+          href="https://bsky.app/profile/danielroe.dev"
+        >
+          @danielroe.dev
+        </a>
+      </span>
+      <span class="before:hidden md:before:inline-block before:content-['·'] before:mr-2">
+        {{ repos.length }} repos
+      </span>
     </footer>
   </div>
 </template>
