@@ -132,6 +132,10 @@ These repositories will automatically be indexed when you start your dev server.
 > [!IMPORTANT]
 > This only has an effect in development mode.
 
+## Credits
+
+❤️ Thanks to [Alvaro Saburido](https://github.com/alvarosabu) for the lovely logo!
+
 ## License
 
 Made with ❤️
