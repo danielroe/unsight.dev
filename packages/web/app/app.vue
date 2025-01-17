@@ -19,8 +19,9 @@ const { data: repos } = useRepos()
   <div class="min-h-screen flex flex-col">
     <NuxtRouteAnnouncer />
     <main class="flex flex-col font-sans m-4 flex-grow">
-      <nav class="flex flex-row items-center gap-2 ">
-        <h1 class="text-lg font-bold my-4">
+      <nav class="flex flex-row items-baseline gap-2 ">
+        <span class="icon bg-pink-400 w-10 h-10 self-center"></span>
+        <h1 class="text-lg font-bold my-4 flex gap-2 items-center">
           <NuxtLink
             to="/"
             class="no-underline color-current"
@@ -28,7 +29,7 @@ const { data: repos } = useRepos()
             unsight.dev
           </NuxtLink>
         </h1>
-        <p class="flex gap-1 items-center bg-pink-400 rounded-full color-black px-2 py-[2px] text-xs font-bold">
+        <p class="flex gap-1 items-center text-pink-400 text-xs font-bold">
           v{{ version }}
         </p>
       </nav>
@@ -53,3 +54,9 @@ const { data: repos } = useRepos()
     </footer>
   </div>
 </template>
+
+<style scoped>
+.icon {
+  mask: url('/icon.svg') no-repeat center;
+}
+</style>
