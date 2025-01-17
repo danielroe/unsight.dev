@@ -6,13 +6,9 @@ useHead({
 })
 
 const version = useRuntimeConfig().public.version
-const title = ref('unsight.dev')
 
 useSeoMeta({
-  title,
-  titleTemplate: (pageTitle) => {
-    return pageTitle ? `${pageTitle} - Home Page` : 'Home Page'
-  },
+  title: 'unsight.dev',
   description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
 })
 
