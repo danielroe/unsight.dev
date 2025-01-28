@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@iconify-json/ri": "1.2.5",
-    "@iconify-json/tabler": "1.2.14",
+    "@iconify-json/tabler": "1.2.15",
     "@nuxthub/core": "^0.8.7",
     "@nuxtjs/html-validator": "1.8.2",
     "@octokit/auth-app": "^7.1.3",
@@ -31,11 +31,11 @@
     "rgb-to-hsl": "^0.0.3",
     "universal-github-app-jwt": "^2.2.0",
     "unocss": "^65.0.0",
-    "unplugin-vue-router": "^0.10.9"
+    "unplugin-vue-router": "^0.11.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "0.7.5",
     "vue-tsc": "2.2.0",
-    "wrangler": "3.103.2"
+    "wrangler": "3.106.0"
   }
 }
