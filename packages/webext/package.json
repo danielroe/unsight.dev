@@ -32,9 +32,9 @@
   },
   "devDependencies": {
     "@ffflorian/jszip-cli": "3.8.2",
-    "@iconify/json": "2.2.300",
-    "@playwright/test": "1.50.0",
-    "@types/node": "22.12.0",
+    "@iconify/json": "2.2.302",
+    "@playwright/test": "1.50.1",
+    "@types/node": "22.13.1",
     "@types/webextension-polyfill": "0.12.1",
     "@unocss/reset": "65.4.3",
     "@vitejs/plugin-vue": "5.2.1",

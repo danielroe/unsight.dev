@@ -26,7 +26,7 @@
     "ml-kmeans": "^6.0.0",
     "nuxt": "latest",
     "nuxt-time": "1.0.3",
-    "nuxt-webhook-validators": "0.1.5",
+    "nuxt-webhook-validators": "0.1.6",
     "ohash": "^1.1.4",
     "rgb-to-hsl": "^0.0.3",
     "universal-github-app-jwt": "^2.2.0",
@@ -34,8 +34,8 @@
     "unplugin-vue-router": "^0.11.0"
   },
   "devDependencies": {
-    "@nuxt/eslint": "0.7.5",
+    "@nuxt/eslint": "0.7.6",
     "vue-tsc": "2.2.0",
-    "wrangler": "3.106.0"
+    "wrangler": "3.107.3"
   }
 }
