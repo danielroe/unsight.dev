@@ -36,8 +36,8 @@ importers:
         specifier: ^0.8.7
         version: 0.8.15(db0@0.2.1)(ioredis@5.4.2)(magicast@0.3.5)(rollup@4.29.2)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
       '@nuxtjs/html-validator':
-        specifier: 1.8.2
-        version: 1.8.2(magicast@0.3.5)(rollup@4.29.2)(vitest@3.0.5(@types/debug@4.1.12)(@types/node@22.13.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        specifier: 2.0.0
+        version: 2.0.0(magicast@0.3.5)(rollup@4.29.2)(vitest@3.0.5(@types/debug@4.1.12)(@types/node@22.13.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
       '@octokit/auth-app':
         specifier: ^7.1.3
         version: 7.1.4
@@ -1267,8 +1267,8 @@ packages:
   '@nuxthub/core@0.8.15':
     resolution: {integrity: sha512-mhgytgh/zBLrAcMcyKX4NH9WMyE1UfMGJ/7782tGXTXKEdVFd28D5dGvG+iisCrQIwPwVMANatMnVNAOOUauFg==}
 
-  '@nuxtjs/html-validator@1.8.2':
-    resolution: {integrity: sha512-BLXc5CE4PM0HsvpLyq6e9+UiHUykK3aVBucUM9ARvXT3Io1nR79gEyRfHIsktilDsnwadFyFJo8OYeOfcLr3NQ==}
+  '@nuxtjs/html-validator@2.0.0':
+    resolution: {integrity: sha512-WBM2L0I+py0u66GVj4m/7eI0+o+vYI9h4P8h2mXouvHHep/DWKUh+//kzTftV2D4qlWItbVtB4lUkSfEGEWyeg==}
 
   '@octokit/auth-app@7.1.4':
     resolution: {integrity: sha512-5F+3l/maq9JfWQ4bV28jT2G/K8eu9OJ317yzXPTGe4Kw+lKDhFaS4dQ3Ltmb6xImKxfCQdqDqMXODhc9YLipLw==}
@@ -1740,11 +1740,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sidvind/better-ajv-errors@2.1.3':
-    resolution: {integrity: sha512-lWuod/rh7Xz5uXiEGSfm2Sd5PG7K/6yJfoAZVqzsEswjPJhUz15R7Gn/o8RczA041QS15hBd/BCSeu9vwPArkA==}
+  '@sidvind/better-ajv-errors@3.0.1':
+    resolution: {integrity: sha512-++1mEYIeozfnwWI9P1ECvOPoacy+CgDASrmGvXPMCcqgx0YUzB01vZ78uHdQ443V6sTY+e9MzHqmN9DOls02aw==}
     engines: {node: '>= 16.14'}
     peerDependencies:
-      ajv: 4.11.8 - 8
+      ajv: ^6.12.3 || ^7.0.0 || ^8.0.0
 
   '@sindresorhus/merge-streams@2.3.0':
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
@@ -3762,15 +3762,15 @@ packages:
     resolution: {integrity: sha512-ztqyC3kLto0e9WbNp0aeP+M3kTt+nbaIveGmUxAtZa+8iFgKLUOD4YKM5j+f3QD89bra7UeumolZHKuOXnTmeQ==}
     engines: {node: '>=8'}
 
-  html-validate@8.18.2:
-    resolution: {integrity: sha512-X/ahjDnTZe1VjoPz+w7zGe5I5/os8PLQ+c5C9ak6etV0nNK9gPbwbGaP9BQoSQuQx0mszw5khDjP1ffnXx+1OA==}
-    engines: {node: '>= 16.14'}
+  html-validate@9.3.0:
+    resolution: {integrity: sha512-y+OCndJ5MTIje+753oACmVPjQF/W9NwSvP7Fvq173MuXGHATJoYkWsP04uCIB37lhIFUW0SyvlH3qZBfxW5zFA==}
+    engines: {node: ^18.19.0 || >= 20.6.0}
     hasBin: true
     peerDependencies:
       jest: ^27.1 || ^28.1.3 || ^29.0.3
       jest-diff: ^27.1 || ^28.1.3 || ^29.0.3
       jest-snapshot: ^27.1 || ^28.1.3 || ^29.0.3
-      vitest: ^0.34 || ^1
+      vitest: ^0.34.0 || ^1.0.0 || ^2.0.0 || ^3.0.0
     peerDependenciesMeta:
       jest:
         optional: true
@@ -3828,10 +3828,6 @@ packages:
 
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
-
-  ignore@5.3.1:
-    resolution: {integrity: sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==}
-    engines: {node: '>= 4'}
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
@@ -7901,7 +7897,7 @@ snapshots:
 
   '@nuxt/schema@3.15.1':
     dependencies:
-      consola: 3.3.3
+      consola: 3.4.0
       defu: 6.1.4
       pathe: 2.0.2
       std-env: 3.8.0
@@ -8044,13 +8040,13 @@ snapshots:
       - uploadthing
       - vite
 
-  '@nuxtjs/html-validator@1.8.2(magicast@0.3.5)(rollup@4.29.2)(vitest@3.0.5(@types/debug@4.1.12)(@types/node@22.13.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))':
+  '@nuxtjs/html-validator@2.0.0(magicast@0.3.5)(rollup@4.29.2)(vitest@3.0.5(@types/debug@4.1.12)(@types/node@22.13.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))':
     dependencies:
-      '@nuxt/kit': 3.15.1(magicast@0.3.5)(rollup@4.29.2)
-      chalk: 5.4.1
-      html-validate: 8.18.2(vitest@3.0.5(@types/debug@4.1.12)(@types/node@22.13.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+      '@nuxt/kit': 3.15.4(magicast@0.3.5)(rollup@4.29.2)
+      consola: 3.4.0
+      html-validate: 9.3.0(vitest@3.0.5(@types/debug@4.1.12)(@types/node@22.13.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
       knitwork: 1.2.0
-      pathe: 1.1.2
+      pathe: 2.0.2
       prettier: 3.4.2
       std-env: 3.8.0
     transitivePeerDependencies:
@@ -8469,11 +8465,10 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.6':
     optional: true
 
-  '@sidvind/better-ajv-errors@2.1.3(ajv@8.17.1)':
+  '@sidvind/better-ajv-errors@3.0.1(ajv@8.17.1)':
     dependencies:
-      '@babel/code-frame': 7.26.2
       ajv: 8.17.1
-      chalk: 4.1.2
+      kleur: 4.1.5
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
@@ -11036,15 +11031,12 @@ snapshots:
 
   html-tags@3.3.1: {}
 
-  html-validate@8.18.2(vitest@3.0.5(@types/debug@4.1.12)(@types/node@22.13.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)):
+  html-validate@9.3.0(vitest@3.0.5(@types/debug@4.1.12)(@types/node@22.13.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)):
     dependencies:
-      '@babel/code-frame': 7.26.2
       '@html-validate/stylish': 4.2.0
-      '@sidvind/better-ajv-errors': 2.1.3(ajv@8.17.1)
+      '@sidvind/better-ajv-errors': 3.0.1(ajv@8.17.1)
       ajv: 8.17.1
-      deepmerge: 4.3.1
       glob: 10.4.5
-      ignore: 5.3.1
       kleur: 4.1.5
       minimist: 1.2.8
       prompts: 2.4.2
@@ -11100,8 +11092,6 @@ snapshots:
       safer-buffer: 2.1.2
 
   ieee754@1.2.1: {}
-
-  ignore@5.3.1: {}
 
   ignore@5.3.2: {}
 
