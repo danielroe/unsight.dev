@@ -2,7 +2,7 @@
   "name": "unsight-dev",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.2.0",
+  "packageManager": "pnpm@10.6.2",
   "scripts": {
     "dev": "pnpm --filter web dev",
     "lint": "eslint --cache .",
@@ -15,7 +15,7 @@
     "eslint": "9.21.0",
     "lint-staged": "15.4.3",
     "simple-git-hooks": "2.11.1",
-    "typescript": "5.7.3"
+    "typescript": "5.8.2"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
