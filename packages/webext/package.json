@@ -28,7 +28,7 @@
     "test:types": "pnpm build && tsc --noEmit"
   },
   "dependencies": {
-    "@vueuse/shared": "^12.8.2"
+    "@vueuse/shared": "^13.0.0"
   },
   "devDependencies": {
     "@ffflorian/jszip-cli": "3.8.4",
@@ -39,7 +39,7 @@
     "@unocss/reset": "66.0.0",
     "@vitejs/plugin-vue": "5.2.1",
     "@vue/test-utils": "2.4.6",
-    "@vueuse/core": "12.8.2",
+    "@vueuse/core": "13.0.0",
     "chokidar": "4.0.3",
     "cross-env": "7.0.3",
     "crx": "5.0.1",
