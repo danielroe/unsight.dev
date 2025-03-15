@@ -80,7 +80,7 @@ export default defineNuxtConfig({
     kv: true,
   },
   typescript: {
-    hoist: ['nitropack/runtime'],
+    hoist: ['nitropack/runtime', '@cloudflare/workers-types'],
   },
   eslint: {
     config: {

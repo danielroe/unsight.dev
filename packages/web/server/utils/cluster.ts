@@ -1,5 +1,6 @@
 import { similarity } from 'ml-distance'
 import { kmeans } from 'ml-kmeans'
+import { chunkIssue } from '~~/server/utils/embeddings'
 
 export function clusterEmbeddings<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][]) {
   const validIndices = []
@@ -82,4 +83,47 @@ export function findDuplicates<T extends { number: number, title: string }>(_iss
   }
 
   return duplicates
+}
+
+export async function generateClusterName<T extends { number: number, title: string, description?: string }>(clusterIssues: T[], otherClusters: T[][] = []): Promise<string> {
+  const ai = hubAI()
+
+  const titles = clusterIssues.slice(0, 10).map(issue => chunkIssue(issue))
+  const otherClusterTitles = otherClusters.slice(0, 3).map(cluster => cluster.slice(0, 3).map(issue => chunkIssue(issue)))
+
+  try {
+    const prompt = `
+I need you to generate a short, unique title (4-5 words maximum) for a cluster of GitHub issues based on their common theme.
+
+Issues in this cluster:
+${titles.map(title => `- "${title}"`).join('\n')}
+
+${otherClusterTitles.length > 0
+  ? `
+For context, here are examples from other distinct clusters:
+${otherClusterTitles.map((cluster, i) => `
+Cluster ${i + 1}:
+${cluster.join('\n')}
+`).join('\n')}
+`
+  : ''}
+
+Based on these issues, identify the central theme that unites them and what makes this group distinct.
+Generate only a short, descriptive phrase (4-5 words maximum) that captures the essence of this cluster.
+Your response should contain ONLY the phrase - no explanation or other text. It should not contain general words like 'cluster' - it should be as short and simple as possible while still expressing the core theme of the cluster. It should be lowercase except for proper nouns and acronyms, and should not end with a period.
+`
+
+    const res = await ai.run('@hf/nousresearch/hermes-2-pro-mistral-7b', {
+      prompt,
+      temperature: 0.2,
+    })
+
+    return 'response' in res
+      ? res.response?.trim().replace(/^["']|["']$/g, '').replace(/^title:?\s*|\s*cluster$/i, '') || ''
+      : ''
+  }
+  catch (error) {
+    console.error('Error generating cluster name:', error)
+    return 'Unnamed cluster' // Fallback name
+  }
 }
