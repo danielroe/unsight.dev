@@ -136,7 +136,7 @@ function preprocessText(text: string): string {
     .trim()
 }
 
-function chunkIssue(issue: Issue | RestIssue, exclude?: Set<string>) {
+export function chunkIssue(issue: Pick<Issue | RestIssue, 'labels' | 'title' | 'body'>, exclude?: Set<string>) {
   const labels = getLabels(issue).filter(l => !exclude?.has(l))
   return preprocessText(`${issue.title}\n${labels.join(', ')}\n${issue.body}`)
 }
@@ -152,6 +152,6 @@ async function generateEmbedding(text: string): Promise<number[]> {
   }
 }
 
-function getLabels(issue: Issue | RestIssue) {
+function getLabels(issue: Pick<Issue | RestIssue, 'labels' | 'title' | 'body'>) {
   return issue.labels?.map(label => (typeof label === 'string' ? label : label.name!).toLowerCase()).filter(Boolean) || []
 }

@@ -1,5 +1,5 @@
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
-import { clusterEmbeddings } from '~~/server/utils/cluster'
+import { clusterEmbeddings, generateClusterName } from '~~/server/utils/cluster'
 import { getStoredEmbeddingsForRepo, type IssueMetadata } from '~~/server/utils/embeddings'
 
 export default defineCachedCorsEventHandler(async (event) => {
@@ -25,28 +25,55 @@ export default defineCachedCorsEventHandler(async (event) => {
   const clusters = clusterEmbeddings(issues, embeddings)
   console.log('generated', clusters.length, 'clusters from', issues.length, embeddings.length)
 
-  return clusters
-    .map(cluster => cluster.map(i => ({
-      owner: i.owner,
-      repository: i.repository,
-      number: i.number,
-      title: i.title,
-      url: i.url,
-      updated_at: i.updated_at,
-      avgSimilarity: i.avgSimilarity,
-      labels: i.labels?.map((l) => {
-        try {
-          return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : l
-        }
-        catch {
-          return l
-        }
-      }),
+  // Generate titles for each cluster
+  const clustersWithTitles = await Promise.all(clusters.map(async (cluster) => {
+    // Use other clusters for contrast when generating names
+    const otherClusters = clusters.filter(c => c !== cluster).map(c => c.map(issue => ({
+      number: issue.number,
+      title: issue.title,
     })))
+
+    // Generate a unique name for this cluster
+    const title = await generateClusterName(
+      cluster.map(issue => ({
+        number: issue.number,
+        title: issue.title,
+        description: issue.description,
+      })),
+      otherClusters,
+    )
+
+    // Return the cluster with its generated title
+    return {
+      title,
+      issues: cluster.map(i => ({
+        owner: i.owner,
+        repository: i.repository,
+        number: i.number,
+        title: i.title,
+        url: i.url,
+        updated_at: i.updated_at,
+        avgSimilarity: i.avgSimilarity,
+        labels: i.labels?.map((l) => {
+          try {
+            return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : l
+          }
+          catch {
+            return l
+          }
+        }),
+      })),
+    }
+  }))
+
+  return clustersWithTitles
 }, {
   swr: true,
+  maxAge: 60 * 60 * 24,
+  staleMaxAge: 60 * 60 * 24,
+  // shouldBypassCache: () => !!import.meta.dev,
   getKey(event) {
     const { owner, repo } = getRouterParams(event)
-    return `v1:clusters:${owner}:${repo}`.toLowerCase()
+    return `v2:clusters:${owner}:${repo}`.toLowerCase()
   },
 })
