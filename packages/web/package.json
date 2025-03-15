@@ -31,7 +31,7 @@
     "rgb-to-hsl": "^0.0.3",
     "universal-github-app-jwt": "^2.2.0",
     "unocss": "^66.0.0",
-    "unplugin-vue-router": "^0.11.2"
+    "unplugin-vue-router": "^0.12.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "1.2.0",
