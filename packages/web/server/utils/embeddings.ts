@@ -4,6 +4,10 @@ import { hash } from 'ohash'
 
 type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 
+export const issueSegments = { labels: 'labels', title: 'title', body: 'body' } as const
+
+export type IssueSegments = (typeof issueSegments)[keyof typeof issueSegments]
+
 export function storageKeyForIssue(owner: string, repo: string, number: number | string) {
   return `issue:${owner}:${repo}:${number}`
 }
@@ -136,9 +140,9 @@ function preprocessText(text: string): string {
     .trim()
 }
 
-export function chunkIssue(issue: Pick<Issue | RestIssue, 'labels' | 'title' | 'body'>, exclude?: Set<string>) {
+export function chunkIssue(issue: Pick<Issue | RestIssue, IssueSegments>, exclude?: Set<string>) {
   const labels = getLabels(issue).filter(l => !exclude?.has(l))
-  return preprocessText(`${issue.title}\n${labels.join(', ')}\n${issue.body}`)
+  return preprocessText(`${issue[issueSegments.title]}\n${labels.join(', ')}\n${issue[issueSegments.body]}`)
 }
 
 async function generateEmbedding(text: string): Promise<number[]> {
@@ -152,6 +156,6 @@ async function generateEmbedding(text: string): Promise<number[]> {
   }
 }
 
-function getLabels(issue: Pick<Issue | RestIssue, 'labels' | 'title' | 'body'>) {
+function getLabels(issue: Pick<Issue | RestIssue, IssueSegments>) {
   return issue.labels?.map(label => (typeof label === 'string' ? label : label.name!).toLowerCase()).filter(Boolean) || []
 }
