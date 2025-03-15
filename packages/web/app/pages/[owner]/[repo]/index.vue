@@ -65,7 +65,7 @@ const openState = reactive<Record<string, boolean>>({})
         <span class="sr-only">pick a repository to cluster issues</span>
         <select
           :value="selectedRepo"
-          class="pl-8 bg-shark-500 rounded-md pr-2 py-2 color-white border-0 w-full"
+          class="pl-8 bg-shark-500 rounded-md pr-2 py-2 color-white border-0 w-full appearance-none"
           @change="navigateToRepo"
         >
           <option
