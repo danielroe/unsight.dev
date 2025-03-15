@@ -164,7 +164,7 @@ const openState = reactive<Record<string, boolean>>({})
         v-for="(cluster, c) of clusters"
         :key="c"
         :style="{ '--section-index': c }"
-        class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
+        class="flex flex-col gap-4 md:rounded-md md:border-solid md:border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
       >
         <h2 class="my-4 font-bold text-2xl flex items-baseline">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>{{ c + 1 }}
