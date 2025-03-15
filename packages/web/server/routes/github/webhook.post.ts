@@ -1,9 +1,10 @@
 import type { Installation, InstallationLite, WebhookEvent } from '@octokit/webhooks-types'
 import type { H3Event } from 'h3'
+import type { InstallationRepo } from '~~/server/utils/metadata'
 import { createAppAuth } from '@octokit/auth-app'
-import { Octokit } from '@octokit/rest'
 
-import { getMetadataForRepo, type InstallationRepo, removeMetadataForRepo, setMetadataForRepo } from '~~/server/utils/metadata'
+import { Octokit } from '@octokit/rest'
+import { getMetadataForRepo, removeMetadataForRepo, setMetadataForRepo } from '~~/server/utils/metadata'
 import { indexIssue, removeIssue, removeStoredEmbeddingsForRepo } from '../../utils/embeddings'
 
 export default defineEventHandler(async (event) => {

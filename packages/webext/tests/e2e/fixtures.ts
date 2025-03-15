@@ -1,9 +1,10 @@
+import type { BrowserContext } from '@playwright/test'
 import type { Manifest } from 'webextension-polyfill'
 import fs from 'node:fs'
 import path from 'node:path'
-import { setTimeout as sleep } from 'node:timers/promises'
 
-import { test as base, type BrowserContext, chromium } from '@playwright/test'
+import { setTimeout as sleep } from 'node:timers/promises'
+import { test as base, chromium } from '@playwright/test'
 
 export { name } from '../../package.json'
 
