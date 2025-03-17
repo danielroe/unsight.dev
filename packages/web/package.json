@@ -36,6 +36,6 @@
   "devDependencies": {
     "@nuxt/eslint": "1.2.0",
     "vue-tsc": "2.2.8",
-    "wrangler": "3.114.1"
+    "wrangler": "4.0.0"
   }
 }
