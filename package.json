@@ -2,7 +2,7 @@
   "name": "unsight-dev",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.6.3",
+  "packageManager": "pnpm@10.6.4",
   "scripts": {
     "dev": "pnpm --filter web dev",
     "lint": "eslint --cache .",
