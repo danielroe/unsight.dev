@@ -33,7 +33,7 @@
   "devDependencies": {
     "@ffflorian/jszip-cli": "3.8.4",
     "@iconify/json": "2.2.317",
-    "@playwright/test": "1.51.0",
+    "@playwright/test": "1.51.1",
     "@types/node": "22.13.10",
     "@types/webextension-polyfill": "0.12.3",
     "@unocss/reset": "66.0.0",
