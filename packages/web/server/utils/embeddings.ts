@@ -4,9 +4,7 @@ import { hash } from 'ohash'
 
 type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 
-export const issueSegments = { labels: 'labels', title: 'title', body: 'body' } as const
-
-export type IssueSegments = (typeof issueSegments)[keyof typeof issueSegments]
+export type IssueSegments = 'labels' | 'title' | 'body'
 
 export function storageKeyForIssue(owner: string, repo: string, number: number | string) {
   return `issue:${owner}:${repo}:${number}`
@@ -142,7 +140,7 @@ function preprocessText(text: string): string {
 
 export function chunkIssue(issue: Pick<Issue | RestIssue, IssueSegments>, exclude?: Set<string>) {
   const labels = getLabels(issue).filter(l => !exclude?.has(l))
-  return preprocessText(`${issue[issueSegments.title]}\n${labels.join(', ')}\n${issue[issueSegments.body]}`)
+  return preprocessText(`${issue.title}\n${labels.join(', ')}\n${issue.body}`)
 }
 
 async function generateEmbedding(text: string): Promise<number[]> {
