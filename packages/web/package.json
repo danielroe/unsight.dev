@@ -21,6 +21,7 @@
     "@octokit/webhooks-types": "^7.6.1",
     "@unocss/nuxt": "^66.0.0",
     "@unocss/reset": "^66.0.0",
+    "consola": "^3.4.2",
     "hex-rgb": "^5.0.0",
     "ml-distance": "^4.0.1",
     "ml-kmeans": "^6.0.0",

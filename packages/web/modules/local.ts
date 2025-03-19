@@ -1,5 +1,5 @@
 import process from 'node:process'
-import consola from 'consola'
+import { consola } from 'consola'
 import { addServerPlugin, createResolver, defineNuxtModule, updateRuntimeConfig } from 'nuxt/kit'
 
 export interface ModuleOptions {
