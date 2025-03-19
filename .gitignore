@@ -27,3 +27,4 @@ test-results
 # ES Lint
 .eslintcache
 
+.wxt
