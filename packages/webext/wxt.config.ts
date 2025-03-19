@@ -4,7 +4,7 @@ import { defineConfig } from 'wxt'
 export default defineConfig({
   extensionApi: 'chrome',
   modules: ['@wxt-dev/module-vue', '@wxt-dev/unocss'],
-  manifest: {
-    permissions: ['https://unsight.dev/api/similarity/*'],
-  },
+  manifest: () => ({
+    permissions: import.meta.env.FIREFOX ? ['https://unsight.dev/api/similarity/*'] : [],
+  }),
 })
