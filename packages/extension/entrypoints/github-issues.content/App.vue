@@ -18,15 +18,15 @@ const { data: issues } = useFetch(issueUrl, {
 </script>
 
 <template>
-  <div class="section flex w-full">
-    <div class="px-2 text-xs flex flex-col gap-2 w-full">
+  <div class="section w-full overflow-hidden">
+    <div class="px-2 text-xs flex flex-col gap-2 w-full overflow-hidden">
       <h3 class="!text-xs">Related issues</h3>
-      <span v-for="issue of issues" class="my-1">
-        <a :href="issue.url" class="truncate !text-white">
+      <div v-for="issue of issues">
+        <a :href="issue.url" class="my-1 truncate !text-white">
           <svg class="octicon octicon-issue-opened open" title="Open" aria-label="Open issue" viewBox="0 0 16 16" version="1.1" width="16" height="16" role="img"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path></svg>
-          {{ issue.title }}
+          {{ issue.title }}<br>
         </a>
-      </span>
+      </div>
       <span v-if="issues.length === 0" class="mt-1 mb-2">No similar issues found.</span>
     </div>
   </div>
