@@ -1,5 +1,5 @@
 import type { RestEndpointMethodTypes } from '@octokit/rest'
-import type { Issue, Repository } from '@octokit/webhooks-types'
+import type { Issue } from '@octokit/webhooks-types'
 import { hash } from 'ohash'
 
 type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
@@ -39,7 +39,7 @@ export async function removeStoredEmbeddingsForRepo(owner: string, repo: string)
   console.log('removed all', keys.length, 'issues from', `${owner}/${repo}`)
 }
 
-export async function removeIssue(issue: Issue, repo: Repository) {
+export async function removeIssue(issue: Pick<Issue, 'number'>, repo: { owner: { login: string }, name: string }) {
   const storage = hubKV()
   await storage.removeItem(storageKeyForIssue(repo.owner.login, repo.name, issue.number))
   console.log('removed issue:', repo.owner.login, repo.name, issue.number)
