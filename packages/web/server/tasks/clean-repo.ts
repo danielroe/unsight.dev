@@ -7,7 +7,7 @@ export interface TaskPayload {
   /**
    * Repos to clean
    */
-  repos: string[]
+  repos?: string[]
 }
 
 export default defineTask({
@@ -21,7 +21,9 @@ export default defineTask({
 
     const results: Record<string, { scanned: number, removed: number }> = {}
 
-    for (const repo of payload.repos) {
+    const repos = payload.repos || await $fetch('/api/repos').then(r => r.map(r => r.repo)) || []
+
+    for (const repo of repos) {
       const [owner, name] = repo.split('/')
 
       // Check if repo exists in our metadata
@@ -45,9 +47,11 @@ export default defineTask({
 
         // Fetch current status of these issues
         await Promise.all(batch.map(async (issue) => {
-          const number = issue.metadata.number
-          if (!number)
+          const number = issue.metadata?.number
+          if (!number) {
+            console.log(`No issue number found for issue in ${repo}`)
             return
+          }
 
           try {
             const response = await octokit.issues.get({
@@ -74,13 +78,15 @@ export default defineTask({
           }
         }))
 
-        await new Promise(resolve => setTimeout(resolve, 1000)) // Wait for 1 second to avoid hitting rate limits
+        await new Promise(resolve => setTimeout(resolve, 1000 * (batch.length / 50))) // Wait for 1 second to avoid hitting rate limits
       }
 
       results[repo] = {
         scanned: indexedIssues.length,
         removed: removedCount,
       }
+
+      console.log(`${repo} (scanned: ${indexedIssues.length}, removed: ${removedCount})`)
     }
 
     return {
