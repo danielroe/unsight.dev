@@ -5,6 +5,6 @@ export default defineConfig({
   extensionApi: 'chrome',
   modules: ['@wxt-dev/module-vue', '@wxt-dev/unocss'],
   manifest: () => ({
-    permissions: import.meta.env.FIREFOX ? ['https://unsight.dev/api/similarity/*'] : [],
+    host_permissions: ['https://unsight.dev/api/*'],
   }),
 })
