@@ -1,7 +1,7 @@
 {
   "name": "unsight",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Detect duplicate GitHub issues, areas of concern and more across related repositories",
   "scripts": {
