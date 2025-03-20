@@ -122,6 +122,8 @@ export interface IssueMetadata {
   [key: string]: string | number | boolean | string[]
 }
 
+export type IssueKeys = 'owner' | 'repository' | 'number' | 'title' | 'url' | 'updated_at' | 'labels'
+
 export interface StoredEmbeddings {
   mtime: number
   hash: string
