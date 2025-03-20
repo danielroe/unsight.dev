@@ -59,6 +59,7 @@ export default defineEventHandler(async (event) => {
         break
 
       case 'closed':
+      case 'transferred':
       case 'deleted':
         promises.push(removeIssue(body.issue, body.repository))
         break
