@@ -30,7 +30,9 @@ export default defineContentScript({
         ui.remove()
     })
 
-    if (watchPattern.includes(window.location.href))
+    if (watchPattern.includes(window.location.href)) {
+      ui.autoMount()
       window.addEventListener('load', () => ui.mount())
+    }
   },
 })
