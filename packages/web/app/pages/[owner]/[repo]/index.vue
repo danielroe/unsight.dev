@@ -20,15 +20,21 @@ const { data: duplicates, status: duplicateStatus } = useFetch(() => `/api/dupli
   default: () => [],
 })
 
+const unsub = [] as Array<() => void>
 onMounted(async () => {
   if ('startViewTransition' in document) {
+
     let finishTransition: () => void
     const promise = new Promise<void>((resolve) => {
       finishTransition = resolve
     })
-    watch(clusters, () => document.startViewTransition(() => promise), { flush: 'pre' })
-    watch(clusters, () => nextTick(finishTransition), { flush: 'post' })
+    unsub.push(watch(clusters, () => document.startViewTransition(() => promise), { flush: 'pre' }))
+    unsub.push(watch(clusters, () => nextTick(finishTransition), { flush: 'post' }))
   }
+})
+
+onBeforeUnmount(() => {
+  unsub.forEach(unsub => unsub())
 })
 
 function navigateToRepo(event: Event) {

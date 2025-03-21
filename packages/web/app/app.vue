@@ -11,9 +11,11 @@ useSeoMeta({
   titleTemplate: title => title ? `${title} - unsight.dev` : 'unsight.dev',
 })
 
-useServerSeoMeta({
-  description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
-})
+if (import.meta.server) {
+  useSeoMeta({
+    description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
+  })
+}
 
 const { data: repos } = useRepos()
 </script>
