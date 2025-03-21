@@ -79,6 +79,6 @@ export default defineCachedCorsEventHandler(async (event) => {
   // shouldBypassCache: () => !!import.meta.dev,
   getKey(event) {
     const { owner, repo } = getRouterParams(event)
-    return `v3:clusters:${owner}:${repo}`.toLowerCase()
+    return `v${3 + currentIndexVersion}:clusters:${owner}:${repo}`.toLowerCase()
   },
 })

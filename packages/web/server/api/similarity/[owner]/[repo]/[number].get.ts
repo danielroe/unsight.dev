@@ -52,6 +52,6 @@ export default defineCachedCorsEventHandler(async (event) => {
   swr: true,
   getKey(event) {
     const { owner, repo, number } = getRouterParams(event)
-    return `v2:issue:${owner}:${repo}:${number}`.toLowerCase()
+    return `v${2 + currentIndexVersion}:issue:${owner}:${repo}:${number}`.toLowerCase()
   },
 })

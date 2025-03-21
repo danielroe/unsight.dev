@@ -10,7 +10,7 @@ export type RepoMetadata = InstallationRepo & {
   indexed: boolean | number
 }
 
-export const currentIndexVersion = 1
+export const currentIndexVersion = 2
 
 export async function getMetadataForRepo(owner: string, name: string) {
   const kv = hubKV()

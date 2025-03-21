@@ -4,7 +4,7 @@ import type { InstallationRepo } from '~~/server/utils/metadata'
 import { createAppAuth } from '@octokit/auth-app'
 
 import { Octokit } from '@octokit/rest'
-import { currentIndexVersion, getMetadataForRepo, removeMetadataForRepo, setMetadataForRepo } from '~~/server/utils/metadata'
+import { getMetadataForRepo, removeMetadataForRepo, setMetadataForRepo } from '~~/server/utils/metadata'
 import { indexIssue, removeIssue, removeStoredEmbeddingsForRepo } from '../../utils/embeddings'
 
 export default defineEventHandler(async (event) => {
@@ -55,10 +55,10 @@ export default defineEventHandler(async (event) => {
       case 'edited':
       case 'opened':
       case 'reopened':
-      case 'closed':
         promises.push(indexIssue(body.issue, body.repository))
         break
 
+      case 'closed':
       case 'transferred':
       case 'deleted':
         promises.push(removeIssue(body.issue, body.repository))
@@ -116,7 +116,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
   await octokit.paginate(octokit.rest.issues.listForRepo, {
     owner: owner!,
     repo: name!,
-    state: 'all',
+    state: 'open',
     per_page: 100,
   }, (response) => {
     for (const issue of response.data) {
