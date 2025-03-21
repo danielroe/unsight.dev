@@ -48,6 +48,7 @@ const { data: issues, status } = useFetch(`/api/similarity/${route.params.owner}
         :avg-similarity="1 - issue.score"
         :labels="issue.labels"
         :updated_at="issue.updated_at"
+        :state="issue.state"
       />
     </section>
   </div>

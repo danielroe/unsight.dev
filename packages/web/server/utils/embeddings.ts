@@ -71,6 +71,7 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
     url: issue.html_url,
     updated_at: issue.updated_at,
     labels: issue.labels?.map(l => typeof l === 'string' ? l : JSON.stringify({ name: l.name, color: l.color })) || [],
+    state: issue.state || 'open',
   }
 
   const res = await storage.getItem<StoredEmbeddings>(storageKey)
@@ -119,10 +120,11 @@ export interface IssueMetadata {
   url: string
   updated_at: string
   labels: string[]
+  state: string
   [key: string]: string | number | boolean | string[]
 }
 
-export type IssueKeys = 'owner' | 'repository' | 'number' | 'title' | 'url' | 'updated_at' | 'labels'
+export type IssueKeys = 'owner' | 'repository' | 'number' | 'title' | 'url' | 'updated_at' | 'labels' | 'state'
 
 export interface StoredEmbeddings {
   mtime: number

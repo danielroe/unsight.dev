@@ -16,7 +16,7 @@ export default defineCachedCorsEventHandler(async () => {
     return [{
       repo: `${owner}/${name}`,
       issuesIndexed: keys.length,
-      indexed: meta?.indexed || false,
+      indexed: meta?.indexed === currentIndexVersion,
     }]
   })).then(r => r.flat())
 }, { swr: true })

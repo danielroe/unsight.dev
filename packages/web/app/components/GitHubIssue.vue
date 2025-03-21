@@ -21,6 +21,10 @@ defineProps({
     type: String,
     required: true,
   },
+  state: {
+    type: String,
+    default: 'open',
+  }
 })
 
 function labelColors(color: string) {
@@ -40,7 +44,10 @@ function labelColors(color: string) {
 
 <template>
   <article class="flex flex-row gap-2 leading-tightest">
-    <span class="flex-shrink-0 inline-block w-5 h-5 i-tabler-circle-dot text-green-500" />
+    <span 
+      class="flex-shrink-0 inline-block w-5 h-5" 
+      :class="state === 'open' ? 'i-tabler-circle-dot text-green-500' : 'i-tabler-circle-check text-purple-500'"
+    />
     <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
       <NuxtLink
         class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
@@ -66,11 +73,14 @@ function labelColors(color: string) {
           {{ owner }}/{{ repository }}
         </NuxtLink>
         &middot;
-        updated
-        <NuxtTime
+        <span class="inline-flex flex-row gap-1">
+          <span v-if="state === 'closed'" class="text-purple-400">closed</span>
+          <span v-else>updated</span>
+          <NuxtTime
           :datetime="updated_at"
           relative
-        />
+          />
+        </span>
         &middot;
         <NuxtLink
           class="no-underline hover:underline color-current"

@@ -13,7 +13,7 @@ export interface TaskPayload {
 export default defineTask({
   meta: {
     name: 'clean-repo',
-    description: 'Clean up stale or closed issues',
+    description: 'Clean up transferred issues',
   },
   async run(ctx) {
     const payload = ctx.payload as unknown as TaskPayload
@@ -63,9 +63,11 @@ export default defineTask({
               },
             })
 
-            // If issue is closed or doesn't exist, remove it from index
-            if (response.status as 301 | 200 === 301 || response.data.state !== 'open' || (response.data.repository?.owner && response.data.repository.owner.login !== owner) || (response.data.repository?.name && response.data.repository.name !== name)) {
-              console.log(`Removing issue: https://github.com/${owner}/${name}/issues/${number}`)
+            // Only remove transferred issues (301 redirect) or issues that belong to a different repo
+            if (response.status as 301 | 200 === 301
+              || (response.data.repository?.owner && response.data.repository.owner.login !== owner)
+              || (response.data.repository?.name && response.data.repository.name !== name)) {
+              console.log(`Removing transferred issue: https://github.com/${owner}/${name}/issues/${number}`)
               await removeIssue(
                 { number },
                 { owner: { login: owner! }, name: name! },

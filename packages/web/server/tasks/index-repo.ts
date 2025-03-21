@@ -1,6 +1,7 @@
 import { Octokit } from '@octokit/rest'
 import { defineTask } from 'nitropack/runtime'
 import { indexRepo } from '~~/server/routes/github/webhook.post'
+import { currentIndexVersion } from '~~/server/utils/metadata'
 
 export interface TaskPayload {
   /**
@@ -33,7 +34,7 @@ export default defineTask({
 
         await indexRepo(octokit, meta)
         indexed.push(repo.repo)
-        await setMetadataForRepo(owner!, name!, { ...meta, indexed: true })
+        await setMetadataForRepo(owner!, name!, { ...meta, indexed: currentIndexVersion })
       }
       catch (e) {
         console.error(e)

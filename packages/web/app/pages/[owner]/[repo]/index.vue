@@ -123,6 +123,7 @@ const openState = reactive<Record<string, boolean>>({})
           :avg-similarity="issue.score"
           :labels="issue.labels"
           :updated_at="issue.updated_at"
+          :state="issue.state"
         />
       </section>
 
@@ -185,6 +186,7 @@ const openState = reactive<Record<string, boolean>>({})
           :avg-similarity="issue.avgSimilarity"
           :labels="issue.labels"
           :updated_at="issue.updated_at"
+          :state="issue.state"
         />
         <button
           v-if="cluster.issues.length > 5 && openState[c] !== true"

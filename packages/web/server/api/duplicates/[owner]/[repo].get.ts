@@ -16,9 +16,12 @@ export default defineCachedCorsEventHandler(async (event) => {
     .then((r) => {
       const issues: IssueMetadata[] = []
       const embeddings: number[][] = []
+
       for (const res of r) {
-        issues.push(res.metadata)
-        embeddings.push(res.embeddings)
+        if (res.metadata.state === 'open') {
+          issues.push(res.metadata)
+          embeddings.push(res.embeddings)
+        }
       }
       return [issues, embeddings] as const
     })
@@ -32,6 +35,7 @@ export default defineCachedCorsEventHandler(async (event) => {
     number: i.number,
     title: i.title,
     url: i.url,
+    state: i.state,
     updated_at: i.updated_at,
     labels: i.labels?.map((l) => {
       try {
@@ -46,6 +50,6 @@ export default defineCachedCorsEventHandler(async (event) => {
   swr: true,
   getKey(event) {
     const { owner, repo } = getRouterParams(event)
-    return `v1:duplicates:${owner}:${repo}`.toLowerCase()
+    return `v2:duplicates:${owner}:${repo}`.toLowerCase()
   },
 })
