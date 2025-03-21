@@ -39,9 +39,9 @@ function labelColors(color: string) {
 </script>
 
 <template>
-  <article class="flex flex-row gap-2 leading-tightest">
-    <span class="flex-shrink-0 inline-block w-5 h-5 i-tabler-circle-dot text-green-500" />
-    <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
+  <article class="border-solid border border-gray-600 rounded-md max-w-full overflow-hidden flex flex-row gap-2 leading-tightest">
+    <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500" />
+    <div class="flex flex-col flex-wrap md:flex-nowrap md:pb-2 flex-grow">
       <NuxtLink
         class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
         :href="url"
@@ -50,7 +50,7 @@ function labelColors(color: string) {
         {{ title?.trim() }}
       </NuxtLink>
       <div
-        class="text-xs relative md:absolute md:mt-6 text-gray-400 mb-1"
+        class=" text-xs relative md:mt-1 text-gray-400 mb-1 break-words"
       >
         <NuxtLink
           v-if="owner && repository"

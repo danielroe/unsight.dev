@@ -160,13 +160,14 @@ const openState = reactive<Record<string, boolean>>({})
       </section>
     </template>
     <template v-else>
+      <section class="grid grid-cols-4 gap-4 ">
       <section
         v-for="(cluster, c) of clusters"
         :key="c"
         :style="{ '--section-index': c }"
-        class="flex flex-col gap-4 md:rounded-md md:border-solid md:border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
+        class=" overflow-hidden flex flex-col gap-4 md:rounded-md md:border-solid md:border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
       >
-        <h2 class="my-4 font-bold text-2xl flex items-baseline">
+        <h2 class=" my-4 font-bold text-2xl flex items-baseline">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>{{ c + 1 }}
           <span class="ml-2 font-normal text-lg color-gray-300">&mdash; {{ cluster.title }}</span>
           <span class="ml-auto text-white bg-gray-700 text-sm font-normal rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 border-gray-700 inline-block leading-tight flex items-center">
@@ -194,6 +195,7 @@ const openState = reactive<Record<string, boolean>>({})
         >
           show {{ cluster.issues.length - 5 }} more
         </button>
+      </section>
       </section>
     </template>
   </div>
