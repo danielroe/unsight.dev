@@ -22,19 +22,26 @@ export async function getStoredMetadataForIssue(owner: string, repo: string, num
 
 export async function getStoredEmbeddingsForRepo(owner: string, repo: string) {
   const kv = hubKV()
+  const embeddings = [] as StoredEmbeddings[]
   const keys = await kv.getKeys(storagePrefixForRepo(owner, repo))
-  const res = await kv.getItems(keys)
-  return res.map(i => i.value as StoredEmbeddings)
+  while (keys.length) {
+    const res = await kv.getItems(keys.splice(0, 300))
+    embeddings.push(...res.map(i => i.value as StoredEmbeddings))
+  }
+  return embeddings
 }
 
 export async function removeStoredEmbeddingsForRepo(owner: string, repo: string) {
   const kv = hubKV()
   const keys = await kv.getKeys(storagePrefixForRepo(owner!, repo!))
-  await Promise.allSettled(keys.map(async key => kv.removeItem(key))).then((r) => {
-    if (r.some(p => p.status === 'rejected')) {
-      console.error('Failed to remove some issues from', `${owner}/${repo}`)
-    }
-  })
+
+  while (keys.length) {
+    await Promise.allSettled(keys.splice(0, 300).map(async key => kv.removeItem(key))).then((r) => {
+      if (r.some(p => p.status === 'rejected')) {
+        console.error('Failed to remove some issues from', `${owner}/${repo}`)
+      }
+    })
+  }
 
   console.log('removed all', keys.length, 'issues from', `${owner}/${repo}`)
 }
