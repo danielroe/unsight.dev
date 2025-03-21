@@ -18,7 +18,7 @@ export default defineCachedCorsEventHandler(async (event) => {
       const embeddings: number[][] = []
 
       for (const res of r) {
-        if (res.metadata.state === 'open') {
+        if (res.metadata.state !== 'closed') {
           issues.push(res.metadata)
           embeddings.push(res.embeddings)
         }
