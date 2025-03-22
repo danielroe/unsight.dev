@@ -7,22 +7,32 @@ export interface InstallationRepo {
 }
 
 export type RepoMetadata = InstallationRepo & {
-  indexed: boolean | number
+  indexed: number
 }
 
 export const currentIndexVersion = 3
 
 export async function getMetadataForRepo(owner: string, name: string) {
-  const kv = hubKV()
-  return kv.getItem<RepoMetadata>(`repo:${owner}:${name}`)
+  const repo = await useDrizzle().select().from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`)).get()
+  if (repo) {
+    return {
+      ...repo,
+      private: !!repo.private,
+    }
+  }
 }
 
-export async function setMetadataForRepo(owner: string, name: string, metadata: RepoMetadata) {
-  const kv = hubKV()
-  return kv.setItem(`repo:${owner}:${name}`, metadata)
+export async function setMetadataForRepo(metadata: RepoMetadata) {
+  await useDrizzle().insert(tables.repos).values({
+    full_name: metadata.full_name,
+    id: metadata.id,
+    node_id: metadata.node_id,
+    name: metadata.name,
+    private: +metadata.private,
+    indexed: metadata.indexed || 0,
+  }).execute()
 }
 
 export async function removeMetadataForRepo(owner: string, name: string) {
-  const kv = hubKV()
-  return kv.removeItem(`repo:${owner}:${name}`)
+  await useDrizzle().delete(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`)).execute()
 }

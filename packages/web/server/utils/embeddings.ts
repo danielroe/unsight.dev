@@ -14,41 +14,42 @@ export function storagePrefixForRepo(owner: string, repo: string) {
   return `issue:${owner}:${repo}:`
 }
 
-export async function getStoredMetadataForIssue(owner: string, repo: string, number: number) {
-  const kv = hubKV()
-  const res = await kv.getItem<StoredEmbeddings>(storageKeyForIssue(owner, repo, number))
-  return res?.metadata
-}
-
-export async function getStoredEmbeddingsForRepo(owner: string, repo: string) {
-  const kv = hubKV()
-  const embeddings = [] as StoredEmbeddings[]
-  const keys = await kv.getKeys(storagePrefixForRepo(owner, repo))
-  while (keys.length) {
-    const res = await kv.getItems(keys.splice(0, 300))
-    embeddings.push(...res.map(i => i.value as StoredEmbeddings))
+export async function getStoredEmbeddingsForRepo(owner: string, repo: string, state: 'open' | 'closed' | 'all' = 'open') {
+  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos, `${owner}/${repo}`)).get() || {}
+  if (!repoId) {
+    return []
   }
-  return embeddings
+
+  const issues = await useDrizzle().select().from(tables.issues).where(
+    state === 'all'
+      ? eq(tables.issues.repoId, repoId)
+      : and(eq(tables.issues.repoId, repoId), eq(tables.issues.state, state)),
+  ).all()
+
+  return issues.map(i => ({
+    ...i,
+    embeddings: JSON.parse(i.embeddings) as number[],
+  }))
 }
 
 export async function removeStoredEmbeddingsForRepo(owner: string, repo: string) {
-  const kv = hubKV()
-  const keys = await kv.getKeys(storagePrefixForRepo(owner!, repo!))
-
-  while (keys.length) {
-    await Promise.allSettled(keys.splice(0, 300).map(async key => kv.removeItem(key))).then((r) => {
-      if (r.some(p => p.status === 'rejected')) {
-        console.error('Failed to remove some issues from', `${owner}/${repo}`)
-      }
-    })
+  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos, `${owner}/${repo}`)).get() || {}
+  if (!repoId) {
+    return
   }
 
-  console.log('removed all', keys.length, 'issues from', `${owner}/${repo}`)
+  const result = await useDrizzle().delete(tables.issues).where(eq(tables.issues.repoId, repoId)).execute()
+  console.log('removed stored embeddings for repo:', owner, repo, result)
 }
 
 export async function removeIssue(issue: Pick<Issue, 'number'>, repo: { owner: { login: string }, name: string }) {
-  const storage = hubKV()
-  await storage.removeItem(storageKeyForIssue(repo.owner.login, repo.name, issue.number))
+  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos, `${repo.owner.login}/${repo.name}`)).get() || {}
+  if (!repoId) {
+    return
+  }
+  await useDrizzle().delete(tables.issues).where(
+    and(eq(tables.issues.repoId, repoId), eq(tables.issues.number, issue.number)),
+  ).execute()
   console.log('removed issue:', repo.owner.login, repo.name, issue.number)
 }
 
@@ -61,10 +62,8 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
     return
   }
 
-  const storage = hubKV()
   const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
 
-  const storageKey = storageKeyForIssue(repository.owner.login, repository.name, issue.number)
   const issueUpdatedTime = new Date(issue.updated_at).getTime()
 
   const text = chunkIssue(issue)
@@ -81,20 +80,20 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
     state: issue.state || 'open',
   }
 
-  const res = await storage.getItem<StoredEmbeddings>(storageKey)
+  const drizzle = useDrizzle()
+  const res = await drizzle.select().from(tables.issues).where(eq(tables.issues.number, issue.number)).get()
   if (res && (res.mtime <= issueUpdatedTime || res.hash === issueHash)) {
     return await Promise.all([
       vectorize?.upsert([{
-        id: storageKey,
-        values: res.embeddings,
+        id: storageKeyForIssue(repository.owner.login, repository.name, issue.number),
+        values: JSON.parse(res.embeddings) as number[],
         metadata: issueMetadata,
       }]),
-      storage.setItem(storageKey, {
-        metadata: issueMetadata,
+      drizzle.update(tables.issues).set({
+        ...issueMetadata,
+        labels: JSON.stringify(issue.labels),
         mtime: issueUpdatedTime,
-        hash: issueHash,
-        embeddings: res.embeddings,
-      }),
+      }).where(eq(tables.issues.number, issue.number)).execute(),
     ])
   }
 
@@ -102,16 +101,17 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
 
   await Promise.all([
     vectorize?.upsert([{
-      id: storageKey,
+      id: storageKeyForIssue(repository.owner.login, repository.name, issue.number),
       values: embeddings,
       metadata: issueMetadata,
     }]),
-    storage.setItem(storageKey, {
-      metadata: issueMetadata,
+    drizzle.insert(tables.issues).values({
+      ...issueMetadata,
+      labels: JSON.stringify(issue.labels),
       mtime: issueUpdatedTime,
-      hash: issueHash,
-      embeddings,
+      embeddings: JSON.stringify(embeddings),
     }),
+    // .where(eq(tables.issues.number, issue.number)).execute(),
   ])
 
   console.log('indexed issue:', issueMetadata)

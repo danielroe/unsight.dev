@@ -1,6 +1,5 @@
 import type { IssueKeys, IssueMetadata } from '~~/server/utils/embeddings'
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
-import { storageKeyForIssue } from '~~/server/utils/embeddings'
 
 export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo, number } = getRouterParams(event)

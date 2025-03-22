@@ -86,8 +86,7 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
     if (repo.private) {
       return undefined
     }
-    const [owner, name] = repo.full_name.split('/')
-    return setMetadataForRepo(owner!, name!, { ...repo, indexed: false })
+    return setMetadataForRepo({ ...repo, indexed: 0 })
   })))
 
   for (const repo of repos) {
@@ -97,8 +96,7 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
 
     await indexRepo(octokit, repo)
 
-    const [owner, name] = repo.full_name.split('/')
-    event.waitUntil(setMetadataForRepo(owner!, name!, { ...repo, indexed: currentIndexVersion }))
+    event.waitUntil(setMetadataForRepo({ ...repo, indexed: currentIndexVersion }))
   }
 }
 
@@ -116,7 +114,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
   await octokit.paginate(octokit.rest.issues.listForRepo, {
     owner: owner!,
     repo: name!,
-    state: 'all',
+    state: 'open',
     per_page: 100,
   }, (response) => {
     for (const issue of response.data) {

@@ -67,6 +67,7 @@ export default defineNuxtConfig({
     ai: true,
     analytics: true,
     cache: true,
+    database: true,
     vectorize: {
       issues: {
         dimensions: 1024,

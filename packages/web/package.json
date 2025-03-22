@@ -7,6 +7,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "db:generate": "drizzle-kit generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test:types": "vue-tsc -b --noEmit"
@@ -22,6 +23,7 @@
     "@unocss/nuxt": "^66.0.0",
     "@unocss/reset": "^66.0.0",
     "consola": "^3.4.2",
+    "drizzle-orm": "^0.41.0",
     "hex-rgb": "^5.0.0",
     "ml-distance": "^4.0.1",
     "ml-kmeans": "^6.0.0",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "1.2.0",
+    "drizzle-kit": "^0.30.5",
     "vue-tsc": "2.2.8",
     "wrangler": "4.0.0"
   }

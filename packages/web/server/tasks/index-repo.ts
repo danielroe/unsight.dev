@@ -34,7 +34,7 @@ export default defineTask({
 
         await indexRepo(octokit, meta)
         indexed.push(repo.repo)
-        await setMetadataForRepo(owner!, name!, { ...meta, indexed: currentIndexVersion })
+        await setMetadataForRepo({ ...meta, indexed: currentIndexVersion })
       }
       catch (e) {
         console.error(e)

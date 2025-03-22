@@ -34,13 +34,13 @@ export default defineTask({
         continue
       }
 
-      await setMetadataForRepo(owner!, name!, {
+      await setMetadataForRepo({
         id: fetchedRepo.data.id,
         node_id: fetchedRepo.data.node_id,
         name: fetchedRepo.data.name,
         full_name: fetchedRepo.data.full_name,
         private: fetchedRepo.data.private,
-        indexed: false,
+        indexed: 0,
       })
     }
 
