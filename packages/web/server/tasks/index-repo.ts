@@ -34,7 +34,8 @@ export default defineTask({
 
         await indexRepo(octokit, meta)
         indexed.push(repo.repo)
-        await setMetadataForRepo(owner!, name!, { ...meta, indexed: currentIndexVersion })
+
+        await useDrizzle().update(tables.repos).set({ indexed: currentIndexVersion }).where(eq(tables.repos.id, meta.id))
       }
       catch (e) {
         console.error(e)

@@ -4,7 +4,7 @@ import type { InstallationRepo } from '~~/server/utils/metadata'
 import { createAppAuth } from '@octokit/auth-app'
 
 import { Octokit } from '@octokit/rest'
-import { currentIndexVersion, getMetadataForRepo, removeMetadataForRepo, setMetadataForRepo } from '~~/server/utils/metadata'
+import { currentIndexVersion, getMetadataForRepo, removeMetadataForRepo } from '~~/server/utils/metadata'
 import { indexIssue, removeIssue, removeStoredEmbeddingsForRepo } from '../../utils/embeddings'
 
 export default defineEventHandler(async (event) => {
@@ -86,8 +86,13 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
     if (repo.private) {
       return undefined
     }
-    const [owner, name] = repo.full_name.split('/')
-    return setMetadataForRepo(owner!, name!, { ...repo, indexed: false })
+    return useDrizzle().insert(tables.repos).values({
+      full_name: repo.full_name,
+      id: repo.id,
+      node_id: repo.node_id,
+      private: +repo.private,
+      indexed: 0,
+    })
   })))
 
   for (const repo of repos) {
@@ -97,8 +102,9 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
 
     await indexRepo(octokit, repo)
 
-    const [owner, name] = repo.full_name.split('/')
-    event.waitUntil(setMetadataForRepo(owner!, name!, { ...repo, indexed: currentIndexVersion }))
+    event.waitUntil(useDrizzle().update(tables.repos).set({
+      indexed: currentIndexVersion,
+    }).where(eq(tables.repos.id, repo.id)))
   }
 }
 
@@ -110,6 +116,11 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
   console.log('starting to index', `${repo.full_name}`)
 
   const [owner, name] = repo.full_name.split('/')
+  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`)).get() || {}
+  if (!repoId) {
+    console.error('Failed to find repoId for', `${owner}/${name}`)
+    return
+  }
 
   const promises: Array<Promise<unknown>> = []
 

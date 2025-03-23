@@ -33,14 +33,12 @@ export default defineTask({
       if (!fetchedRepo.data || fetchedRepo.data.private) {
         continue
       }
-
-      await setMetadataForRepo(owner!, name!, {
+      await useDrizzle().insert(tables.repos).values({
+        full_name: fetchedRepo.data.full_name,
         id: fetchedRepo.data.id,
         node_id: fetchedRepo.data.node_id,
-        name: fetchedRepo.data.name,
-        full_name: fetchedRepo.data.full_name,
-        private: fetchedRepo.data.private,
-        indexed: false,
+        private: +fetchedRepo.data.private,
+        indexed: 0,
       })
     }
 

@@ -37,14 +37,7 @@ export default defineCachedCorsEventHandler(async (event) => {
     url: i.url,
     state: i.state,
     updated_at: i.updated_at,
-    labels: i.labels?.map((l) => {
-      try {
-        return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : l
-      }
-      catch {
-        return l
-      }
-    }),
+    labels: i.labels,
   })))
 }, {
   swr: true,

@@ -7,11 +7,11 @@ export default defineTask({
     description: 'Populate Vectorize with issue embeddings',
   },
   async run() {
-    const kv = hubKV()
     const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
     if (!vectorize) {
       return { result: 'Vectorize not available' }
     }
+    const kv = hubKV()
     const keys = await kv.getKeys('issue:').then(r => r.reverse())
     console.info('Loaded', keys.length, 'issues')
     const total = keys.length
@@ -24,7 +24,7 @@ export default defineTask({
             await vectorize.insert([{
               id: issue.key,
               values: issue.value.embeddings,
-              metadata: issue.value.metadata,
+              metadata: { ...issue.value.metadata, labels: JSON.stringify(issue.value.metadata.labels) },
             }])
             console.log(`${count++}/${total}`)
           }

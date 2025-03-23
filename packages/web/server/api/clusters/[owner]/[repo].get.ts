@@ -18,7 +18,7 @@ export default defineCachedCorsEventHandler(async (event) => {
       const embeddings: number[][] = []
 
       for (const res of r) {
-        if (res.metadata.state !== 'closed') {
+        if (res.state !== 'closed') {
           issues.push(res.metadata)
           embeddings.push(res.embeddings)
         }
@@ -59,14 +59,7 @@ export default defineCachedCorsEventHandler(async (event) => {
         updated_at: i.updated_at,
         state: i.state,
         avgSimilarity: i.avgSimilarity,
-        labels: i.labels?.map((l) => {
-          try {
-            return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : l
-          }
-          catch {
-            return l
-          }
-        }),
+        labels: i.labels,
       })),
     }
   }))

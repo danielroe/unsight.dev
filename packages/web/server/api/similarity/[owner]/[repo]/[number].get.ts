@@ -1,6 +1,5 @@
-import type { IssueKeys, IssueMetadata } from '~~/server/utils/embeddings'
+import type { IssueKeys, IssueMetadata, Label } from '~~/server/utils/embeddings'
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
-import { storageKeyForIssue } from '~~/server/utils/embeddings'
 
 export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo, number } = getRouterParams(event)
@@ -29,20 +28,16 @@ export default defineCachedCorsEventHandler(async (event) => {
   const issues = [] as Array<Pick<IssueMetadata, Exclude<IssueKeys, 'labels'>> & { score: number, labels?: Array<{ name: string, color?: string }> }>
 
   for (const match of results?.matches || []) {
-    const issueMetadata = match.metadata as IssueMetadata
+    const issueMetadata = {
+      ...match.metadata,
+      labels: match.metadata?.labels ? JSON.parse(match.metadata.labels as string) as Label[] : [],
+    } as IssueMetadata
     if (issueMetadata.owner === owner && issueMetadata.repository === repo && issueMetadata.number.toString() === number) {
       continue
     }
     issues.push({
       ...issueMetadata,
-      labels: issueMetadata?.labels?.map((l) => {
-        try {
-          return l.startsWith('{') ? JSON.parse(l) as { name: string, color?: string } : { name: l }
-        }
-        catch {
-          return { name: l }
-        }
-      }) || [],
+      labels: issueMetadata?.labels?.map(l => typeof l === 'string' ? { name: l } : l) || [],
       score: match.score,
     })
   }

@@ -1,22 +1,14 @@
+import { count, eq } from 'drizzle-orm'
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
-import { getMetadataForRepo } from '~~/server/utils/metadata'
 
 export default defineCachedCorsEventHandler(async () => {
-  const kv = hubKV()
-  const keys = await kv.getKeys('repo')
-  return Promise.all(keys.map(async (key) => {
-    const [owner, name] = key.split(':').slice(1)
-    if (!owner || !name) {
-      return []
-    }
-    const [keys, meta] = await Promise.all([
-      kv.getKeys(storagePrefixForRepo(owner, name)),
-      getMetadataForRepo(owner, name),
-    ])
-    return [{
-      repo: `${owner}/${name}`,
-      issuesIndexed: keys.length,
-      indexed: meta?.indexed === currentIndexVersion,
-    }]
-  })).then(r => r.flat())
-}, { swr: true })
+  const drizzle = useDrizzle()
+
+  const repos = await drizzle.select().from(tables.repos).all()
+
+  return Promise.all(repos.map(async repo => ({
+    repo: repo.full_name,
+    issuesIndexed: await drizzle.select({ count: count() }).from(tables.issues).where(eq(tables.issues.repoId, repo.id)).then(([r]) => r!.count),
+    indexed: repo.indexed === currentIndexVersion,
+  })))
+}, { swr: true, shouldBypassCache: () => !!import.meta.dev })
