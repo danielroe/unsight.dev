@@ -46,6 +46,10 @@ const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10
           </template>
         </NuxtLink>
       <div class="flex flex-row gap-2">
+        <NuxtLink class="hover:underline focus:underline font-medium color-gray-200 flex flex-row gap-2 items-center color-white no-underline outline-none" to="https://chromewebstore.google.com/detail/unsight/dnkemphgofcdnnfjblcpclofbkeimpnc" target="_blank">
+          <span class="i-ri:chrome-fill inline-block w-5 h-5" />
+          chrome extension
+        </NuxtLink>
         <NuxtLink class="hover:underline focus:underline font-medium color-gray-200 flex flex-row gap-2 items-center color-white no-underline outline-none" to="https://addons.mozilla.org/firefox/addon/unsight" target="_blank">
           <span class="i-ri:firefox-fill inline-block w-5 h-5" />
           firefox extension

@@ -26,11 +26,11 @@ A browser extension (work in progress) that enhances GitHub issue pages by addin
 
 ## 🌎 Browser extension
 
-<!-- [link-chrome]: https://chrome.google.com/webstore/detail/unsight 'Version published on Chrome Web Store' -->
+[link-chrome]: https://chromewebstore.google.com/detail/unsight/dnkemphgofcdnnfjblcpclofbkeimpnc 'Version published on Chrome Web Store'
 [link-firefox]: https://addons.mozilla.org/firefox/addon/unsight/ 'Version published on Mozilla Add-ons'
 <!-- [link-safari]: https://apps.apple.com/app/ 'Version published on the Mac App Store' -->
 
-<!-- [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/<id>.svg?label=%20">][link-chrome] and other Chromium browsers -->
+[<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/chrome/chrome.svg" width="48" alt="Chrome" valign="middle">][link-chrome] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/dnkemphgofcdnnfjblcpclofbkeimpnc.svg?label=%20">][link-chrome] and other Chromium browsers
 
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/firefox/firefox.svg" width="48" alt="Firefox" valign="middle">][link-firefox] [<img valign="middle" src="https://img.shields.io/amo/v/unsight.svg?label=%20">][link-firefox]
 
