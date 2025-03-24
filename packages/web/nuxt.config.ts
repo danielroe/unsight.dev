@@ -75,6 +75,7 @@ export default defineNuxtConfig({
         metadataIndexes: {
           owner: 'string',
           repository: 'string',
+          state: 'string',
         },
       },
     },

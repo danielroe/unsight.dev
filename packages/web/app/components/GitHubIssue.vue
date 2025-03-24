@@ -74,7 +74,7 @@ function labelColors(color: string) {
         </NuxtLink>
         &middot;
         <span class="inline-flex flex-row gap-1">
-          <span v-if="state === 'closed'" class="text-purple-400">closed</span>
+          <span v-if="state === 'closed'">closed</span>
           <span v-else>updated</span>
           <NuxtTime
           :datetime="updated_at"

@@ -28,9 +28,10 @@ export default defineCachedCorsEventHandler(async (event) => {
   const issues = [] as Array<Pick<IssueMetadata, Exclude<IssueKeys, 'labels'>> & { score: number, labels?: Array<{ name: string, color?: string }> }>
 
   for (const match of results?.matches || []) {
+    const labels = typeof match.metadata?.labels === 'string' ? JSON.parse(match.metadata.labels) as Label[] : match.metadata?.labels as string[] || []
     const issueMetadata = {
       ...match.metadata,
-      labels: match.metadata?.labels ? JSON.parse(match.metadata.labels as string) as Label[] : [],
+      labels: labels.map(l => typeof l === 'string' && l.startsWith('{') ? JSON.parse(l) as Label : l),
     } as IssueMetadata
     if (issueMetadata.owner === owner && issueMetadata.repository === repo && issueMetadata.number.toString() === number) {
       continue
