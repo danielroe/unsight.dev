@@ -1,6 +1,7 @@
 import type { RestEndpointMethodTypes } from '@octokit/rest'
 import type { Issue } from '@octokit/webhooks-types'
 import { hash } from 'ohash'
+import { invalidateCluster } from '~~/server/api/clusters/[owner]/[repo].get'
 
 type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 
@@ -132,6 +133,9 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
       ? drizzle.update(tables.issues).set(updatedValues).where(eq(tables.issues.id, res.id)).execute()
       : drizzle.insert(tables.issues).values(updatedValues).execute(),
   ])
+
+  // invalidate clusters for this repo
+  await invalidateCluster(repo.owner.login, repo.name)
 
   console.log('indexed issue:', issueMetadata)
 
