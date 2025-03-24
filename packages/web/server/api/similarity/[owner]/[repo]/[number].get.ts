@@ -18,7 +18,7 @@ export default defineCachedCorsEventHandler(async (event) => {
   const results = issueVector?.[0]
     ? await vectorize?.query(issueVector[0].values, {
       returnMetadata: 'all',
-      topK: 10,
+      topK: 20,
       filter: {
         owner,
       },
@@ -43,7 +43,17 @@ export default defineCachedCorsEventHandler(async (event) => {
     })
   }
 
-  return issues
+  const [open = [], closed = []] = issues.reduce((acc, issue) => {
+    if (issue.state === 'open') {
+      acc[0]!.push(issue)
+    }
+    else if (issue.state === 'closed') {
+      acc[1]!.push(issue)
+    }
+    return acc
+  }, [[], []] as Array<Array<Pick<IssueMetadata, Exclude<IssueKeys, 'labels'>> & { score: number, labels?: Array<{ name: string, color?: string }> }>>)
+
+  return [...open, ...closed].slice(0, 10)
 }, {
   swr: true,
   getKey(event) {
