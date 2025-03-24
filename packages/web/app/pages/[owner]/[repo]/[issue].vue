@@ -30,7 +30,7 @@ const { data: issues, status } = useFetch(`/api/similarity/${route.params.owner}
     </section>
     <section
       v-else
-      class="flex flex-col gap-4 md:rounded-md md:border-solid border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
+      class="flex flex-col gap-4 md:rounded-md md:border-solid md:border md:border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
       :style="{ '--section-index': 1 }"
     >
       <h2 class="flex items-center my-4 font-bold text-2xl">
