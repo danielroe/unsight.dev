@@ -109,17 +109,6 @@ export async function indexIssue(issue: Issue | RestIssue, repository: { owner: 
   return embeddings
 }
 
-export interface IssueMetadata {
-  owner: string
-  repository: string
-  number: number
-  title: string
-  url: string
-  updated_at: string
-  labels: string[]
-  [key: string]: string | number | boolean | string[]
-}
-
 export interface StoredEmbeddings {
   mtime: number
   hash: string

@@ -1,47 +1,26 @@
 <script setup lang="ts">
-import hexRgb from 'hex-rgb'
-import rgbToHSL from 'rgb-to-hsl'
+    interface GithubIssueProps {
+        url: string;
+        title: string;
+        owner: string;
+        repository: string;
+        number: number;
+        avgSimilarity: number;
+        labels: Array<string | { name: string, color?: string }>;
+        updated_at: string;
+    }
 
-defineProps({
-  url: String,
-  title: String,
-  owner: String,
-  repository: String,
-  number: {
-    type: Number,
-    required: true,
-  },
-  avgSimilarity: {
-    type: Number,
-    required: true,
-  },
-  labels: Array as () => Array<string | { name: string, color?: string }>,
-  // eslint-disable-next-line vue/prop-name-casing
-  updated_at: {
-    type: String,
-    required: true,
-  },
-})
+    const UPDATED = 'updated'
+    const PERCENT_SIMILAR = '% similar'
 
-function labelColors(color: string) {
-  const value = hexRgb(color)
-  const [hue, saturation, lightness] = rgbToHSL(value.red, value.green, value.blue)
-
-  return {
-    '--label-r': Math.round(value.red),
-    '--label-g': Math.round(value.green),
-    '--label-b': Math.round(value.blue),
-    '--label-h': Math.round(hue),
-    '--label-s': Math.round(Number.parseInt(saturation)),
-    '--label-l': Math.round(Number.parseInt(lightness)),
-  }
-}
+    const { url, title, owner, repository, number, avgSimilarity, labels, updated_at } = defineProps<GithubIssueProps>()
 </script>
 
 <template>
-  <article class="border-solid border border-gray-600 rounded-md max-w-full overflow-hidden flex flex-row gap-2 leading-tightest ">
-    <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500" />
-    <div class="flex flex-col flex-wrap md:flex-nowrap md:pb-2 flex-grow">
+  <article class="max-w-full overflow-hidden flex flex-row gap-1 ">
+    <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500 mt-1" />
+
+    <div class="flex flex-col flex-wrap md:flex-nowrap flex-grow">
       <NuxtLink
         class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
         :href="url"
@@ -49,8 +28,9 @@ function labelColors(color: string) {
       >
         {{ title?.trim() }}
       </NuxtLink>
+
       <div
-        class=" text-xs relative md:mt-1 text-gray-400 mb-1 break-words"
+        class="text-xs relative text-gray-400 mb-1 break-words"
       >
         <NuxtLink
           v-if="owner && repository"
@@ -65,13 +45,17 @@ function labelColors(color: string) {
         >
           {{ owner }}/{{ repository }}
         </NuxtLink>
+
         &middot;
-        updated
+        {{ UPDATED }}
+
         <NuxtTime
           :datetime="updated_at"
           relative
         />
+
         &middot;
+
         <NuxtLink
           class="no-underline hover:underline color-current"
           :to="owner && repository ? {
@@ -83,9 +67,10 @@ function labelColors(color: string) {
             },
           } : ''"
         >
-          {{ Math.floor(avgSimilarity * 100) }}% similar
+          {{ Math.floor(avgSimilarity * 100) }}{{ PERCENT_SIMILAR }}
         </NuxtLink>
       </div>
+
       <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
         <span
           v-for="(label, j) of labels"
@@ -97,7 +82,6 @@ function labelColors(color: string) {
         </span>
       </div>
     </div>
-  
   </article>
 </template>
 

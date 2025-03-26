@@ -1,6 +1,7 @@
+import type { IssueMetadata } from '~~/shared/models/github-metadata'
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
 import { clusterEmbeddings, generateClusterName } from '~~/server/utils/cluster'
-import { getStoredEmbeddingsForRepo, type IssueMetadata } from '~~/server/utils/embeddings'
+import { getStoredEmbeddingsForRepo } from '~~/server/utils/embeddings'
 
 export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo } = getRouterParams(event)

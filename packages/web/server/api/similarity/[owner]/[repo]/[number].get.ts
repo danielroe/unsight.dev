@@ -1,4 +1,4 @@
-import type { IssueMetadata } from '~~/server/utils/embeddings'
+import type { IssueMetadata } from '~~/shared/models/github-metadata'
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
 import { storageKeyForIssue } from '~~/server/utils/embeddings'
 

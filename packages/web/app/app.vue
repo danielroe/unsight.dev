@@ -15,7 +15,7 @@ useServerSeoMeta({
   description: 'Detect duplicate GitHub issues, areas of concern and more across related repositories',
 })
 
-const { data: repos } = useRepos()
+const { data: repos } = useFetchRepos()
 </script>
 
 <template>
