@@ -1,13 +1,15 @@
 <script setup lang="ts">
-const OWNER_REPO = 'owner-repo'
+import type { AsyncDataRequestStatus } from '#app'
+import type { IssueMetadata } from '~~/shared/models/github-metadata'
 
-const route = useRoute(OWNER_REPO)
-
-const { selectedRepo } = useSelectedRepo(route.params.owner, route.params.repo)
-
-const { data: clusters, status } = useFetchClusters(selectedRepo)
+interface ClusterViewJunctionProps {
+    clusters: IssueMetadata[];
+    status: AsyncDataRequestStatus;
+}
 
 const { selectedView } = useToggleViewState()
+
+const { clusters, status } = defineProps<ClusterViewJunctionProps>()
 </script>
 
 <template>

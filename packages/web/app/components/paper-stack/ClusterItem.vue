@@ -1,16 +1,16 @@
 
 <script setup lang="ts">
-    import type { IssueMetadata } from '~~/shared/models/github-metadata'
+import type { IssueMetadata } from '~~/shared/models/github-metadata'
 
-    interface ClusterViewLayoutProps {
-        clusters: IssueMetadata[];
-    }
+interface ClusterItemProps {
+    clusters: IssueMetadata[];
+}
 
-    const { clusters } = defineProps<ClusterViewLayoutProps>()
+const { clusters } = defineProps<ClusterItemProps>()
 
-    const openState = reactive<Record<string, boolean>>({})
+const openState = reactive<Record<string, boolean>>({})
 
-    const zIndex = ['z-8', 'z-6', 'z-4']
+const zIndex = ['z-8', 'z-6', 'z-4']
 </script>
 
 <template >

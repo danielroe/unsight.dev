@@ -1,10 +1,30 @@
 <script setup lang="ts">
-    import type { RepoMetadata } from '~~/shared/models/github-metadata'
+import type { AsyncDataRequestStatus } from '#app'
+import type { RepoMetadata } from '~~/shared/models/github-metadata'
 
-    const REFRESH_DATA = 'refresh data'
-    const PICK_A_REPOSITORY = 'pick a repository to cluster issues'
-    
-    const { selectedRepo, allowedRepos, navigateToRepo, refresh, status } = useCommandConsolePlane()
+interface CommandConsoleProps {
+  allowedRepos: RepoMetadata[];
+  status: AsyncDataRequestStatus;
+  selectedRepo: string;
+}
+
+const OWNER_REPO = 'owner-repo'
+const REFRESH_DATA = 'refresh data'
+const PICK_A_REPOSITORY = 'pick a repository to cluster issues'
+
+const { allowedRepos, status, selectedRepo } = defineProps<CommandConsoleProps>()
+
+const refresh = defineModel<() => Promise<void>>('refresh', {
+    required: true
+})
+
+function navigateToRepo(event: Event) {
+  const [owner, repo] = (event.target as HTMLSelectElement).value.split('/') as [string, string]
+  return navigateTo({
+    name: OWNER_REPO,
+    params: { owner, repo },
+  })
+}
 </script>
 
 <template>

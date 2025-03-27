@@ -6,20 +6,41 @@ const route = useRoute(OWNER_REPO)
 useSeoMeta({
   title: () => `Issue clusters - ${route.params.owner}/${route.params.repo}`
 })
+
+const { data: allowedRepos } = useFetchRepos()
+
+const selectedRepo = useSelectedRepo(route.params.owner, route.params.repo)
+
+const { data: clusters, refresh, status } = useFetchClusters(selectedRepo)
+
+const { data: duplicates, status: duplicatesStatus } = useFetchDuplicates(selectedRepo)
+
+const refreshClusters = () => refresh()
 </script>
 
 <template>
   <RepoViewLayout>
     <template #console>
-      <CommandConsole />
+      <CommandConsole 
+        :allowedRepos="allowedRepos" 
+        :status="status" 
+        :selectedRepo="selectedRepo" 
+        v-model:refresh="refreshClusters"
+      />
     </template>
 
     <template #duplicates>
-      <DuplicatesView />
+      <DuplicatesView 
+        :duplicates="duplicates" 
+        :status="duplicatesStatus" 
+      />
     </template>
 
     <template #clusters >
-      <ClusterViewJunction />
+      <ClusterViewJunction 
+        :clusters="clusters" 
+        :status="status" 
+      />
     </template>
   </RepoViewLayout>
 </template>

@@ -1,27 +1,28 @@
 
 <script setup lang="ts">
-    import type { IssueMetadata } from '~~/shared/models/github-metadata'
+import type { AsyncDataRequestStatus } from '#app'
+import type { IssueMetadata } from '~~/shared/models/github-metadata'
 
-    const OWNER_REPO = 'owner-repo'
-    const LOADING_DUPLICATES = 'loading duplicates'
-    const POSSIBLE_DUPLICATE = 'possible duplicate'
+interface DuplicatesrViewProps {
+    duplicates: IssueMetadata[];
+    status: AsyncDataRequestStatus;
+}
 
-    const route = useRoute(OWNER_REPO)
+const LOADING_DUPLICATES = 'loading duplicates'
+const POSSIBLE_DUPLICATE = 'possible duplicate'
 
-    const { selectedRepo } = useSelectedRepo(route.params.owner, route.params.repo)
+const { duplicates, status } = defineProps<DuplicatesrViewProps>()
 
-    const { data: duplicates, status: duplicateStatus } = useFetchDuplicates(selectedRepo)
+const showDuplicates = ref(false)
 
-    const showDuplicates = ref(false)
-    
-    const typedDuplicates = computed<IssueMetadata[]>(() => {
-        return showDuplicates ? duplicates.value?.map(cluster => cluster) : []}
-    )
+const typedDuplicates = computed<IssueMetadata[]>(() => {
+    return showDuplicates ? duplicates.value?.map(cluster => cluster) : []}
+)
 </script>
 
 <template >
     <div
-      v-if="duplicateStatus !== 'success' && duplicateStatus !== 'error'"
+      v-if="status !== 'success' && status !== 'error'"
       class="mt-6 rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex items-center gap-2 justify-center pointer-events-none animate-pulse"
     >
       <span
