@@ -1,16 +1,19 @@
 
 <script setup lang="ts">
-import type { IssueMetadata } from '~~/shared/models/github-metadata'
+import type { ClusterMetadata } from '~~/shared/models/github-metadata'
+
+const zIndex = ['z-8', 'z-6', 'z-4']
 
 interface ClusterItemProps {
-    clusters: IssueMetadata[];
+    clusters: ClusterMetadata[];
 }
 
 const { clusters } = defineProps<ClusterItemProps>()
 
-const openState = reactive<Record<string, boolean>>({})
+// const openState = reactive<Record<string, boolean>>({})
 
-const zIndex = ['z-8', 'z-6', 'z-4']
+// console.log('ClusterItemProps.clusters', clusters)
+
 </script>
 
 <template >
@@ -18,13 +21,12 @@ const zIndex = ['z-8', 'z-6', 'z-4']
         <section 
             v-for="(cluster, index) of clusters" 
             :key="index"
-            :style="{ '--section-index': index }"   
             class="flex flex-col "
         >
-            <PaperStackClusterSummary :clusterIndex="index" :clusterTitle="cluster.title" />
+            <PaperStackClusterSummary :clusterIndex="index" :clusterLength="cluster.issues.length || 0" :clusterTitle="cluster.title" />
 
             <div 
-                v-for="(issue, idx) of cluster.issues?.slice(0, 3)"
+                v-for="(issue, idx) of cluster.issues.slice(0, 3)"
                 class="h-20 p-2 p-r-none border-solid border-2 border-t-0 border-gray-700 rounded-t-none rounded-b-md bg-shark-500 whitespace-nowrap overflow-hidden text-ellipsis -mt-2"
                 :class="zIndex[idx]"
             >
@@ -45,8 +47,7 @@ const zIndex = ['z-8', 'z-6', 'z-4']
             <div 
                 class="h-10 p-2 border-solid border-2 border-t-0 border-gray-700 rounded-t-none rounded-b-md bg-shark-500 whitespace-nowrap overflow-hidden text-ellipsis -mt-2 z-2"
             >
-                <!-- TODO: Remove open state logic -->
-                <PaperStackShowMoreIssues :clusterIndex="index" :clusterLength="cluster.issues?.length || 0" v-model:openState="openState" />
+                <PaperStackShowMoreIssues :cluster="cluster" :clusterIndex="index" :clusterLength="cluster.issues.length || 0" />
             </div>
         </section>
     </div>

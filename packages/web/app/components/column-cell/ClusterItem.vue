@@ -1,25 +1,15 @@
 
 <script setup lang="ts">
-    import type { IssueMetadata } from '~~/shared/models/github-metadata'
+import type { ClusterMetadata } from '~~/shared/models/github-metadata'
 
-    interface ClusterViewProps {
-        clusters: IssueMetadata[];
-    }
+interface ClusterItemProps {
+    clusters: ClusterMetadata[];
+}
 
-    const { clusters } = defineProps<ClusterViewProps>()
+const { clusters } = defineProps<ClusterItemProps>()
 
-    const openState = reactive<Record<string, boolean>>({})
+const openState = reactive<Record<string, boolean>>({})
 
-    onMounted(async () => {
-        if ('startViewTransition' in document) {
-            let finishTransition: () => void
-            const promise = new Promise<void>((resolve) => {
-            finishTransition = resolve
-            })
-            watch(() => clusters, () => document.startViewTransition(() => promise), { flush: 'pre' })
-            watch(() => clusters, () => nextTick(finishTransition), { flush: 'post' })
-        }
-    })
 </script>
 
 <template >
@@ -27,7 +17,6 @@
         <section
         v-for="(cluster, c) of clusters"
         :key="c"
-        :style="{ '--section-index': c }"
         class=" overflow-hidden flex flex-col gap-4 md:rounded-md md:border-solid md:border border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 border-b-solid"
         >
             <h2 class=" my-4 font-bold text-2xl flex items-baseline">
@@ -56,14 +45,12 @@
                 type="button"
                 @click="openState[c] = !openState[c]"
             >
-                show {{ cluster.issues?.length - 5 }} more
+                show {{ cluster.issues?.length - 3 }} more
             </button>
         </section>
     </div>
 </template>
 
 <style scoped>
-section:first-of-type {
-  view-transition-name: var(--section-index);
-}
+
 </style>

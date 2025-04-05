@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { AsyncDataRequestStatus } from '#app'
-import type { IssueMetadata } from '~~/shared/models/github-metadata'
+import type { ClusterMetadata } from '~~/shared/models/github-metadata'
 
 interface ClusterViewJunctionProps {
-    clusters: IssueMetadata[];
+    clusters: ClusterMetadata[];
     status: AsyncDataRequestStatus;
 }
 

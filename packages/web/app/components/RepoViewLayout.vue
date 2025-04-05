@@ -1,8 +1,8 @@
 <!-- TODO: Probably no longer necessary -->
 <template>
-    <slot name="console"></slot> 
+    <slot name="console" /> 
 
-    <slot name="duplicates"></slot> 
+    <slot name="duplicates" /> 
 
-    <slot name="clusters" ></slot> 
+    <slot name="clusters" /> 
 </template>

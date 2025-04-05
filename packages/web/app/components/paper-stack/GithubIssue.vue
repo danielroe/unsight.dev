@@ -1,24 +1,25 @@
 <script setup lang="ts">
-    interface GithubIssueProps {
-        url: string;
-        title: string;
-        owner: string;
-        repository: string;
-        number: number;
-        avgSimilarity: number;
-        labels: Array<string | { name: string, color?: string }>;
-        updated_at: string;
-    }
+interface GithubIssueProps {
+    url: string;
+    title: string;
+    owner: string;
+    repository: string;
+    number: number;
+    avgSimilarity: number;
+    labels: Array<string | { name: string, color?: string }>;
+    updated_at: string;
+}
 
-    const UPDATED = 'updated'
-    const PERCENT_SIMILAR = '% similar'
+const UPDATED = 'updated'
+const PERCENT_SIMILAR = '% similar'
 
-    const { url, title, owner, repository, number, avgSimilarity, labels, updated_at } = defineProps<GithubIssueProps>()
+const { url, title, owner, repository, number, avgSimilarity, labels, updated_at } = defineProps<GithubIssueProps>()
 </script>
 
 <template>
   <article class="max-w-full overflow-hidden flex flex-row gap-1 ">
-    <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500 mt-1" />
+    <!-- TODO: Margin on this isn't ideal, could be slightly nicer -->
+    <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500 mt-.5" />
 
     <div class="flex flex-col flex-wrap md:flex-nowrap flex-grow">
       <NuxtLink
