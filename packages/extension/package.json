@@ -23,8 +23,8 @@
     "@types/chrome": "0.0.313",
     "@wxt-dev/module-vue": "1.0.2",
     "@wxt-dev/unocss": "1.0.1",
-    "typescript": "5.8.2",
-    "unocss": "66.1.0-beta.8",
+    "typescript": "5.8.3",
+    "unocss": "66.1.0-beta.10",
     "vue-tsc": "2.2.8",
     "wxt": "0.20.0"
   }
