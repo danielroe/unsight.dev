@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "4.11.0",
-    "eslint": "9.23.0",
+    "eslint": "9.24.0",
     "lint-staged": "15.5.0",
     "simple-git-hooks": "2.12.1",
     "typescript": "5.8.3"
