@@ -12,7 +12,6 @@ const openState = reactive<Record<string, boolean>>({})
 </script>
 
 <template >
-    <div class="grid grid-cols-4 gap-4" >
         <section
         v-for="(cluster, c) of clusters"
         :key="c"
@@ -47,5 +46,4 @@ const openState = reactive<Record<string, boolean>>({})
                 show {{ cluster.issues?.length - 3 }} more
             </button>
         </section>
-    </div>
 </template>

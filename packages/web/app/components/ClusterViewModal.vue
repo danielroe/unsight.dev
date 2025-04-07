@@ -1,13 +1,5 @@
 <script setup lang="ts">
-// import type { onClickOutside } from '@vueuse/core'
-import type { ClusterMetadata } from '~~/shared/models/github-metadata'
-
-interface ShowMoreIssuesProps {
-    cluster: ClusterMetadata;
-
-}
-
-const { cluster } = defineProps<ShowMoreIssuesProps>()
+const CLOSE = 'Close'
 
 const dialogRef = useTemplateRef('dialogRef')
 
@@ -26,10 +18,6 @@ const toggleBGScroll = (scrollLock: boolean) => {
     document.body.style.overflow = ''
   }
 }
-
-// TODO: Maybe just pass the index to identify the cluster down to this component instead and then I can useNuxtData inside of the modal?
-
-// const setSelectedCluster = useSelectedCluster()
 
 const openModal = () => {
   isOpen.value = true
@@ -53,8 +41,6 @@ onUnmounted(() => {
   }
 })
 
-// console.log('ClusterViewModal.issues', cluster.issues)
-
 defineExpose({
   openModal,
 })
@@ -64,8 +50,8 @@ defineExpose({
      <Transition name="slide-fade">
       <div 
         ref="dialogRef" 
-        v-if="isOpen" 
-        class="fixed inset-0 h-dvh w-dvw min-h-screen min-w-screen bg-gray-900/60 backdrop-blur-sm z-20" 
+        v-show="isOpen" 
+        class="fixed inset-0 h-dvh w-dvw min-h-screen min-w-screen bg-gray-900/60 backdrop-blur-sm z-200" 
       > 
         <div 
           class="relative h-full w-full flex flex-col p-4 justify-center items-center" >         
@@ -74,7 +60,7 @@ defineExpose({
           </div>
           
           <button class="text-lg bg-transparent color-gray-400 py-1 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors" type="button" @click="closeModal" >
-            Close
+            {{ CLOSE }}
           </button>     
         </div>      
       </div>

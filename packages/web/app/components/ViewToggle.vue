@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-const { selectedView, toggleViewState, } = useToggleViewState()
+const { selectedView, toggleViewState, } = useSelectedView()
 
 </script>
 

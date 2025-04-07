@@ -14,13 +14,13 @@ const { cluster, clusterIndex, clusterLength } = defineProps<ShowMoreIssuesProps
 
 const modalRef = useTemplateRef<InstanceType<typeof ClusterViewModal>>('modalRef')
     
-// TODO: Change the name of this component
-
 const openModal = () => modalRef.value?.openModal()
 </script>
 
+<!-- TODO: Change the name of this component -->
+
 <template >
-    <div class="text-center " >
+    <div class=" h-10 p-2 border-solid border-2 border-t-0 border-gray-700 rounded-t-none rounded-b-md bg-shark-500 whitespace-nowrap overflow-hidden text-ellipsis -mt-2 z-2 text-center " >
     <div v-if="clusterLength > 3 " >
         <button
             class=" text-sm bg-transparent color-gray-400 py-1 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
@@ -34,7 +34,7 @@ const openModal = () => modalRef.value?.openModal()
             <ClusterViewModal ref="modalRef" :cluster="cluster">
                 <template #modal-content>
                     <ClientOnly>
-                        <ClusterView :cluster="cluster" :clusterIndex="clusterIndex" />
+                        <PaperStackClusterView :cluster="cluster" :clusterIndex="clusterIndex" :clusterTitle="cluster.title" />
                     </ClientOnly>
                 </template>
             </ClusterViewModal>

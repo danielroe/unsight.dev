@@ -7,7 +7,7 @@ interface ClusterViewJunctionProps {
     status: AsyncDataRequestStatus;
 }
 
-const { selectedView } = useToggleViewState()
+const { selectedView } = useSelectedView()
 
 const { clusters, status } = defineProps<ClusterViewJunctionProps>()
 </script>
@@ -22,17 +22,19 @@ const { clusters, status } = defineProps<ClusterViewJunctionProps>()
     </template>
 
     <template v-else>
-        <template v-if="selectedView === 'PaperStack'">
-            <PaperStackClusterItem :clusters="clusters" />
-        </template>
+        <div class="grid grid-cols-4 gap-4 pt-4">
+            <template v-if="selectedView === 'PaperStack'">
+                <PaperStackClusterLayout :clusters="clusters" />
+            </template>
 
-        <template v-if="selectedView === 'GridCell'" >
-            <GridCellClusterItem :clusters="clusters" />            
-        </template>
+            <template v-if="selectedView === 'GridCell'" >
+                <GridCellClusterItem :clusters="clusters" />            
+            </template>
 
-        <template v-if="selectedView === 'ColumnCell'">
-            <ColumnCellClusterItem :clusters="clusters" />
-        </template>
+            <template v-if="selectedView === 'ColumnCell'">
+                <ColumnCellClusterItem :clusters="clusters" />
+            </template>
+        </div>
     </template>
 </template>
  

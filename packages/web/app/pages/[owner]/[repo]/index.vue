@@ -9,10 +9,6 @@ useSeoMeta({
 
 const { data: allowedRepos } = useFetchRepos()
 
-//  TODO: useNuxtData() here or somewhere
-//  TODO: wrap it in a composable
-
-
 const selectedRepo = useSelectedRepo(route.params.owner, route.params.repo)
 
 const { data: clusters, refresh, status } = useFetchClusters(selectedRepo)
