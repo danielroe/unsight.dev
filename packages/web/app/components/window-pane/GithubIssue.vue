@@ -17,12 +17,12 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
 </script>
 
 <template>
-  <article class="max-w-full overflow-hidden flex flex-row gap-1 ">
-    <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500 mt-.5" />
+  <article class="overflow-hidden flex flex-row gap-1 ">
+    <span class="flex-shrink-0 inline-block h-3 i-tabler-circle-dot text-green-500 mt-1" />
 
-    <div class="flex flex-col flex-wrap md:flex-nowrap flex-grow">
+    <div class="flex flex-col flex-wrap gap-2 ">
       <NuxtLink
-        class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
+        class="line-clamp-1 text-sm text-base no-underline color-current hover:underline"
         :href="url"
         target="_blank"
       >
@@ -30,7 +30,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
       </NuxtLink>
 
       <div
-        class="text-xs relative text-gray-400 mb-1 break-words"
+        class="text-xs text-gray-400 break-words"
       >
         <NuxtLink
           v-if="owner && repository"
@@ -71,7 +71,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
         </NuxtLink>
       </div>
 
-      <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
+      <div class="flex flex-row gap-1 items-baseline flex-nowrap">
         <span
           v-for="(label, j) of labels"
           :key="j"

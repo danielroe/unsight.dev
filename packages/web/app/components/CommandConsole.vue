@@ -47,6 +47,7 @@ function navigateToRepo(event: Event) {
           <span class="sr-only">{{ REFRESH_DATA }}</span>
         </button>
       </div>
+    <!-- TODO: Improve select button styling, maybe a full component -->
       <label class="w-full text-xs border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
         <span class="sr-only">{{ PICK_A_REPOSITORY }}</span>
         <select
@@ -68,6 +69,6 @@ function navigateToRepo(event: Event) {
       </label>
     </form>
 
-    <ViewToggle />
+    <RepoViewToggle />
   </section>
 </template>

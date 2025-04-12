@@ -5,13 +5,15 @@ interface ClusterViewProps {
     cluster: ClusterMetadata;
     clusterTitle: string;
     clusterIndex: number;
-    clusterLength?: number;
+    isModal: boolean;
 }
 
-const { cluster, clusterIndex, clusterLength, clusterTitle } = defineProps<ClusterViewProps>()
+const NUMBER_OF_ISSUES = 3
+
+const { cluster, clusterIndex, clusterTitle, isModal } = defineProps<ClusterViewProps>()
 
 const issuesStack = computed(() => {
-    return (clusterLength) ? cluster.issues.slice(0, clusterLength) : cluster.issues
+    return (isModal) ? cluster.issues : cluster.issues.slice(0, NUMBER_OF_ISSUES)
 })
 
 </script>
@@ -24,7 +26,7 @@ const issuesStack = computed(() => {
         >
             <PaperStackClusterSummary 
                 :clusterIndex="clusterIndex" 
-                :clusterLength="clusterLength || cluster.issues.length" 
+                :clusterLength="cluster.issues.length" 
                 :clusterTitle="clusterTitle"
                 :style="{
                     zIndex: cluster.issues.length + 1,
@@ -40,9 +42,6 @@ const issuesStack = computed(() => {
                 class="relative -mt-2 h-25 py-4 p-l-3 p-r-none border-solid border-2 border-t-0 border-gray-700 rounded-t-none rounded-b-md bg-shark-500 
                 scrollbar scrollbar-rounded scrollbar-w-2 scrollbar-thumb-gray-500 scrollbar-track-gray-700 hover:scrollbar-thumb-gray-400"
             >
-                <!-- TODO: Fix scrollbar styling -->
-            <!-- class="h-20 p-2 p-r-none border-solid border-2 border-t-0 border-gray-700 rounded-t-none rounded-b-md bg-shark-500 whitespace-nowrap overflow-hidden text-ellipsis -mt-2" -->
-
                 <PaperStackGithubIssue
                     class="issue-row relative"
                     :key="index"

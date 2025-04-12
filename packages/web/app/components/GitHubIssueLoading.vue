@@ -1,3 +1,5 @@
+<!-- TODO: Implement different loading isues for each view -->
+
 <template>
   <article>
     <div class="flex flex-row gap-2 leading-tightest no-underline color-current">

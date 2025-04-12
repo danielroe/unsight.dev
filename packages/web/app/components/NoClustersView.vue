@@ -1,7 +1,6 @@
 
 <script setup lang="ts">
     const NO_CLUSTERS = 'no clusters could be identified'
-
 </script>
 
 <template >
@@ -11,6 +10,7 @@
         <h2 class="flex items-center my-4 font-bold text-2xl">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
         </h2>
+        
         <p class="flex flex-row gap-2 leading-tightest">
           <span
             class="flex-shrink-0 text-gray-400 i-tabler-alert-triangle inline-block w-5 h-5"

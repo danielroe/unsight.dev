@@ -1,8 +1,44 @@
-<!-- TODO: Probably no longer necessary -->
+<script setup lang="ts">
+import type { AsyncDataRequestStatus } from '#app'
+import type { ClusterMetadata } from '~~/shared/models/github-metadata'
+
+interface ClusterViewJunctionProps {
+    clusters: ClusterMetadata[];
+    status: AsyncDataRequestStatus;
+}
+
+const { selectedView } = useSelectedView()
+
+const { clusters, status } = defineProps<ClusterViewJunctionProps>()
+</script>
+
 <template>
-    <slot name="console" /> 
+    <template v-if="status === 'idle' || status === 'pending'">
+      <GitHubIssueSkeleton />
+    </template>
 
-    <slot name="duplicates" /> 
+    <template v-else-if="!clusters.length">
+      <NoClustersView />
+    </template>
 
-    <slot name="clusters" /> 
+    <template v-else>
+        <div class="grid grid-cols-4 gap-4 pt-4">
+            <template v-if="selectedView === 'PaperStack'">
+                <PaperStackClusterLayout :clusters="clusters" />
+            </template>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 pt-4">
+            <template v-if="selectedView === 'WindowPane'" >
+                <WindowPaneClusterLayout :clusters="clusters" />            
+            </template>
+        </div>
+
+        <div class="grid grid-cols-4 gap-4 pt-4">
+            <template v-if="selectedView === 'ColumnCell'">
+                <ColumnCellClusterItem :clusters="clusters" />
+            </template>
+        </div>
+    </template>
 </template>
+ 

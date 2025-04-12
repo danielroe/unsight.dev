@@ -13,7 +13,7 @@ const { clusterIndex, clusterLength, clusterTitle } = defineProps<ClusterSummary
 </script>
 
 <template >
-    <section class="h-40 relative p-2 border-3 border-solid border-gray-600 rounded-md bg-shark-500 z-10">
+    <section class="h-30 bg-transparent">
         <div class="flex justify-between items-baseline gap-1 font-bold ">
             <div class="text-2xl flex items-baseline">
                 <p class="text-gray-500 mr-1 font-normal">#</p>{{ clusterIndex + 1 }}
@@ -24,8 +24,8 @@ const { clusterIndex, clusterLength, clusterTitle } = defineProps<ClusterSummary
             </div>
 
             <div>
-                <span class="text-white bg-gray-700 text-sm font-normal rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 border-gray-700 leading-tight flex items-center">
-                    <SvgPaperStack class="w-4 h-4" />
+                <span class="flex px-2 py-0.5 leading-tight items-center text-white bg-gray-700 text-sm font-normal rounded-full whitespace-pre border-solid border-1 border-gray-700 ">
+                    <SvgWindowPane class=" w-4 h-4" />
                     {{ CLUSTER_ICON}}
                 </span>
             </div>

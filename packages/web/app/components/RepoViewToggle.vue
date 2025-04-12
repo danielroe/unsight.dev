@@ -24,16 +24,16 @@ const { selectedView, toggleViewState, } = useSelectedView()
         <button
             class="rounded-sm p-0.5 text-md border-solid border bg-slate-950 color-gray-400 transition-colors"
             :class="[
-                selectedView === 'GridCell'
+                selectedView === 'WindowPane'
                 ? 'border-red-400 color-red-400 bg-red-700'
                 : 'border-red-200 hover:color-red-200 hover:bg-red-500'
             ]"
             type="button"
-            value="GridCell"
+            value="WindowPane"
             @click="toggleViewState($event)"
-            aria-label="GridCell"
+            aria-label="WindowPane"
         >
-            <SvgGridCell />
+            <SvgWindowPane />
         </button>
 
         <button
