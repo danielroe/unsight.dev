@@ -36,7 +36,7 @@ const { clusters, status } = defineProps<ClusterViewJunctionProps>()
 
         <div class="grid grid-cols-4 gap-4 pt-4">
             <template v-if="selectedView === 'BookShelf'">
-                <BookShelfClusterItem :clusters="clusters" />
+                <BookShelfClusterLayout :clusters="clusters" />
             </template>
         </div>
     </template>

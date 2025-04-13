@@ -9,7 +9,7 @@ interface ClusterActionProps {
 }
 
 const NO_MORE_ISSUES = 'no more issues...'
-const NUMBER_OF_ISSUES = 3
+const NUMBER_OF_ISSUES = 5
 
 const { cluster, clusterIndex, clusterLength } = defineProps<ClusterActionProps>()
 
@@ -19,10 +19,13 @@ const openModal = () => modalRef.value?.openModal()
 </script>
 
 <template >
-    <div class=" h-10 p-2 border-solid border-2 border-t-0 border-gray-700 rounded-t-none rounded-b-md bg-shark-500 whitespace-nowrap -mt-2 z-2 text-center " >
-        <div v-if="clusterLength > NUMBER_OF_ISSUES" >
+    <section class="text-sm text-center color-gray-400">
+        <div 
+            v-if="clusterLength > NUMBER_OF_ISSUES" 
+            class="flex h-10 p-2 justify-center w-full rounded-md border-solid border border-gray-700 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
+        >
             <button
-                class="text-sm bg-transparent color-gray-400 py-1 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
+                class=" bg-transparent "
                 type="button"
                 @click="openModal"
             >
@@ -33,7 +36,7 @@ const openModal = () => modalRef.value?.openModal()
                 <ClusterViewModal ref="modalRef" :cluster="cluster">
                     <template #modal-content>
                         <ClientOnly>
-                            <PaperStackClusterView :cluster="cluster" :clusterIndex="clusterIndex" :clusterTitle="cluster.title" :isModal="true" />
+                            <BookShelfClusterView :cluster="cluster" :clusterIndex="clusterIndex" :clusterTitle="cluster.title" :isModal="true" />
                         </ClientOnly>
                     </template>
                 </ClusterViewModal>
@@ -42,9 +45,9 @@ const openModal = () => modalRef.value?.openModal()
     
         <div 
             v-else
-            class="text-sm bg-transparent color-gray-400 py-1"
+            class=" bg-transparent"
         >
             {{ NO_MORE_ISSUES}}
         </div>
-    </div>
+    </section>
 </template>

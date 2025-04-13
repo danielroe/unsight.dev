@@ -8,7 +8,7 @@ interface ClusterViewProps {
     isModal: boolean;
 }
 
-const NUMBER_OF_ISSUES = 9
+const NUMBER_OF_ISSUES = 5
 
 const { cluster, clusterIndex, clusterTitle, isModal } = defineProps<ClusterViewProps>()
 
@@ -18,23 +18,31 @@ const issuesStack = computed(() => {
 
 </script>
 
+<!-- TODO: Find a solution other than z-index -->
+
 <template >
         <section
             class="w-full"
         >
-            <WindowPaneClusterSummary 
+            <BookShelfClusterSummary 
                 :clusterIndex="clusterIndex" 
                 :clusterLength="cluster.issues.length" 
                 :clusterTitle="clusterTitle"
+                :style="{
+                    zIndex: cluster.issues.length + 1,
+                }"
             />
 
-            <div class="grid grid-cols-3 grid-rows-3 gap-4 ">
+            <div class="flex flex-col gap-4 columns-1">
                 <div
                     v-for="(issue, index) of issuesStack"
                     :key="index"
+                    :style="{
+                        zIndex: cluster.issues.length - index,
+                    }"
                     class="overflow-hidden h-30 border-solid border-2 border-gray-700 rounded-md bg-shark-500 p-2 "
                 >
-                    <WindowPaneGithubIssue
+                    <BookShelfGithubIssue
                         :key="index"
                         :url="issue.url"
                         :title="issue.title"

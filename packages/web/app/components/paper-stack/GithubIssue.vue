@@ -18,12 +18,12 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
 
 <template>
   <article class="flex flex-row gap-1 ">
-    <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500 mt-.5" />
+    <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500" />
 
     <div class="issue-fade w-full">
-      <div class="flex flex-col gap-1">
+      <div class="h-18 flex flex-col flex-wrap justify-between">        
         <NuxtLink
-          class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
+          class="line-clamp-1 flex-grow text-sm text-base flex-grow-0 no-underline color-current hover:underline"
           :href="url"
           target="_blank"
         >
@@ -72,7 +72,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
           </NuxtLink>
         </div>
 
-        <div class="flex flex-row gap-1 items-baseline flex-wrap md:flex-nowrap">
+        <div class="flex flex-row gap-1 items-baseline flex-nowrap">
           <span
             v-for="(label, j) of labels"
             :key="j"

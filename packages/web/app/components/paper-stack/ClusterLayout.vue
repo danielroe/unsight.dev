@@ -2,11 +2,11 @@
 <script setup lang="ts">
 import type { ClusterMetadata } from '~~/shared/models/github-metadata'
 
-interface ClusterItemProps {
+interface ClusterLayoutProps {
     clusters: ClusterMetadata[];
 }
 
-const { clusters } = defineProps<ClusterItemProps>()
+const { clusters } = defineProps<ClusterLayoutProps>()
 
 </script>
 
