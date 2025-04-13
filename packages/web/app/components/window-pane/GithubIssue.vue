@@ -17,7 +17,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
 </script>
 
 <template>
-  <article class="overflow-hidden flex flex-row gap-1 ">
+  <article class="flex flex-row gap-1 ">
     <span class="flex-shrink-0 inline-block h-3 i-tabler-circle-dot text-green-500 mt-1" />
     
     <div class="issue-fade w-full">
@@ -31,7 +31,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
         </NuxtLink>
 
         <div
-          class="text-xs text-gray-400 break-words"
+          class="line-clamp-1 text-xs text-gray-400 break-words"
         >
           <NuxtLink
             v-if="owner && repository"
@@ -91,7 +91,15 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
 .issue-fade {
   mask-image: linear-gradient(to right, black 40%, transparent);
   -webkit-mask-image: linear-gradient(to right, black 40%, transparent);
+/*   
+  mask-image: linear-gradient(to right, black 40%, transparent),
+              linear-gradient(to bottom, black 70%, transparent);
+  -webkit-mask-image: linear-gradient(to right, black 40%, transparent),
+                      linear-gradient(to bottom, black 70%, transparent);
+  -webkit-mask-composite: source-over;
+  mask-composite: intersect; */
 }
+
 
 .label {
   --lightness-threshold: 0.6;

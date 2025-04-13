@@ -39,16 +39,16 @@ const { selectedView, toggleViewState, } = useSelectedView()
         <button
             class="rounded-sm p-0.5 text-md border-solid border border-gray-700 bg-slate-950 color-gray-400 transition-colors"
             :class="[
-                selectedView === 'ColumnCell'
+                selectedView === 'BookShelf'
                 ? 'border-green-400 color-green-400 bg-green-700'
                 : 'border-green-200 hover:color-green-200 hover:bg-green-500'
             ]"
             type="button"
-            value="ColumnCell"
+            value="BookShelf"
             @click="toggleViewState($event)"
-            aria-label="ColumnCell"
+            aria-label="BookShelf"
         >
-            <SvgColumnCell />
+            <SvgBookShelf />
         </button>
   </section>
 </template>

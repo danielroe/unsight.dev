@@ -18,10 +18,13 @@ const openModal = () => modalRef.value?.openModal()
 </script>
 
 <template >
-    <section class="w-full h-10 p-2 text-sm text-center rounded-md border-solid border border-gray-700 color-gray-400">
-        <div v-if="clusterLength > 9" >
+    <section class="text-sm text-center color-gray-400">
+        <div 
+            v-if="clusterLength > 9" 
+            class="flex h-10 p-2 justify-center w-full rounded-md border-solid border border-gray-700 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
+        >
             <button
-                class=" bg-transparent hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
+                class=" bg-transparent "
                 type="button"
                 @click="openModal"
             >

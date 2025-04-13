@@ -21,7 +21,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
     <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500 mt-.5" />
 
     <div class="issue-fade w-full">
-      <div class="flex flex-col flex-nowrap gap-1">
+      <div class="flex flex-col gap-1">
         <NuxtLink
           class="line-clamp-1 flex-grow text-sm md:text-base lg:flex-grow-0 no-underline color-current hover:underline"
           :href="url"
@@ -31,7 +31,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
         </NuxtLink>
 
         <div
-          class="text-xs relative text-gray-400 mb-1 break-words"
+          class="line-clamp-1 text-xs relative text-gray-400 mb-1 break-words"
         >
           <NuxtLink
             v-if="owner && repository"

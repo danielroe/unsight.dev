@@ -1,7 +1,7 @@
 export type ViewToggleState =
   'PaperStack' |
   'WindowPane' |
-  'ColumnCell'
+  'BookShelf'
 
 const selectedView = ref<ViewToggleState>('PaperStack')
 
