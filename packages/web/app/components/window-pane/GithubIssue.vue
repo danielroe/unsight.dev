@@ -21,7 +21,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
     <span class="flex-shrink-0 inline-block h-3 i-tabler-circle-dot text-green-500 mt-1" />
     
     <div class="issue-fade w-full">
-      <div class=" flex flex-col flex-wrap gap-2 ">
+      <div class=" flex flex-col flex-wrap gap-1 ">
         <NuxtLink
           class="line-clamp-1 text-sm text-base no-underline color-current hover:underline"
           :href="url"

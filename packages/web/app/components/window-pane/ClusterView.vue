@@ -32,7 +32,7 @@ const issuesStack = computed(() => {
                 <div
                     v-for="(issue, index) of issuesStack"
                     :key="index"
-                    class="h-30 border-solid border-2 border-gray-700 rounded-md bg-shark-500 p-2 overflow-hidden"
+                    class="overflow-hidden h-30 border-solid border-2 border-gray-700 rounded-md bg-shark-500 p-2 overflow-hidden"
                 >
                     <WindowPaneGithubIssue
                         :key="index"

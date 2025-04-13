@@ -17,7 +17,7 @@ const { url, title, owner, repository, number, avgSimilarity, labels, updated_at
 </script>
 
 <template>
-  <article class="overflow-hidden flex flex-row gap-1 ">
+  <article class="flex flex-row gap-1 ">
     <span class="flex-shrink-0 inline-block h-5 i-tabler-circle-dot text-green-500 mt-.5" />
 
     <div class="issue-fade w-full">

@@ -39,11 +39,9 @@ const issuesStack = computed(() => {
                 :style="{
                     zIndex: cluster.issues.length - index,
                 }"
-                class="relative -mt-2 h-25 py-4 p-l-3 p-r-none border-solid border-2 border-t-0 border-gray-700 rounded-t-none rounded-b-md bg-shark-500 
-                scrollbar scrollbar-rounded scrollbar-w-2 scrollbar-thumb-gray-500 scrollbar-track-gray-700 hover:scrollbar-thumb-gray-400"
+                class="overflow-hidden -mt-2 h-25 py-4 p-l-3 p-r-none border-solid border-2 border-t-0 border-gray-700 rounded-t-none rounded-b-md bg-shark-500 "
             >
                 <PaperStackGithubIssue
-                    class="issue-row relative"
                     :key="index"
                     :url="issue.url"
                     :title="issue.title"
