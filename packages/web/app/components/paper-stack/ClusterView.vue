@@ -57,32 +57,3 @@ const issuesStack = computed(() => {
             </div>
         </section>
 </template>
-
-<!-- TODO: Find a solution for gradient -->
-<!-- TODO: whitespace-nowrap overflow-hidden text-ellipsis -->
-<!-- TODO: Improve naive gradient approach -->
-<!-- TODO: Need to split some of the behaviors between here and the ClusterLayout in order to get the correct width -->
-
-<style scoped>
-/* .issue-row {
-    margin-top: -0.25rem; 
-  position: relative;
-   z-index: calc(var(--stack-index));
-} */
-
-/* .github-issues  {
-  position: relative; 
-  overflow: hidden;    
-}
-
-.github-issues::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 5rem;         
-  height: 100%;        
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), #6b7280); 
-  pointer-events: none; 
-}   */
-</style>

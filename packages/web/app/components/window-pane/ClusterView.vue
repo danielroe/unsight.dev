@@ -35,7 +35,6 @@ const issuesStack = computed(() => {
                     class="h-30 border-solid border-2 border-gray-700 rounded-md bg-shark-500 p-2 overflow-hidden"
                 >
                     <WindowPaneGithubIssue
-                        class="issue-row relative"
                         :key="index"
                         :url="issue.url"
                         :title="issue.title"
