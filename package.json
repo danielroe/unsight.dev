@@ -5,6 +5,7 @@
   "packageManager": "pnpm@10.8.1",
   "scripts": {
     "dev": "pnpm --filter web dev",
+    "dev:ext": "pnpm --filter unsight dev",
     "lint": "eslint --cache .",
     "test:types": "pnpm -r test:types",
     "test:unit": "pnpm -r test:unit",
