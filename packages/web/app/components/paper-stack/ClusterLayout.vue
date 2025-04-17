@@ -15,7 +15,7 @@ const { clusters } = defineProps<ClusterLayoutProps>()
         v-for="(cluster, index) of clusters" 
         :key="index"
     >
-        <PaperStackClusterView :cluster="cluster" :clusterIndex="index" :clusterTitle="cluster.title" :isModal="false"/>
+        <PaperStackClusterView :cluster="cluster" :clusterIndex="index" :clusterTitle="cluster.title" :isTruncated="true"/>
 
         <PaperStackClusterAction :cluster="cluster" :clusterIndex="index" :clusterLength="cluster.issues.length || 0" />
     </section>

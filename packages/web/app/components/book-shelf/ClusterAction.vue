@@ -7,11 +7,10 @@ interface ClusterActionProps {
     clusterIndex: number;
     clusterLength: number;
 }
+const { cluster, clusterIndex, clusterLength } = defineProps<ClusterActionProps>()
 
 const NO_MORE_ISSUES = 'no more issues...'
 const NUMBER_OF_ISSUES = 5
-
-const { cluster, clusterIndex, clusterLength } = defineProps<ClusterActionProps>()
 
 const modalRef = useTemplateRef<InstanceType<typeof ClusterViewModal>>('modalRef')
     
@@ -36,7 +35,7 @@ const openModal = () => modalRef.value?.openModal()
                 <ClusterViewModal ref="modalRef" :cluster="cluster">
                     <template #modal-content>
                         <ClientOnly>
-                            <BookShelfClusterView :cluster="cluster" :clusterIndex="clusterIndex" :clusterTitle="cluster.title" :isModal="true" />
+                            <BookShelfClusterView :cluster="cluster" :clusterIndex="clusterIndex" :clusterTitle="cluster.title" :isTruncated="false" />
                         </ClientOnly>
                     </template>
                 </ClusterViewModal>

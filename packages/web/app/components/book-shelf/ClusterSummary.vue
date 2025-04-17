@@ -4,12 +4,11 @@ interface ClusterSummaryProps {
     clusterLength: number;
     clusterTitle: string;
 }
+const { clusterIndex, clusterLength, clusterTitle } = defineProps<ClusterSummaryProps>()
 
 const CLUSTER_ICON = 'cluster'
 const CLUSTER_SUMMARY = 'Cluster Summary'
-const TOTAL_ISSUES = 'Total number of issues: '
-
-const { clusterIndex, clusterLength, clusterTitle } = defineProps<ClusterSummaryProps>()
+const ISSUES_IN_CLUSTER = ' issues in cluster'
 </script>
 
 <template >
@@ -33,6 +32,6 @@ const { clusterIndex, clusterLength, clusterTitle } = defineProps<ClusterSummary
             
         <div class="text-lg color-gray-400 overflow-hidden text-wrap"> {{ clusterTitle }}</div>
 
-        <div class="text-lg color-gray-400 overflow-hidden text-wrap"> {{ TOTAL_ISSUES + clusterLength }}</div>
+        <div class="text-lg color-gray-400 overflow-hidden text-wrap"> {{  clusterLength + ISSUES_IN_CLUSTER }}</div>
     </section>
 </template>

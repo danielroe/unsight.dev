@@ -5,17 +5,15 @@ interface ClusterViewProps {
     cluster: ClusterMetadata;
     clusterTitle: string;
     clusterIndex: number;
-    isModal: boolean;
+    isTruncated: boolean;
 }
+const { cluster, clusterIndex, clusterTitle, isTruncated } = defineProps<ClusterViewProps>()
 
 const NUMBER_OF_ISSUES = 9
 
-const { cluster, clusterIndex, clusterTitle, isModal } = defineProps<ClusterViewProps>()
-
 const issuesStack = computed(() => {
-    return (isModal) ? cluster.issues : cluster.issues.slice(0, NUMBER_OF_ISSUES)
+    return (isTruncated) ?  cluster.issues.slice(0, NUMBER_OF_ISSUES) : cluster.issues
 })
-
 </script>
 
 <template >
@@ -32,7 +30,7 @@ const issuesStack = computed(() => {
                 <div
                     v-for="(issue, index) of issuesStack"
                     :key="index"
-                    class="overflow-hidden h-30 border-solid border-2 border-gray-700 rounded-md bg-shark-500 p-2 "
+                    class="h-30 overflow-hidden border-solid border-2 border-gray-700 rounded-md bg-shark-500 p-2 "
                 >
                     <WindowPaneGithubIssue
                         :key="index"

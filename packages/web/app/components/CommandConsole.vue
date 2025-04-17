@@ -7,16 +7,15 @@ interface CommandConsoleProps {
   status: AsyncDataRequestStatus;
   selectedRepo: string;
 }
-
-const OWNER_REPO = 'owner-repo'
-const REFRESH_DATA = 'refresh data'
-const PICK_A_REPOSITORY = 'pick a repository to cluster issues'
-
 const { allowedRepos, status, selectedRepo } = defineProps<CommandConsoleProps>()
 
 const refresh = defineModel<() => Promise<void>>('refresh', {
     required: true
 })
+
+const OWNER_REPO = 'owner-repo'
+const REFRESH_DATA = 'refresh data'
+const PICK_A_REPOSITORY = 'pick a repository to cluster issues'
 
 function navigateToRepo(event: Event) {
   const [owner, repo] = (event.target as HTMLSelectElement).value.split('/') as [string, string]
@@ -26,6 +25,8 @@ function navigateToRepo(event: Event) {
   })
 }
 </script>
+
+  <!-- TODO: Can extract some of these further -->
 
 <template>
     <section class="w-full flex gap-2 justify-between justify-center items-center border-solid border border-gray-700 p-2 rounded-md">

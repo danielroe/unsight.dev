@@ -1,20 +1,24 @@
 <script setup lang="ts">
-import type { AsyncDataRequestStatus } from '#app'
 import type { ClusterMetadata } from '~~/shared/models/github-metadata'
+import type { AsyncDataRequestStatus } from '#app'
 
-interface ClusterViewJunctionProps {
+interface RepoViewLayoutProps {
     clusters: ClusterMetadata[];
     status: AsyncDataRequestStatus;
 }
+const { clusters, status } = defineProps<RepoViewLayoutProps>()
 
 const { selectedView } = useSelectedView()
-
-const { clusters, status } = defineProps<ClusterViewJunctionProps>()
 </script>
 
 <template>
     <template v-if="status === 'idle' || status === 'pending'">
-      <GitHubIssueSkeleton />
+        <div 
+            v-for="i in 7"
+            :key="i"
+        >
+            <GitHubIssueSkeleton />
+        </div>
     </template>
 
     <template v-else-if="!clusters.length">
@@ -22,23 +26,23 @@ const { clusters, status } = defineProps<ClusterViewJunctionProps>()
     </template>
 
     <template v-else>
-        <div class="grid grid-cols-4 gap-4 pt-4">
-            <template v-if="selectedView === 'PaperStack'">
+        <template v-if="selectedView === 'PaperStack'">
+            <div class="grid grid-cols-4 gap-4 pt-4">
                 <PaperStackClusterLayout :clusters="clusters" />
-            </template>
-        </div>
+            </div>
+        </template>
 
-        <div class="grid grid-cols-3 gap-4 pt-4">
-            <template v-if="selectedView === 'WindowPane'" >
-                <WindowPaneClusterLayout :clusters="clusters" />            
-            </template>
-        </div>
-
-        <div class="grid grid-cols-4 gap-4 pt-4">
-            <template v-if="selectedView === 'BookShelf'">
+        <template v-else-if="selectedView === 'BookShelf'">
+            <div class="grid grid-cols-4 gap-4 pt-4">
                 <BookShelfClusterLayout :clusters="clusters" />
-            </template>
-        </div>
+            </div>
+        </template>
+
+        <template v-else-if="selectedView === 'WindowPane'" >
+            <div class="grid grid-cols-3 gap-4 pt-4">
+                <WindowPaneClusterLayout :clusters="clusters" />            
+            </div>
+        </template>
     </template>
 </template>
  

@@ -33,7 +33,7 @@ const openModal = () => modalRef.value?.openModal()
                 <ClusterViewModal ref="modalRef" :cluster="cluster">
                     <template #modal-content>
                         <ClientOnly>
-                            <PaperStackClusterView :cluster="cluster" :clusterIndex="clusterIndex" :clusterTitle="cluster.title" :isModal="true" />
+                            <PaperStackClusterView :cluster="cluster" :clusterIndex="clusterIndex" :clusterTitle="cluster.title" :isTruncated="false" />
                         </ClientOnly>
                     </template>
                 </ClusterViewModal>

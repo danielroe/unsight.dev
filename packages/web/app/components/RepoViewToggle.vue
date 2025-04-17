@@ -7,7 +7,7 @@ const { selectedView, toggleViewState, } = useSelectedView()
 <template>
     <section class="flex gap-2 items-center p-2 border-solid border border-gray-700 rounded-sm bg-slate-700">
         <button
-            class="rounded-sm p-0.5 text-md border-solid border bg-slate-950 color-gray-400 transition-colors"
+            class="rounded-sm p-.5 text-md border-solid border bg-slate-950 color-gray-400 transition-colors"
             :class="[
                 selectedView === 'PaperStack'
                 ? 'border-cyan-400  color-cyan-400 bg-cyan-700 '
@@ -22,22 +22,7 @@ const { selectedView, toggleViewState, } = useSelectedView()
         </button>
 
         <button
-            class="rounded-sm p-0.5 text-md border-solid border bg-slate-950 color-gray-400 transition-colors"
-            :class="[
-                selectedView === 'WindowPane'
-                ? 'border-red-400 color-red-400 bg-red-700'
-                : 'border-red-200 hover:color-red-200 hover:bg-red-500'
-            ]"
-            type="button"
-            value="WindowPane"
-            @click="toggleViewState($event)"
-            aria-label="WindowPane"
-        >
-            <SvgWindowPane />
-        </button>
-
-        <button
-            class="rounded-sm p-0.5 text-md border-solid border border-gray-700 bg-slate-950 color-gray-400 transition-colors"
+            class="rounded-sm p-.5 text-md border-solid border border-gray-700 bg-slate-950 color-gray-400 transition-colors"
             :class="[
                 selectedView === 'BookShelf'
                 ? 'border-green-400 color-green-400 bg-green-700'
@@ -49,6 +34,21 @@ const { selectedView, toggleViewState, } = useSelectedView()
             aria-label="BookShelf"
         >
             <SvgBookShelf />
+        </button>
+
+        <button
+            class="rounded-sm p-.5 text-md border-solid border bg-slate-950 color-gray-400 transition-colors"
+            :class="[
+                selectedView === 'WindowPane'
+                ? 'border-red-400 color-red-400 bg-red-700'
+                : 'border-red-200 hover:color-red-200 hover:bg-red-500'
+            ]"
+            type="button"
+            value="WindowPane"
+            @click="toggleViewState($event)"
+            aria-label="WindowPane"
+        >
+            <SvgWindowPane />
         </button>
   </section>
 </template>

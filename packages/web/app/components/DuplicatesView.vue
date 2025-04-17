@@ -7,11 +7,10 @@ interface DuplicatesrViewProps {
     duplicates: IssueMetadata[];
     status: AsyncDataRequestStatus;
 }
+const { duplicates, status } = defineProps<DuplicatesrViewProps>()
 
 const LOADING_DUPLICATES = 'loading duplicates'
 const POSSIBLE_DUPLICATE = 'possible duplicate'
-
-const { duplicates, status } = defineProps<DuplicatesrViewProps>()
 
 const showDuplicates = ref(false)
 

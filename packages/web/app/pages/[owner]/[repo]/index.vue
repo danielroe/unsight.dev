@@ -19,6 +19,9 @@ const refreshClusters = () => refresh()
 </script>
 
 <template>
+  <section
+      :style="{ '--section-index': 0 }"
+    >
       <CommandConsole 
         :allowedRepos="allowedRepos" 
         :status="status" 
@@ -35,4 +38,11 @@ const refreshClusters = () => refresh()
         :clusters="clusters" 
         :status="status" 
       />
+      </section>
 </template>
+
+<style scoped>
+section:first-of-type {
+  view-transition-name: var(--section-index);
+}
+</style>

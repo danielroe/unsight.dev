@@ -85,5 +85,3 @@ defineExpose({
   scrollbar-width: thin;
 }
 </style>
-<!-- TODO: Test these inline: -->
-<!-- "scrollbar scrollbar-rounded scrollbar-w-2 scrollbar-thumb-gray-500 scrollbar-track-gray-700 hover:scrollbar-thumb-gray-400" -->
