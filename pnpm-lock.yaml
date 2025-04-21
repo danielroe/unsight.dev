@@ -31,7 +31,7 @@ importers:
         version: 13.1.0(vue@3.5.13(typescript@5.8.3))
       '@wxt-dev/auto-icons':
         specifier: ^1.0.2
-        version: 1.0.2(wxt@0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
+        version: 1.0.2(wxt@0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
       vue:
         specifier: ^3.5.12
         version: 3.5.13(typescript@5.8.3)
@@ -41,22 +41,22 @@ importers:
         version: 0.0.315
       '@wxt-dev/module-vue':
         specifier: 1.0.2
-        version: 1.0.2(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))(wxt@0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
+        version: 1.0.2(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))(wxt@0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
       '@wxt-dev/unocss':
         specifier: 1.0.1
-        version: 1.0.1(unocss@66.1.0-beta.11(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3)))(wxt@0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
+        version: 1.0.1(unocss@66.1.0-beta.12(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3)))(wxt@0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
       typescript:
         specifier: 5.8.3
         version: 5.8.3
       unocss:
-        specifier: 66.1.0-beta.11
-        version: 66.1.0-beta.11(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
+        specifier: 66.1.0-beta.12
+        version: 66.1.0-beta.12(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
       vue-tsc:
         specifier: 2.2.8
         version: 2.2.8(typescript@5.8.3)
       wxt:
-        specifier: 0.20.1
-        version: 0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+        specifier: 0.20.3
+        version: 0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
   packages/web:
     dependencies:
@@ -68,7 +68,7 @@ importers:
         version: 1.2.17
       '@nuxthub/core':
         specifier: ^0.8.18
-        version: 0.8.24(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(ioredis@5.6.1)(magicast@0.3.5)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
+        version: 0.8.24(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(ioredis@5.6.1)(magicast@0.3.5)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
       '@nuxtjs/html-validator':
         specifier: 2.1.0
         version: 2.1.0(magicast@0.3.5)(vitest@3.0.9(@types/debug@4.1.12)(@types/node@22.14.1)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -92,7 +92,7 @@ importers:
         version: 3.4.2
       drizzle-orm:
         specifier: ^0.42.0
-        version: 0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)
+        version: 0.42.0(gel@2.0.2)
       hex-rgb:
         specifier: ^5.0.0
         version: 5.0.0
@@ -104,10 +104,10 @@ importers:
         version: 6.0.0
       nuxt:
         specifier: ^3.16.0
-        version: 3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0)
+        version: 3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(drizzle-orm@0.42.0(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0)
       nuxt-time:
         specifier: 1.0.3
-        version: 1.0.3(magicast@0.3.5)(nuxt@3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0))
+        version: 1.0.3(magicast@0.3.5)(nuxt@3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(drizzle-orm@0.42.0(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0))
       nuxt-webhook-validators:
         specifier: 0.2.0
         version: 0.2.0(magicast@0.3.5)
@@ -140,8 +140,8 @@ importers:
         specifier: 2.2.8
         version: 2.2.8(typescript@5.8.3)
       wrangler:
-        specifier: 4.11.1
-        version: 4.11.1(@cloudflare/workers-types@4.20250414.0)
+        specifier: 4.12.0
+        version: 4.12.0
 
 packages:
 
@@ -369,32 +369,32 @@ packages:
       workerd:
         optional: true
 
-  '@cloudflare/workerd-darwin-64@1.20250410.0':
-    resolution: {integrity: sha512-U3Pb+pr6DYeESXGiDAS/SKTVBoDA/BbFyiTTi4BJSdk2I703vaDJGH4k1jFsOJmb/S+Gy7w5xVJwHgZA7w6Kaw==}
+  '@cloudflare/workerd-darwin-64@1.20250416.0':
+    resolution: {integrity: sha512-aZgF8Swp9eVYxJPWOoZbAgAaYjWuYqGmEA+QJ2ecRGDBqm87rT4GEw7/mmLpxrpllny3VfEEhkk9iYCGv8nlFw==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [darwin]
 
-  '@cloudflare/workerd-darwin-arm64@1.20250410.0':
-    resolution: {integrity: sha512-stvgUOVDXGBdV1HTEdgcQ/d/c9T4Vrmg+8OJK4HXn6uM1spMediyQXed64greG0I5rNJ0pTPq0uZsfCjn9T7cA==}
+  '@cloudflare/workerd-darwin-arm64@1.20250416.0':
+    resolution: {integrity: sha512-FhswG1QYRfaTZ4FAlUkfVWaoM2lrlqumiBTrhbo9czMJdGR/oBXS4SGynuI6zyhApHeBf3/fZpA/SBAe4cXdgg==}
     engines: {node: '>=16'}
     cpu: [arm64]
     os: [darwin]
 
-  '@cloudflare/workerd-linux-64@1.20250410.0':
-    resolution: {integrity: sha512-n7BRelPUc7+UNVKlS7z/uhI6xqsoyoZayjrezLcZ54IY4o9XASt4oc4kFDrc5ow9YNW94sq2tBG8z/ZQ9wBjLA==}
+  '@cloudflare/workerd-linux-64@1.20250416.0':
+    resolution: {integrity: sha512-G+nXEAJ/9y+A857XShwxKeRdfxok6UcjiQe6G+wQeCn/Ofkp/EWydacKdyeVU6QIm1oHS78DwJ7AzbCYywf9aw==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [linux]
 
-  '@cloudflare/workerd-linux-arm64@1.20250410.0':
-    resolution: {integrity: sha512-R9zE5LhVQCgIPIB/LWSt+XqFjzkPRfkLk4pqae8OYhMg0Dr3G7xO/xNxIabCVNPHhF7dj2yXfMyLGX603Y8/LQ==}
+  '@cloudflare/workerd-linux-arm64@1.20250416.0':
+    resolution: {integrity: sha512-U6oVW0d9w1fpnDYNrjPJ9SFkDlGJWJWbXHlTBObXl6vccP16WewvuxyHkKqyUhUc8hyBaph7sxeKzKmuCFQ4SA==}
     engines: {node: '>=16'}
     cpu: [arm64]
     os: [linux]
 
-  '@cloudflare/workerd-windows-64@1.20250410.0':
-    resolution: {integrity: sha512-UcoQ2u+TQcKNEQUXBRsoqfXibOCklCilukN5xxz7svuAi1f2P0/lR29iuq6DBEwDu/GqQd6H5WLrczXwfPLZsQ==}
+  '@cloudflare/workerd-windows-64@1.20250416.0':
+    resolution: {integrity: sha512-YAjjTzL1z9YYeN4sqYfj1dtQXd2Bblj+B+hl4Rz2aOhblpZEZAdhapZlOCRvLLkOJshKJUnRD3mDlytAdgwybQ==}
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
@@ -1771,8 +1771,8 @@ packages:
       vite:
         optional: true
 
-  '@unocss/astro@66.1.0-beta.11':
-    resolution: {integrity: sha512-Ff7Ot84xfCVnJZh7QEK5Zw4d56Rjc8O6vttZ4sGPU4g+Tbb1RgUDN8bhLSImh1Jm+ZL6TpY+9Kan7ivAoiqXTQ==}
+  '@unocss/astro@66.1.0-beta.12':
+    resolution: {integrity: sha512-zYvevDDmhNlMAxP4isyAK+byGoVfVqnbZPHJnbb7Hoj7+8uaz+D/byUKyRynynVZl3T13S+UesjNAcRyAQoXEg==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0
     peerDependenciesMeta:
@@ -1784,8 +1784,8 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  '@unocss/cli@66.1.0-beta.11':
-    resolution: {integrity: sha512-lyJhna2+8hmZx5apguyqxTwQhWpfA3mps9sb2HAAOU5F9kGZ2m/vWo0PMjeeoHrbNol9Zgw9c2/CAbAgXdnNKw==}
+  '@unocss/cli@66.1.0-beta.12':
+    resolution: {integrity: sha512-WWtuYPk/nZSn6j6p/2pLZodV4UaieefVaKtTFYnz+sRPJCErrG41UMkwvgyDBzuQNYn7xbbQ+Mnzbs+TeHGGIA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -1793,27 +1793,27 @@ packages:
     resolution: {integrity: sha512-nFRGop/guBa4jLkrgXjaRDm5JPz4x3YpP10m5IQkHpHwlnHUVn1L9smyPl04ohYWhYn9ZcAHgR28Ih2jwta8hw==}
     engines: {node: '>=14'}
 
-  '@unocss/config@66.1.0-beta.11':
-    resolution: {integrity: sha512-tj8pjCC+6g37V9kxcPuh/muHd7VDJUY2DwoJJqUfGrLoo3jVbFmPDLUAMlrFZZkTUF2NyTyv+Q49A6xEpSHV3g==}
+  '@unocss/config@66.1.0-beta.12':
+    resolution: {integrity: sha512-u0dcWKFK+DZQ6Z3Qim2qzj6I6tsdCwl8O86NRRNN4Yt0H9C7IHzYLykfo6jgFFxay47aUKCZevl+mNLPUktk9w==}
     engines: {node: '>=14'}
 
   '@unocss/core@66.0.0':
     resolution: {integrity: sha512-PdVbSMHNDDkr++9nkqzsZRAkaU84gxMTEgYbqI7dt2p1DXp/5tomVtmMsr2/whXGYKRiUc0xZ3p4Pzraz8TcXA==}
 
-  '@unocss/core@66.1.0-beta.11':
-    resolution: {integrity: sha512-KkCyEO+KK1B05hA9uu+gcm/bvkr7a+bj6IP/S4Yu9ojtRVpJwpDnwAEdc6vgLk6qNWyM4V88dVqWGrRYy0Buvg==}
+  '@unocss/core@66.1.0-beta.12':
+    resolution: {integrity: sha512-8+KJAoqA7eHC5cBJtod1AqWqQbYKfhTvQEgVQzZJ2sTYNTuQz4qdzPhUgKF83wURUhznGkdDL1Jxc6YITB1KPg==}
 
   '@unocss/extractor-arbitrary-variants@66.0.0':
     resolution: {integrity: sha512-vlkOIOuwBfaFBJcN6o7+obXjigjOlzVFN/jT6pG1WXbQDTRZ021jeF3i9INdb9D/0cQHSeDvNgi1TJ5oUxfiow==}
 
-  '@unocss/extractor-arbitrary-variants@66.1.0-beta.11':
-    resolution: {integrity: sha512-fkLmFVDZFw2j1M010yn+wQa4jOfEKNh264LUaPPHkG+tqtsUDJ8C5V+Gx3Ta31VC/po69rR6+cezSkslHDrk6g==}
+  '@unocss/extractor-arbitrary-variants@66.1.0-beta.12':
+    resolution: {integrity: sha512-DOl0bWJzgNAkiteQJluRsEnEfkKX1MFg1xn8vpTrbmSPOFCEUGcmavR6d4aCrQuJ6eaZaAvmhT/WxyTJngBuJw==}
 
   '@unocss/inspector@66.0.0':
     resolution: {integrity: sha512-mkIxieVm0kMOKw+E4ABpIerihYMdjgq9A92RD5h2+W/ebpxTEw5lTTK1xcMLiAlmOrVYMQKjpgPeu3vQmDyGZQ==}
 
-  '@unocss/inspector@66.1.0-beta.11':
-    resolution: {integrity: sha512-qT6Xt2UnUrBBzeT0xJdS/9JfU2M5q5xWrxrRngCQs4zi6liMryd1mKf/23s84ScNVm/igDx7k1DlPPXqdl2nig==}
+  '@unocss/inspector@66.1.0-beta.12':
+    resolution: {integrity: sha512-J/xD22Q2hISMMKP4UB/V4rgnP0mbRDxFmPkst2PivI9YvCLAUy8Us+0/RYuI9VT8P5G/QcdRTnLidmLKAq3XMw==}
 
   '@unocss/nuxt@66.0.0':
     resolution: {integrity: sha512-spMJcoHa/qeMgxs+7EOzMA2PjR84LJiS2rq39ndtHM/5dfr8yVCazvLRqrxxTx+NoUIJytmJ6kwDxyyJQ/fJig==}
@@ -1824,8 +1824,8 @@ packages:
     peerDependencies:
       postcss: ^8.4.21
 
-  '@unocss/postcss@66.1.0-beta.11':
-    resolution: {integrity: sha512-PE0wQhTjxD7qymj5WqMcZXY4iwpnbeRBbcsSB6tjoEnWMEgFnWBwg5bSNm7tY6PxrdzqVpGUVTT+gKjJzSP3sQ==}
+  '@unocss/postcss@66.1.0-beta.12':
+    resolution: {integrity: sha512-CMF5Z2YwvyqEO3DPYJWm+E4fI98CIgUDDiRuh3OBZmmHoJw6JSFAEgajW+BRRDKXz2zJMmf/87hD6cOXbeMonA==}
     engines: {node: '>=14'}
     peerDependencies:
       postcss: ^8.4.21
@@ -1833,105 +1833,105 @@ packages:
   '@unocss/preset-attributify@66.0.0':
     resolution: {integrity: sha512-eYsOgmcDoiIgGAepIwRX+DKGYxc/wm0r4JnDuZdz29AB+A6oY/FGHS1BVt4rq9ny4B5PofP4p6Rty+vwD9rigw==}
 
-  '@unocss/preset-attributify@66.1.0-beta.11':
-    resolution: {integrity: sha512-cuaaducTPZMzK6rxlVWGUigikTcfAIuy45vyyW7n6X3GDoCNfAhOHm1Scati78KMqLyaO/ivJmIOUeCrxopLOQ==}
+  '@unocss/preset-attributify@66.1.0-beta.12':
+    resolution: {integrity: sha512-0UDWmXgiHyrirEA1aHaoZrLUPEijetfLfZMgeM4k3F1vio6M3DgmkV82S+fZLk28XqFT5kWFkPRbmji/T+hUlg==}
 
   '@unocss/preset-icons@66.0.0':
     resolution: {integrity: sha512-6ObwTvEGuPBbKWRoMMiDioHtwwQTFI5oojFLJ32Y8tW6TdXvBLkO88d7qpgQxEjgVt4nJrqF1WEfR4niRgBm0Q==}
 
-  '@unocss/preset-icons@66.1.0-beta.11':
-    resolution: {integrity: sha512-HrhJvcZTT2bKFwvrw2QH+tW2GJaUooZcV2QOlLQ4YMuL7TYq3hgzzJRHpA7qfQTRnUjnt4NGSAhdLAL4LXxKaQ==}
+  '@unocss/preset-icons@66.1.0-beta.12':
+    resolution: {integrity: sha512-eiqHooDnubGtcx0b49uSNZu0BOX5hOLH7mJngfqb0w8ExMRkgG9iZIKkQw25TB3V9jUGfLHewfeH2J+H5LiIcg==}
 
   '@unocss/preset-mini@66.0.0':
     resolution: {integrity: sha512-d62eACnuKtR0dwCFOQXgvw5VLh5YSyK56xCzpHkh0j0GstgfDLfKTys0T/XVAAvdSvAy/8A8vhSNJ4PlIc9V2A==}
 
-  '@unocss/preset-mini@66.1.0-beta.11':
-    resolution: {integrity: sha512-ioo0HTRjLU0qBnRCXITCMd3r2Eq6z5dbd36HVFBEPYYJEruNvWZRab+RBLpMgMG7Rjz0E/YI3mIqO9IjILfUIA==}
+  '@unocss/preset-mini@66.1.0-beta.12':
+    resolution: {integrity: sha512-acnKtLmUX+imhc5RXS7z4InMbt0p1nShU/Lxr5yz4FtL8YaDMNk8SNTE4oCk1P7OQJVNsGdDCFtrhYWi9qAa1A==}
 
   '@unocss/preset-tagify@66.0.0':
     resolution: {integrity: sha512-GGYGyWxaevh0jN0NoATVO1Qe7DFXM3ykLxchlXmG6/zy963pZxItg/njrKnxE9la4seCdxpFH7wQBa68imwwdA==}
 
-  '@unocss/preset-tagify@66.1.0-beta.11':
-    resolution: {integrity: sha512-wL3wHSedvPdCo0gDnLHT+uaXW3ZgpfSv5lXlnM/9a3SOc061DPSlwoYTYFiWD/Zq/Ar1ll00Zsr0HNDCOV2E9Q==}
+  '@unocss/preset-tagify@66.1.0-beta.12':
+    resolution: {integrity: sha512-dhhiT8rpf8a5hrRYoIfV8X4KOs0Nugz15LIxJrv87zUZcWhMXA0Flla1IfgZ937ULIcqBBqZdQEYfVG0vc3FIw==}
 
   '@unocss/preset-typography@66.0.0':
     resolution: {integrity: sha512-apjckP5nPU5mtaHTCzz5u/dK9KJWwJ2kOFCVk0+a/KhUWmnqnzmjRYZlEuWxxr5QxTdCW+9cIoRDSA0lYZS5tg==}
 
-  '@unocss/preset-typography@66.1.0-beta.11':
-    resolution: {integrity: sha512-uXOjqVhSEywCQqzHAuV5BYXQMSNf4IehxxBH1IEYRb1lMEQz6+ecQ22tfhrhs11W1M5CMlrOuaBNwUn1dT0Blg==}
+  '@unocss/preset-typography@66.1.0-beta.12':
+    resolution: {integrity: sha512-6qpDfPGxH/ComRMhVc+oZMUcbV+2tFFFVtNkIRFTDBlfDUMMtUc6xDcj6w/DeuIZpl67zSetvQSSWUBH2k1kuA==}
 
   '@unocss/preset-uno@66.0.0':
     resolution: {integrity: sha512-qgoZ/hzTI32bQvcyjcwvv1X/dbPlmQNehzgjUaL7QFT0q0/CN/SRpysfzoQ8DLl2se9T+YCOS9POx3KrpIiYSQ==}
 
-  '@unocss/preset-uno@66.1.0-beta.11':
-    resolution: {integrity: sha512-WU9Jeq3PB5hbZxlpNCz8Tp4Yzy40UHiq8QAwQk3YfWKMCoBJa+XCKT37/gO3C9QFwI4fsZRcMgiNRWbQCWmfOg==}
+  '@unocss/preset-uno@66.1.0-beta.12':
+    resolution: {integrity: sha512-GoRZUaVUdx/fJ88F19htObouYb7HhKTJn8Ab8jK6rdvt913K90xXJ7XxSMalRk2DUy01fXbHEWEw/ObdxTgtHA==}
 
   '@unocss/preset-web-fonts@66.0.0':
     resolution: {integrity: sha512-9MzfDc6AJILN4Kq7Z91FfFbizBOYgw3lJd2UwqIs3PDYWG5iH5Zv5zhx6jelZVqEW5uWcIARYEEg2m4stZO1ZA==}
 
-  '@unocss/preset-web-fonts@66.1.0-beta.11':
-    resolution: {integrity: sha512-5Wn8bE9xsFKI+hTleN06t2zT1pNF9jH0ViXAmOm4dT5COVM7b4lzLl8HXjFkgV0ZgHdGdIJ52a+Xnqfgweb4dg==}
+  '@unocss/preset-web-fonts@66.1.0-beta.12':
+    resolution: {integrity: sha512-nVwSl3TO2n1H2e3RY9z0igUaGXMgedk+ByLZJYDLWj+a7nVlsFm6EOFbmKwdVQS+oruZXyrXN9rSnZt7yBBcuQ==}
 
   '@unocss/preset-wind3@66.0.0':
     resolution: {integrity: sha512-WAGRmpi1sb2skvYn9DBQUvhfqrJ+VmQmn5ZGsT2ewvsk7HFCvVLAMzZeKrrTQepeNBRhg6HzFDDi8yg6yB5c9g==}
 
-  '@unocss/preset-wind3@66.1.0-beta.11':
-    resolution: {integrity: sha512-whSdd4XEac+3HFTJel+IDXRYofk5vpotGn38RChRfxC5sfYodXqtDVKqw6Um1nHhGLcwsZFG3+x8JDeAwS2EkA==}
+  '@unocss/preset-wind3@66.1.0-beta.12':
+    resolution: {integrity: sha512-vjSH7K3mHrcfOarzhnRu4oz6MjtvKYCMNnvufhpntq+lQ6IyeAfFP/zuBhGxKQZg0Amwt+peChF3AysbJHxQOQ==}
 
-  '@unocss/preset-wind4@66.1.0-beta.11':
-    resolution: {integrity: sha512-gbw8z2+NMPEsZfeNsIAdm60lAWRHoDJfJV/BkOmNmSf49rUhcezoCsIN4zdAWjkYrLWiZxlCMGBw/4AERWx6gQ==}
+  '@unocss/preset-wind4@66.1.0-beta.12':
+    resolution: {integrity: sha512-n/0ohR52bQkfFLYd9+wRSvvxmKHqsvivn6tYVWdiyiv2FV+UMz2zwB6gv7meJzILVOfmXUGfwbTFTh1S6lClVg==}
 
   '@unocss/preset-wind@66.0.0':
     resolution: {integrity: sha512-FtvGpHnGC7FiyKJavPnn5y9lsaoWRhXlujCqlT5Bw63kKhMNr0ogKySBpenUhJOhWhVM0OQXn2nZ3GZRxW2qpw==}
 
-  '@unocss/preset-wind@66.1.0-beta.11':
-    resolution: {integrity: sha512-18wMTK3k1guGGgjgWaJozjPCgjBAW5xETpbrTI/gTWtkTXmS1IujYGYf3sP7/7OqnSRxF10MzGL4ROqzC52EmA==}
+  '@unocss/preset-wind@66.1.0-beta.12':
+    resolution: {integrity: sha512-5vQp50poCHsexs2dbxi0/eWCwpvyPXHDE6serNr0JMY/5nNPuzEYGeqroN+/Mo6nofNu154gPs5TLdYESbnKRA==}
 
   '@unocss/reset@66.0.0':
     resolution: {integrity: sha512-YLFz/5yT7mFJC8JSmIUA5+bS3CBCJbtztOw+8rWzjQr/BEVSGuihWUUpI2Df6VVxXIXxKanZR6mIl59yvf+GEA==}
 
-  '@unocss/reset@66.1.0-beta.11':
-    resolution: {integrity: sha512-DTjGQGE7tyNQfFjNooMYxrVP911Wt9i/S3CjQPOXLbTxgBeiXr528nLkoym14DQW6LVcvv9PJzLr3ls64MsioQ==}
+  '@unocss/reset@66.1.0-beta.12':
+    resolution: {integrity: sha512-a8sqnzf1EFFqYmnc31B1owiQV3CKD0J7FAFFxsYYwshxSI2v0hDDVsDpfxvpWXX+ZI6khZccnsMR7uXzk/bImw==}
 
   '@unocss/rule-utils@66.0.0':
     resolution: {integrity: sha512-UJ51YHbwxYTGyj35ugsPlOT4gaa7tCbXdywZ3m5Nn0JgywwIqGmBFyiN9ZjHBHfJuDxmmPd6lxojoBscih/WMQ==}
     engines: {node: '>=14'}
 
-  '@unocss/rule-utils@66.1.0-beta.11':
-    resolution: {integrity: sha512-qK5YQbstTP0rUgRkm1s1Ly9TMBKzP38TARVdh35yKW03YY8Lq1huUGEnLt5JV6iPdWzuiNRnnD/KKjBzZvP5FQ==}
+  '@unocss/rule-utils@66.1.0-beta.12':
+    resolution: {integrity: sha512-txhJO8pqut5FjGxhFC/OzqvLkeyeSaXgvZLaPaCTnpmuzt78ZTmqpszAHSchr9qCEXtBbK9dKHH78Zh10SRDLg==}
     engines: {node: '>=14'}
 
   '@unocss/transformer-attributify-jsx@66.0.0':
     resolution: {integrity: sha512-jS7szFXXC6RjTv9wo0NACskf618w981bkbyQ5izRO7Ha47sNpHhHDpaltnG7SR9qV4cCtGalOw4onVMHsRKwRg==}
 
-  '@unocss/transformer-attributify-jsx@66.1.0-beta.11':
-    resolution: {integrity: sha512-bzq2zLGCO4umSB51F+MYC+lGNFKIAILmBQcFNguxoGdL/YtZU1J10L7Pb0I553KeXG4mUUlimHxk140uuNJnDA==}
+  '@unocss/transformer-attributify-jsx@66.1.0-beta.12':
+    resolution: {integrity: sha512-nT+Zc7uteMlpRXGUKmJuypa4M44ImTwQhKw4sJNOcXckbliYlGjsOzAHR6khKF0eTWmaYLQ/VU+pqLQwls4m6Q==}
 
   '@unocss/transformer-compile-class@66.0.0':
     resolution: {integrity: sha512-ytUIE0nAcHRMACuTXkHp8auZ483DXrOZw99jk3FJ+aFjpD/pVSFmX14AWJ7bqPFObxb4SLFs6KhQma30ESC22A==}
 
-  '@unocss/transformer-compile-class@66.1.0-beta.11':
-    resolution: {integrity: sha512-HNoipvBzkYM4lhWFIaR0OV2v/zTeMyEPxGLobNHqMgXknzpmMsZCDWVcNJBxJeMypnHXX+euOFRk61vRxNn+gA==}
+  '@unocss/transformer-compile-class@66.1.0-beta.12':
+    resolution: {integrity: sha512-hlZ75IsXFOMcsPAQCLdtv2K9CFzR6ZNeB/hJ1Hx4easiWpCPkk9IiAcwQqSKpcEgX/vQkOkyc5LqqptcMJZsNg==}
 
   '@unocss/transformer-directives@66.0.0':
     resolution: {integrity: sha512-utcg7m2Foi7uHrU5WHadNuJ0a3qWG8tZNkQMi+m0DQpX6KWfuDtDn0zDZ1X+z5lmiB3WGSJERRrsvZbj1q50Mw==}
 
-  '@unocss/transformer-directives@66.1.0-beta.11':
-    resolution: {integrity: sha512-y0So6FuHwjSblmPLGk/9zG/A0V/kn3w9Rh+61gRCV7dzVFADjXk6Q8RybVOAsXt2SEanyCwxlkWp7uObfkd5Pg==}
+  '@unocss/transformer-directives@66.1.0-beta.12':
+    resolution: {integrity: sha512-2usowxuis00BJ6YHU5MFl484o3nXi4TSHs9ohiRIPurGMOz6puuR/e1mxqX/y1E7ziR+TR5TH4CzmNW8X0zm1w==}
 
   '@unocss/transformer-variant-group@66.0.0':
     resolution: {integrity: sha512-1BLjNWtAnR1JAcQGw0TS+nGrVoB9aznzvVZRoTx23dtRr3btvgKPHb8LrD48eD/p8Dtw9j3WfuxMDKXKegKDLg==}
 
-  '@unocss/transformer-variant-group@66.1.0-beta.11':
-    resolution: {integrity: sha512-N3vb+SgMGhMFWfqWhm88uS0CSKwpvHPYB+e67Q7KrW31Ul54Uq0gAPci+3wcpQfVGv163PMsgFpPK+Ps1M6ujQ==}
+  '@unocss/transformer-variant-group@66.1.0-beta.12':
+    resolution: {integrity: sha512-MWMJ2zMOdZm2yQptttzh8HoPwzmdk2BgShuoCE6B5jeTVhDpU52QSAZEewl2AAgv0VSz68X0QxxOC2j7GZ+90w==}
 
   '@unocss/vite@66.0.0':
     resolution: {integrity: sha512-IVcPX8xL+2edyXKt4tp9yu5A6gcbPVCsspfcL0XgziCr01kS+4qSoZ90F3IUs3hXc/AyO5eCpRtGFMPLpOjXQg==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0
 
-  '@unocss/vite@66.1.0-beta.11':
-    resolution: {integrity: sha512-0tVm68Ka3DlYbs5+r9O4yqYxbjU/K7v9LX8Ff93/9MXk/EMJ7omH51ICxu8beER64zphNoeGaE5PTQ+g9JMJEQ==}
+  '@unocss/vite@66.1.0-beta.12':
+    resolution: {integrity: sha512-ZIz8+LedpZSZwfCizFrZMcHRkjzTo+iVscL9oBfvzi7Sg37/zqRDY5XdyHUQsOI79Mu0527Mtu0lvyYGinS8zg==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0
 
@@ -4590,8 +4590,8 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
-  miniflare@4.20250410.1:
-    resolution: {integrity: sha512-xnJEyLbEBMFTIbiamt/BLQLeTj7iMsnsZANhZIHYBP+4YfwFQ20XAGDZ14U3AQ9yz30N3EhRcim8wIcZn75KLQ==}
+  miniflare@4.20250416.0:
+    resolution: {integrity: sha512-261PhPgD9zs5/BTdbWqwiaXtWxb+Av5zKCwTU+HXrA5E4tf3qnULwh3u6SVUOAEArEroFuKJzawsQ9COtNBurQ==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -6071,11 +6071,11 @@ packages:
       vite:
         optional: true
 
-  unocss@66.1.0-beta.11:
-    resolution: {integrity: sha512-XdqHupFY4kD7icF9xPmK8uKpRdi/EZV9ZrM1W1J4TwoQtmw7daDjs9greqawJXayxHGf2Baevw4ht++dJ2R4jA==}
+  unocss@66.1.0-beta.12:
+    resolution: {integrity: sha512-BcOL+K97CYV9GC9OlHTI8pPBVSELloKQGAvLYKi2P/aNgHpH6PzJ+5OTNk39jQeOp+25tu/Q6VQIEmK3I0+nww==}
     engines: {node: '>=14'}
     peerDependencies:
-      '@unocss/webpack': 66.1.0-beta.11
+      '@unocss/webpack': 66.1.0-beta.12
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0
     peerDependenciesMeta:
       '@unocss/webpack':
@@ -6484,17 +6484,17 @@ packages:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
 
-  workerd@1.20250410.0:
-    resolution: {integrity: sha512-W7vy1+Z3+jpLr68nmda3VFapn284VwIb22TZlI1LbCvThAiNABIa/t06bTE9mohSjUudFou9rc9de49fUvrUDQ==}
+  workerd@1.20250416.0:
+    resolution: {integrity: sha512-Yrx/bZAKbmSvomdTAzzIpOHwpYhs0ldr2wqed22UEhQ0mIplAHY4xmY+SjAJhP/TydZrciOVzBxwM1+4T40KNA==}
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@4.11.1:
-    resolution: {integrity: sha512-xA+Z6N/aqarTUcrOb8OSKewITUqtvFW+nGP5hz/5hlJTzdB1a3dh9pGMQop0SPuraa44sxqIQnxNqPSAEuasew==}
+  wrangler@4.12.0:
+    resolution: {integrity: sha512-4rfAXOi5KqM3ECvOrZJ97k3zEqxVwtdt4bijd8jcRBZ6iJYvEtjgjVi4TsfkVa/eXGhpfHTUnKu2uk8UHa8M2w==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
-      '@cloudflare/workers-types': ^4.20250410.0
+      '@cloudflare/workers-types': ^4.20250415.0
     peerDependenciesMeta:
       '@cloudflare/workers-types':
         optional: true
@@ -6541,8 +6541,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  wxt@0.20.1:
-    resolution: {integrity: sha512-8B3QaOiVLvtXGJs4X8YIRk5J5L2Hzr/SP2BYzzxwwgG8WUVdmQBGieqDXtz3QmE5N6zMRtt7qGYHKfFHkXhGmQ==}
+  wxt@0.20.3:
+    resolution: {integrity: sha512-SeTppJrnJEY8VPhCNgugkWceBcWItqmD48TdRvBrCwti5vGOfbHlBbHKPJmBhMkBz+/SDQuxXxVsXSvlTYOj3g==}
     hasBin: true
 
   xdg-basedir@5.1.0:
@@ -6925,25 +6925,25 @@ snapshots:
     dependencies:
       mime: 3.0.0
 
-  '@cloudflare/unenv-preset@2.3.1(unenv@2.0.0-rc.15)(workerd@1.20250410.0)':
+  '@cloudflare/unenv-preset@2.3.1(unenv@2.0.0-rc.15)(workerd@1.20250416.0)':
     dependencies:
       unenv: 2.0.0-rc.15
     optionalDependencies:
-      workerd: 1.20250410.0
+      workerd: 1.20250416.0
 
-  '@cloudflare/workerd-darwin-64@1.20250410.0':
+  '@cloudflare/workerd-darwin-64@1.20250416.0':
     optional: true
 
-  '@cloudflare/workerd-darwin-arm64@1.20250410.0':
+  '@cloudflare/workerd-darwin-arm64@1.20250416.0':
     optional: true
 
-  '@cloudflare/workerd-linux-64@1.20250410.0':
+  '@cloudflare/workerd-linux-64@1.20250416.0':
     optional: true
 
-  '@cloudflare/workerd-linux-arm64@1.20250410.0':
+  '@cloudflare/workerd-linux-arm64@1.20250416.0':
     optional: true
 
-  '@cloudflare/workerd-windows-64@1.20250410.0':
+  '@cloudflare/workerd-windows-64@1.20250416.0':
     optional: true
 
   '@cloudflare/workers-types@4.20250414.0': {}
@@ -7754,7 +7754,7 @@ snapshots:
       - vue-tsc
       - yaml
 
-  '@nuxthub/core@0.8.24(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(ioredis@5.6.1)(magicast@0.3.5)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
+  '@nuxthub/core@0.8.24(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(ioredis@5.6.1)(magicast@0.3.5)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
       '@cloudflare/workers-types': 4.20250414.0
       '@nuxt/devtools-kit': 2.4.0(magicast@0.3.5)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -7773,7 +7773,7 @@ snapshots:
       std-env: 3.9.0
       ufo: 1.6.1
       uncrypto: 0.1.3
-      unstorage: 1.15.0(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(ioredis@5.6.1)
+      unstorage: 1.15.0(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(ioredis@5.6.1)
       zod: 3.24.2
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -8422,11 +8422,11 @@ snapshots:
     transitivePeerDependencies:
       - vue
 
-  '@unocss/astro@66.1.0-beta.11(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))':
+  '@unocss/astro@66.1.0-beta.12(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/reset': 66.1.0-beta.11
-      '@unocss/vite': 66.1.0-beta.11(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/reset': 66.1.0-beta.12
+      '@unocss/vite': 66.1.0-beta.12(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
     optionalDependencies:
       vite: 6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
@@ -8448,12 +8448,12 @@ snapshots:
       tinyglobby: 0.2.12
       unplugin-utils: 0.2.4
 
-  '@unocss/cli@66.1.0-beta.11':
+  '@unocss/cli@66.1.0-beta.12':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@unocss/config': 66.1.0-beta.11
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/preset-uno': 66.1.0-beta.11
+      '@unocss/config': 66.1.0-beta.12
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/preset-uno': 66.1.0-beta.12
       cac: 6.7.14
       chokidar: 3.6.0
       colorette: 2.0.20
@@ -8469,22 +8469,22 @@ snapshots:
       '@unocss/core': 66.0.0
       unconfig: 7.0.0
 
-  '@unocss/config@66.1.0-beta.11':
+  '@unocss/config@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
       unconfig: 7.3.1
 
   '@unocss/core@66.0.0': {}
 
-  '@unocss/core@66.1.0-beta.11': {}
+  '@unocss/core@66.1.0-beta.12': {}
 
   '@unocss/extractor-arbitrary-variants@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
 
-  '@unocss/extractor-arbitrary-variants@66.1.0-beta.11':
+  '@unocss/extractor-arbitrary-variants@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
 
   '@unocss/inspector@66.0.0(vue@3.5.13(typescript@5.8.3))':
     dependencies:
@@ -8497,10 +8497,10 @@ snapshots:
     transitivePeerDependencies:
       - vue
 
-  '@unocss/inspector@66.1.0-beta.11(vue@3.5.13(typescript@5.8.3))':
+  '@unocss/inspector@66.1.0-beta.12(vue@3.5.13(typescript@5.8.3))':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/rule-utils': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/rule-utils': 66.1.0-beta.12
       colorette: 2.0.20
       gzip-size: 6.0.0
       sirv: 3.0.1
@@ -8541,11 +8541,11 @@ snapshots:
       postcss: 8.5.3
       tinyglobby: 0.2.12
 
-  '@unocss/postcss@66.1.0-beta.11(postcss@8.5.3)':
+  '@unocss/postcss@66.1.0-beta.12(postcss@8.5.3)':
     dependencies:
-      '@unocss/config': 66.1.0-beta.11
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/rule-utils': 66.1.0-beta.11
+      '@unocss/config': 66.1.0-beta.12
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/rule-utils': 66.1.0-beta.12
       css-tree: 3.1.0
       postcss: 8.5.3
       tinyglobby: 0.2.12
@@ -8554,9 +8554,9 @@ snapshots:
     dependencies:
       '@unocss/core': 66.0.0
 
-  '@unocss/preset-attributify@66.1.0-beta.11':
+  '@unocss/preset-attributify@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
 
   '@unocss/preset-icons@66.0.0':
     dependencies:
@@ -8566,10 +8566,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@unocss/preset-icons@66.1.0-beta.11':
+  '@unocss/preset-icons@66.1.0-beta.12':
     dependencies:
       '@iconify/utils': 2.3.0
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
       ofetch: 1.4.1
     transitivePeerDependencies:
       - supports-color
@@ -8580,19 +8580,19 @@ snapshots:
       '@unocss/extractor-arbitrary-variants': 66.0.0
       '@unocss/rule-utils': 66.0.0
 
-  '@unocss/preset-mini@66.1.0-beta.11':
+  '@unocss/preset-mini@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/extractor-arbitrary-variants': 66.1.0-beta.11
-      '@unocss/rule-utils': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/extractor-arbitrary-variants': 66.1.0-beta.12
+      '@unocss/rule-utils': 66.1.0-beta.12
 
   '@unocss/preset-tagify@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
 
-  '@unocss/preset-tagify@66.1.0-beta.11':
+  '@unocss/preset-tagify@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
 
   '@unocss/preset-typography@66.0.0':
     dependencies:
@@ -8600,30 +8600,30 @@ snapshots:
       '@unocss/preset-mini': 66.0.0
       '@unocss/rule-utils': 66.0.0
 
-  '@unocss/preset-typography@66.1.0-beta.11':
+  '@unocss/preset-typography@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/preset-mini': 66.1.0-beta.11
-      '@unocss/rule-utils': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/preset-mini': 66.1.0-beta.12
+      '@unocss/rule-utils': 66.1.0-beta.12
 
   '@unocss/preset-uno@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
       '@unocss/preset-wind3': 66.0.0
 
-  '@unocss/preset-uno@66.1.0-beta.11':
+  '@unocss/preset-uno@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/preset-wind3': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/preset-wind3': 66.1.0-beta.12
 
   '@unocss/preset-web-fonts@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
       ofetch: 1.4.1
 
-  '@unocss/preset-web-fonts@66.1.0-beta.11':
+  '@unocss/preset-web-fonts@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
       ofetch: 1.4.1
 
   '@unocss/preset-wind3@66.0.0':
@@ -8632,57 +8632,57 @@ snapshots:
       '@unocss/preset-mini': 66.0.0
       '@unocss/rule-utils': 66.0.0
 
-  '@unocss/preset-wind3@66.1.0-beta.11':
+  '@unocss/preset-wind3@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/preset-mini': 66.1.0-beta.11
-      '@unocss/rule-utils': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/preset-mini': 66.1.0-beta.12
+      '@unocss/rule-utils': 66.1.0-beta.12
 
-  '@unocss/preset-wind4@66.1.0-beta.11':
+  '@unocss/preset-wind4@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/extractor-arbitrary-variants': 66.1.0-beta.11
-      '@unocss/rule-utils': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/extractor-arbitrary-variants': 66.1.0-beta.12
+      '@unocss/rule-utils': 66.1.0-beta.12
 
   '@unocss/preset-wind@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
       '@unocss/preset-wind3': 66.0.0
 
-  '@unocss/preset-wind@66.1.0-beta.11':
+  '@unocss/preset-wind@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/preset-wind3': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/preset-wind3': 66.1.0-beta.12
 
   '@unocss/reset@66.0.0': {}
 
-  '@unocss/reset@66.1.0-beta.11': {}
+  '@unocss/reset@66.1.0-beta.12': {}
 
   '@unocss/rule-utils@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
       magic-string: 0.30.17
 
-  '@unocss/rule-utils@66.1.0-beta.11':
+  '@unocss/rule-utils@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
       magic-string: 0.30.17
 
   '@unocss/transformer-attributify-jsx@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
 
-  '@unocss/transformer-attributify-jsx@66.1.0-beta.11':
+  '@unocss/transformer-attributify-jsx@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
 
   '@unocss/transformer-compile-class@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
 
-  '@unocss/transformer-compile-class@66.1.0-beta.11':
+  '@unocss/transformer-compile-class@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
 
   '@unocss/transformer-directives@66.0.0':
     dependencies:
@@ -8690,19 +8690,19 @@ snapshots:
       '@unocss/rule-utils': 66.0.0
       css-tree: 3.1.0
 
-  '@unocss/transformer-directives@66.1.0-beta.11':
+  '@unocss/transformer-directives@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/rule-utils': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/rule-utils': 66.1.0-beta.12
       css-tree: 3.1.0
 
   '@unocss/transformer-variant-group@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
 
-  '@unocss/transformer-variant-group@66.1.0-beta.11':
+  '@unocss/transformer-variant-group@66.1.0-beta.12':
     dependencies:
-      '@unocss/core': 66.1.0-beta.11
+      '@unocss/core': 66.1.0-beta.12
 
   '@unocss/vite@66.0.0(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))':
     dependencies:
@@ -8718,12 +8718,12 @@ snapshots:
     transitivePeerDependencies:
       - vue
 
-  '@unocss/vite@66.1.0-beta.11(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))':
+  '@unocss/vite@66.1.0-beta.12(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))':
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@unocss/config': 66.1.0-beta.11
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/inspector': 66.1.0-beta.11(vue@3.5.13(typescript@5.8.3))
+      '@unocss/config': 66.1.0-beta.12
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/inspector': 66.1.0-beta.12(vue@3.5.13(typescript@5.8.3))
       chokidar: 3.6.0
       magic-string: 0.30.17
       pathe: 2.0.3
@@ -9135,22 +9135,22 @@ snapshots:
 
   '@webext-core/match-patterns@1.0.3': {}
 
-  '@wxt-dev/auto-icons@1.0.2(wxt@0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
+  '@wxt-dev/auto-icons@1.0.2(wxt@0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
       defu: 6.1.4
       fs-extra: 11.3.0
       sharp: 0.33.5
-      wxt: 0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+      wxt: 0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
   '@wxt-dev/browser@0.0.315':
     dependencies:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
 
-  '@wxt-dev/module-vue@1.0.2(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))(wxt@0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
+  '@wxt-dev/module-vue@1.0.2(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))(wxt@0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
       '@vitejs/plugin-vue': 5.2.3(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
-      wxt: 0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+      wxt: 0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - vite
       - vue
@@ -9160,12 +9160,12 @@ snapshots:
       async-mutex: 0.5.0
       dequal: 2.0.3
 
-  '@wxt-dev/unocss@1.0.1(unocss@66.1.0-beta.11(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3)))(wxt@0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
+  '@wxt-dev/unocss@1.0.1(unocss@66.1.0-beta.12(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3)))(wxt@0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
       defu: 6.1.4
       fast-glob: 3.3.3
-      unocss: 66.1.0-beta.11(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
-      wxt: 0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+      unocss: 66.1.0-beta.12(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
+      wxt: 0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
   '@xtuc/ieee754@1.2.0': {}
 
@@ -9800,9 +9800,9 @@ snapshots:
       whatwg-url: 14.2.0
     optional: true
 
-  db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)):
+  db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)):
     optionalDependencies:
-      drizzle-orm: 0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)
+      drizzle-orm: 0.42.0(gel@2.0.2)
 
   de-indent@1.0.2: {}
 
@@ -9942,9 +9942,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2):
+  drizzle-orm@0.42.0(gel@2.0.2):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250414.0
       gel: 2.0.2
 
   dtrace-provider@0.8.8:
@@ -11689,7 +11688,7 @@ snapshots:
 
   min-indent@1.0.1: {}
 
-  miniflare@4.20250410.1:
+  miniflare@4.20250416.0:
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       acorn: 8.14.0
@@ -11698,7 +11697,7 @@ snapshots:
       glob-to-regexp: 0.4.1
       stoppable: 1.1.0
       undici: 5.29.0
-      workerd: 1.20250410.0
+      workerd: 1.20250416.0
       ws: 8.18.0
       youch: 3.3.4
       zod: 3.22.3
@@ -11864,7 +11863,7 @@ snapshots:
       mlly: 1.7.4
       pkg-types: 2.1.0
 
-  nitropack@2.11.9(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)):
+  nitropack@2.11.9(drizzle-orm@0.42.0(gel@2.0.2)):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
       '@netlify/functions': 3.0.4
@@ -11886,7 +11885,7 @@ snapshots:
       cookie-es: 2.0.0
       croner: 9.0.0
       crossws: 0.3.4
-      db0: 0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2))
+      db0: 0.3.1(drizzle-orm@0.42.0(gel@2.0.2))
       defu: 6.1.4
       destr: 2.0.5
       dot-prop: 9.0.0
@@ -11932,7 +11931,7 @@ snapshots:
       unenv: 2.0.0-rc.15
       unimport: 5.0.0
       unplugin-utils: 0.2.4
-      unstorage: 1.15.0(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(ioredis@5.6.1)
+      unstorage: 1.15.0(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(ioredis@5.6.1)
       untyped: 2.0.0
       unwasm: 0.3.9
       youch: 4.1.0-beta.7
@@ -12024,10 +12023,10 @@ snapshots:
 
   num-sort@2.1.0: {}
 
-  nuxt-time@1.0.3(magicast@0.3.5)(nuxt@3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0)):
+  nuxt-time@1.0.3(magicast@0.3.5)(nuxt@3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(drizzle-orm@0.42.0(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0)):
     dependencies:
       '@nuxt/kit': 3.16.2(magicast@0.3.5)
-      nuxt: 3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0)
+      nuxt: 3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(drizzle-orm@0.42.0(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0)
     transitivePeerDependencies:
       - magicast
 
@@ -12039,7 +12038,7 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  nuxt@3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0):
+  nuxt@3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(drizzle-orm@0.42.0(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue-tsc@2.2.8(typescript@5.8.3))(yaml@2.7.0):
     dependencies:
       '@nuxt/cli': 3.24.1(magicast@0.3.5)
       '@nuxt/devalue': 2.0.2
@@ -12076,7 +12075,7 @@ snapshots:
       mlly: 1.7.4
       mocked-exports: 0.1.1
       nanotar: 0.2.0
-      nitropack: 2.11.9(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2))
+      nitropack: 2.11.9(drizzle-orm@0.42.0(gel@2.0.2))
       nypm: 0.6.0
       ofetch: 1.4.1
       ohash: 2.0.11
@@ -12098,7 +12097,7 @@ snapshots:
       unimport: 4.2.0
       unplugin: 2.3.2
       unplugin-vue-router: 0.12.0(vue-router@4.5.0(vue@3.5.13(typescript@5.8.3)))(vue@3.5.13(typescript@5.8.3))
-      unstorage: 1.15.0(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(ioredis@5.6.1)
+      unstorage: 1.15.0(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(ioredis@5.6.1)
       untyped: 2.0.0
       vue: 3.5.13(typescript@5.8.3)
       vue-bundle-renderer: 2.1.1
@@ -13336,7 +13335,7 @@ snapshots:
       '@quansync/fs': 0.1.2
       defu: 6.1.4
       jiti: 2.4.2
-      quansync: 0.2.8
+      quansync: 0.2.10
 
   uncrypto@0.1.3: {}
 
@@ -13462,27 +13461,27 @@ snapshots:
       - supports-color
       - vue
 
-  unocss@66.1.0-beta.11(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3)):
+  unocss@66.1.0-beta.12(postcss@8.5.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3)):
     dependencies:
-      '@unocss/astro': 66.1.0-beta.11(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
-      '@unocss/cli': 66.1.0-beta.11
-      '@unocss/core': 66.1.0-beta.11
-      '@unocss/postcss': 66.1.0-beta.11(postcss@8.5.3)
-      '@unocss/preset-attributify': 66.1.0-beta.11
-      '@unocss/preset-icons': 66.1.0-beta.11
-      '@unocss/preset-mini': 66.1.0-beta.11
-      '@unocss/preset-tagify': 66.1.0-beta.11
-      '@unocss/preset-typography': 66.1.0-beta.11
-      '@unocss/preset-uno': 66.1.0-beta.11
-      '@unocss/preset-web-fonts': 66.1.0-beta.11
-      '@unocss/preset-wind': 66.1.0-beta.11
-      '@unocss/preset-wind3': 66.1.0-beta.11
-      '@unocss/preset-wind4': 66.1.0-beta.11
-      '@unocss/transformer-attributify-jsx': 66.1.0-beta.11
-      '@unocss/transformer-compile-class': 66.1.0-beta.11
-      '@unocss/transformer-directives': 66.1.0-beta.11
-      '@unocss/transformer-variant-group': 66.1.0-beta.11
-      '@unocss/vite': 66.1.0-beta.11(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
+      '@unocss/astro': 66.1.0-beta.12(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
+      '@unocss/cli': 66.1.0-beta.12
+      '@unocss/core': 66.1.0-beta.12
+      '@unocss/postcss': 66.1.0-beta.12(postcss@8.5.3)
+      '@unocss/preset-attributify': 66.1.0-beta.12
+      '@unocss/preset-icons': 66.1.0-beta.12
+      '@unocss/preset-mini': 66.1.0-beta.12
+      '@unocss/preset-tagify': 66.1.0-beta.12
+      '@unocss/preset-typography': 66.1.0-beta.12
+      '@unocss/preset-uno': 66.1.0-beta.12
+      '@unocss/preset-web-fonts': 66.1.0-beta.12
+      '@unocss/preset-wind': 66.1.0-beta.12
+      '@unocss/preset-wind3': 66.1.0-beta.12
+      '@unocss/preset-wind4': 66.1.0-beta.12
+      '@unocss/transformer-attributify-jsx': 66.1.0-beta.12
+      '@unocss/transformer-compile-class': 66.1.0-beta.12
+      '@unocss/transformer-directives': 66.1.0-beta.12
+      '@unocss/transformer-variant-group': 66.1.0-beta.12
+      '@unocss/vite': 66.1.0-beta.12(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
     optionalDependencies:
       vite: 6.2.6(@types/node@22.14.1)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
@@ -13547,7 +13546,7 @@ snapshots:
       '@unrs/resolver-binding-win32-ia32-msvc': 1.5.0
       '@unrs/resolver-binding-win32-x64-msvc': 1.5.0
 
-  unstorage@1.15.0(db0@0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2)))(ioredis@5.6.1):
+  unstorage@1.15.0(db0@0.3.1(drizzle-orm@0.42.0(gel@2.0.2)))(ioredis@5.6.1):
     dependencies:
       anymatch: 3.1.3
       chokidar: 4.0.3
@@ -13558,7 +13557,7 @@ snapshots:
       ofetch: 1.4.1
       ufo: 1.6.1
     optionalDependencies:
-      db0: 0.3.1(drizzle-orm@0.42.0(@cloudflare/workers-types@4.20250414.0)(gel@2.0.2))
+      db0: 0.3.1(drizzle-orm@0.42.0(gel@2.0.2))
       ioredis: 5.6.1
 
   untildify@4.0.0: {}
@@ -13965,26 +13964,25 @@ snapshots:
 
   word-wrap@1.2.5: {}
 
-  workerd@1.20250410.0:
+  workerd@1.20250416.0:
     optionalDependencies:
-      '@cloudflare/workerd-darwin-64': 1.20250410.0
-      '@cloudflare/workerd-darwin-arm64': 1.20250410.0
-      '@cloudflare/workerd-linux-64': 1.20250410.0
-      '@cloudflare/workerd-linux-arm64': 1.20250410.0
-      '@cloudflare/workerd-windows-64': 1.20250410.0
+      '@cloudflare/workerd-darwin-64': 1.20250416.0
+      '@cloudflare/workerd-darwin-arm64': 1.20250416.0
+      '@cloudflare/workerd-linux-64': 1.20250416.0
+      '@cloudflare/workerd-linux-arm64': 1.20250416.0
+      '@cloudflare/workerd-windows-64': 1.20250416.0
 
-  wrangler@4.11.1(@cloudflare/workers-types@4.20250414.0):
+  wrangler@4.12.0:
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
-      '@cloudflare/unenv-preset': 2.3.1(unenv@2.0.0-rc.15)(workerd@1.20250410.0)
+      '@cloudflare/unenv-preset': 2.3.1(unenv@2.0.0-rc.15)(workerd@1.20250416.0)
       blake3-wasm: 2.1.5
       esbuild: 0.25.2
-      miniflare: 4.20250410.1
+      miniflare: 4.20250416.0
       path-to-regexp: 6.3.0
       unenv: 2.0.0-rc.15
-      workerd: 1.20250410.0
+      workerd: 1.20250416.0
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250414.0
       fsevents: 2.3.3
       sharp: 0.33.5
     transitivePeerDependencies:
@@ -14022,7 +14020,7 @@ snapshots:
 
   ws@8.18.1: {}
 
-  wxt@0.20.1(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0):
+  wxt@0.20.3(@types/node@22.14.1)(jiti@2.4.2)(rollup@4.40.0)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0):
     dependencies:
       '@1natsu/wait-element': 4.1.2
       '@aklinker1/rollup-plugin-visualizer': 5.12.0(rollup@4.40.0)
