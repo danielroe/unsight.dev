@@ -25,4 +25,9 @@ export default defineCachedCorsEventHandler(async () => {
     issuesIndexed: issueCountMap.get(repo.id) || 0,
     indexed: repo.indexed === currentIndexVersion,
   }))
-}, { swr: true, shouldBypassCache: () => !!import.meta.dev })
+}, {
+  swr: true,
+  maxAge: 60 * 60 * 24,
+  staleMaxAge: 60 * 60 * 24,
+  shouldBypassCache: () => !!import.meta.dev,
+})
