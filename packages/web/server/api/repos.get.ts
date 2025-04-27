@@ -1,14 +1,28 @@
-import { count, eq } from 'drizzle-orm'
+import { count } from 'drizzle-orm'
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
 
 export default defineCachedCorsEventHandler(async () => {
   const drizzle = useDrizzle()
 
-  const repos = await drizzle.select().from(tables.repos).all()
+  const [repos, issueCounts] = await Promise.all([
+    drizzle.select().from(tables.repos).all(),
+    drizzle
+      .select({
+        repoId: tables.issues.repoId,
+        count: count(),
+      })
+      .from(tables.issues)
+      .groupBy(tables.issues.repoId)
+      .all(),
+  ])
 
-  return Promise.all(repos.map(async repo => ({
+  const issueCountMap = new Map(
+    issueCounts.map(item => [item.repoId, item.count]),
+  )
+
+  return repos.map(repo => ({
     repo: repo.full_name,
-    issuesIndexed: await drizzle.select({ count: count() }).from(tables.issues).where(eq(tables.issues.repoId, repo.id)).then(([r]) => r!.count),
+    issuesIndexed: issueCountMap.get(repo.id) || 0,
     indexed: repo.indexed === currentIndexVersion,
-  })))
+  }))
 }, { swr: true, shouldBypassCache: () => !!import.meta.dev })
