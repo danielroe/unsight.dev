@@ -7,6 +7,30 @@ type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 
 export type IssueSegments = 'labels' | 'title' | 'body'
 
+// Cache for repository IDs to avoid repeated lookups
+const repoIdCache = new Map<string, number | null>()
+
+// Function to get repository ID with caching
+async function getRepoId(owner: string, repo: string): Promise<number | null> {
+  const cacheKey = `${owner}/${repo}`.toLowerCase()
+
+  // Check cache first
+  if (repoIdCache.has(cacheKey)) {
+    return repoIdCache.get(cacheKey) as number | null
+  }
+
+  // Query database if not in cache
+  const result = await useDrizzle()
+    .select({ repoId: tables.repos.id })
+    .from(tables.repos)
+    .where(eq(tables.repos.full_name, cacheKey))
+    .get()
+
+  const repoId = result?.repoId ?? null
+  repoIdCache.set(cacheKey, repoId)
+  return repoId
+}
+
 export function storageKeyForIssue(owner: string, repo: string, number: number | string) {
   return `issue:${owner}:${repo}:${number}`
 }
@@ -16,7 +40,7 @@ export function storagePrefixForRepo(owner: string, repo: string) {
 }
 
 export async function getStoredEmbeddingsForRepo(owner: string, repo: string, state: 'open' | 'closed' | 'all' = 'open') {
-  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${repo}`)).get() || {}
+  const repoId = await getRepoId(owner, repo)
   if (!repoId) {
     return []
   }
@@ -35,7 +59,7 @@ export async function getStoredEmbeddingsForRepo(owner: string, repo: string, st
 }
 
 export async function removeStoredEmbeddingsForRepo(owner: string, repo: string) {
-  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${repo}`)).get() || {}
+  const repoId = await getRepoId(owner, repo)
   if (!repoId) {
     return
   }
@@ -45,7 +69,7 @@ export async function removeStoredEmbeddingsForRepo(owner: string, repo: string)
 }
 
 export async function removeIssue(issue: Pick<Issue, 'number'>, repo: { owner: { login: string }, name: string }) {
-  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos.full_name, `${repo.owner.login}/${repo.name}`)).get() || {}
+  const repoId = await getRepoId(repo.owner.login, repo.name)
   if (!repoId) {
     return
   }
@@ -63,7 +87,7 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
   if (issue.pull_request) {
     return
   }
-  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos.full_name, `${repo.owner.login}/${repo.name}`)).get() || {}
+  const repoId = await getRepoId(repo.owner.login, repo.name)
   if (!repoId) {
     console.error('repo not found:', repo.owner.login, repo.name)
     return
@@ -89,7 +113,11 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
   }
 
   const drizzle = useDrizzle()
-  const res = await drizzle.select().from(tables.issues).where(eq(tables.issues.number, issue.number)).get()
+  // Use both repoId and number to narrow the query
+  const res = await drizzle.select().from(tables.issues).where(and(
+    eq(tables.issues.repoId, repoId),
+    eq(tables.issues.number, issue.number),
+  )).get()
 
   if (res && (res.mtime <= issueUpdatedTime || res.hash === issueHash)) {
     return await Promise.all([
@@ -140,6 +168,16 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
   console.log('indexed issue:', issueMetadata)
 
   return embeddings
+}
+
+// Clear the repo ID cache when repos are updated
+export function clearRepoIdCache(owner?: string, repo?: string) {
+  if (owner && repo) {
+    repoIdCache.delete(`${owner}/${repo}`.toLowerCase())
+  }
+  else {
+    repoIdCache.clear()
+  }
 }
 
 export type Label = string | { name: string, color?: string }

@@ -1,9 +1,9 @@
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const repos = sqliteTable('repos', {
   id: integer('id').primaryKey(),
   node_id: text('node_id').notNull(),
-  full_name: text('full_name').notNull(),
+  full_name: text('full_name').notNull().unique(),
   private: integer('private').notNull(),
   indexed: integer('indexed').notNull().default(0),
 })
@@ -18,4 +18,7 @@ export const issues = sqliteTable('issues', {
   embeddings: text('embeddings').notNull(),
   hash: text('hash').notNull(),
   mtime: integer('mtime').notNull(),
-})
+}, table => [
+  index('idx_repo_id_number').on(table.repoId, table.number),
+  index('idx_state').on(table.state),
+])
