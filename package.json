@@ -2,7 +2,7 @@
   "name": "unsight-dev",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.9.0",
+  "packageManager": "pnpm@10.10.0",
   "scripts": {
     "dev": "pnpm --filter web dev",
     "dev:ext": "pnpm --filter unsight dev",
@@ -15,7 +15,7 @@
     "@antfu/eslint-config": "4.12.0",
     "eslint": "9.25.1",
     "lint-staged": "15.5.1",
-    "simple-git-hooks": "2.12.1",
+    "simple-git-hooks": "2.13.0",
     "typescript": "5.8.3"
   },
   "simple-git-hooks": {
