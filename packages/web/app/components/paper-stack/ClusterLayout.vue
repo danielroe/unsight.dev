@@ -7,7 +7,6 @@ interface ClusterLayoutProps {
 }
 
 const { clusters } = defineProps<ClusterLayoutProps>()
-
 </script>
 
 <template >
@@ -15,7 +14,7 @@ const { clusters } = defineProps<ClusterLayoutProps>()
         v-for="(cluster, index) of clusters" 
         :key="index"
     >
-        <PaperStackClusterView :cluster="cluster" :clusterIndex="index" :clusterTitle="cluster.title" :isTruncated="true"/>
+        <PaperStackClusterView :cluster="cluster" :clusterIndex="index" :isTruncated="true"/>
 
         <PaperStackClusterAction :cluster="cluster" :clusterIndex="index" :clusterLength="cluster.issues.length || 0" />
     </section>

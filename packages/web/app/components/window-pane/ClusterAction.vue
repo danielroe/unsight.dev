@@ -35,7 +35,7 @@ const openModal = () => modalRef.value?.openModal()
                 <ClusterViewModal ref="modalRef" :cluster="cluster">
                     <template #modal-content>
                         <ClientOnly>
-                            <WindowPaneClusterView :cluster="cluster" :clusterIndex="clusterIndex" :clusterTitle="cluster.title" :isTruncated="false" />
+                            <WindowPaneClusterView :cluster="cluster" :clusterIndex="clusterIndex" :isTruncated="false" />
                         </ClientOnly>
                     </template>
                 </ClusterViewModal>

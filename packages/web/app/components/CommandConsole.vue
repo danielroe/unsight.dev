@@ -49,6 +49,7 @@ function navigateToRepo(event: Event) {
         </button>
       </div>
     <!-- TODO: Improve select button styling, maybe a full component -->
+    <!-- TODO: Use - https://developer.chrome.com/blog/a-customizable-select -->
       <label class="w-full text-xs border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
         <span class="sr-only">{{ PICK_A_REPOSITORY }}</span>
         <select

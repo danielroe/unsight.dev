@@ -3,11 +3,10 @@ import type { ClusterMetadata } from '~~/shared/models/github-metadata'
 
 interface ClusterViewProps {
     cluster: ClusterMetadata;
-    clusterTitle: string;
     clusterIndex: number;
     isTruncated: boolean;
 }
-const { cluster, clusterIndex, clusterTitle, isTruncated } = defineProps<ClusterViewProps>()
+const { cluster, clusterIndex, isTruncated } = defineProps<ClusterViewProps>()
 
 const NUMBER_OF_ISSUES = 3
 
@@ -25,7 +24,7 @@ const issuesStack = computed(() => {
             <PaperStackClusterSummary 
                 :clusterIndex="clusterIndex" 
                 :clusterLength="cluster.issues.length" 
-                :clusterTitle="clusterTitle"
+                :clusterTitle="cluster.title"
                 :style="{
                     zIndex: cluster.issues.length + 1,
                 }"
@@ -33,7 +32,6 @@ const issuesStack = computed(() => {
 
             <div
                 v-for="(issue, index) of issuesStack"
-                :key="index"
                 :style="{
                     zIndex: cluster.issues.length - index,
                 }"

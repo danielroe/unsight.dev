@@ -4,6 +4,9 @@ const { selectedView, toggleViewState, } = useSelectedView()
 
 </script>
 
+  <!-- TODO: Could this be more performant using? -->
+  <!-- TODO: https://developer.chrome.com/blog/carousels-with-css -->
+
 <template>
     <section class="flex gap-2 items-center p-2 border-solid border border-gray-700 rounded-sm bg-slate-700">
         <button
