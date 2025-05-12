@@ -20,7 +20,7 @@
     "vue": "^3.5.12"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.321",
+    "@types/chrome": "0.0.322",
     "@wxt-dev/module-vue": "1.0.2",
     "@wxt-dev/unocss": "1.0.1",
     "typescript": "5.8.3",
