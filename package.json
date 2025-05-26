@@ -12,7 +12,7 @@
     "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "4.13.1",
+    "@antfu/eslint-config": "4.13.2",
     "eslint": "9.27.0",
     "lint-staged": "16.0.0",
     "simple-git-hooks": "2.13.0",
