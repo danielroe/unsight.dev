@@ -17,31 +17,24 @@ const props = defineProps<{
   text: string
 }>()
 
-function escapeHtml(text: string) {
-  return text.replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-}
 
 const formattedParts = computed(() => {
-  const escapedText = escapeHtml(props.text);
+  const text = props.text;
   const parts = [];
   const regex = /`([^`]+)`/g;
   let lastIndex = 0;
   let match;
 
-  while ((match = regex.exec(escapedText)) !== null) {
+  while ((match = regex.exec(text)) !== null) {
     if (match.index > lastIndex) {
-      parts.push({isCode: false, content: escapedText.slice(lastIndex, match.index)});
+      parts.push({isCode: false, content: text.slice(lastIndex, match.index)});
     }
     parts.push({isCode: true, content: match[1]});
     lastIndex = regex.lastIndex;
   }
 
-  if (lastIndex < escapedText.length) {
-    parts.push({isCode: false, content: escapedText.slice(lastIndex)});
+  if (lastIndex < text.length) {
+    parts.push({isCode: false, content: text.slice(lastIndex)});
   }
 
   return parts;
