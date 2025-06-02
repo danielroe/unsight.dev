@@ -23,7 +23,7 @@
     "@unocss/nuxt": "^66.0.0",
     "@unocss/reset": "^66.0.0",
     "consola": "^3.4.2",
-    "drizzle-orm": "^0.43.0",
+    "drizzle-orm": "^0.44.0",
     "hex-rgb": "^5.0.0",
     "ml-distance": "^4.0.1",
     "ml-kmeans": "^6.0.0",
@@ -41,6 +41,6 @@
     "@nuxt/eslint": "1.4.1",
     "drizzle-kit": "0.31.1",
     "vue-tsc": "2.2.10",
-    "wrangler": "4.16.1"
+    "wrangler": "4.18.0"
   }
 }
