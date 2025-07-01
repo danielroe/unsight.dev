@@ -17,7 +17,7 @@
   "dependencies": {
     "@vueuse/core": "13.4.0",
     "@wxt-dev/auto-icons": "^1.0.2",
-    "vue": "^3.5.12"
+    "vue": "^3.5.17"
   },
   "devDependencies": {
     "@types/chrome": "0.0.328",
