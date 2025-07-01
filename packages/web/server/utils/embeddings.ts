@@ -220,8 +220,8 @@ export function chunkIssue(issue: Pick<Issue | RestIssue, IssueSegments>, exclud
 async function generateEmbedding(text: string): Promise<number[]> {
   const ai = hubAI()
   try {
-    const { data } = await ai.run('@cf/baai/bge-large-en-v1.5', { text })
-    return data[0]!
+    const res = await ai.run('@cf/baai/bge-large-en-v1.5', { text })
+    return (res as Exclude<typeof res, { request_id?: string }>).data?.[0] || []
   }
   catch {
     return []
