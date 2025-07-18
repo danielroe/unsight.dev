@@ -40,7 +40,7 @@
   "devDependencies": {
     "@nuxt/eslint": "1.4.1",
     "drizzle-kit": "0.31.4",
-    "vue-tsc": "2.2.10",
+    "vue-tsc": "3.0.3",
     "wrangler": "4.22.0"
   }
 }
