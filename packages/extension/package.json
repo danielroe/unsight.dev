@@ -25,7 +25,7 @@
     "@wxt-dev/unocss": "1.0.1",
     "typescript": "5.8.3",
     "unocss": "66.3.2",
-    "vue-tsc": "2.2.10",
+    "vue-tsc": "3.0.3",
     "wxt": "0.20.7"
   }
 }
