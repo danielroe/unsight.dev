@@ -38,7 +38,7 @@
     "unplugin-vue-router": "^0.15.0"
   },
   "devDependencies": {
-    "@nuxt/eslint": "1.9.0",
+    "@nuxt/eslint": "1.4.1",
     "drizzle-kit": "0.31.4",
     "vue-tsc": "3.0.7",
     "wrangler": "4.37.0"
