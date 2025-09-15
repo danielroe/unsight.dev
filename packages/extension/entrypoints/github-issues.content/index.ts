@@ -11,8 +11,8 @@ export default defineContentScript({
   main(ctx) {
     const ui = createIntegratedUi(ctx, {
       position: 'inline',
-      anchor: '[data-testid=issue-viewer-metadata-container] h2:nth-of-type(2)',
-      append: 'after',
+      anchor: '[data-testid="sticky-sidebar"] div',
+      append: 'first',
       onMount: (container) => {
         const app = createApp(App)
         app.mount(container)
