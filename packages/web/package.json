@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@iconify-json/ri": "1.2.5",
-    "@iconify-json/tabler": "1.2.19",
+    "@iconify-json/tabler": "1.2.22",
     "@nuxthub/core": "^0.9.0",
     "@nuxtjs/html-validator": "2.1.0",
     "@octokit/auth-app": "^8.0.1",
@@ -29,18 +29,18 @@
     "ml-kmeans": "^6.0.0",
     "nuxt": "^4.0.0",
     "nuxt-time": "1.0.3",
-    "nuxt-webhook-validators": "0.2.1",
+    "nuxt-webhook-validators": "0.2.3",
     "ohash": "^2.0.11",
     "rgb-to-hsl": "^0.0.3",
     "uncrypto": "^0.1.3",
     "universal-github-app-jwt": "^2.2.2",
     "unocss": "^66.3.2",
-    "unplugin-vue-router": "^0.14.0"
+    "unplugin-vue-router": "^0.15.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "1.4.1",
     "drizzle-kit": "0.31.4",
-    "vue-tsc": "3.0.3",
-    "wrangler": "4.22.0"
+    "vue-tsc": "3.0.7",
+    "wrangler": "4.37.0"
   }
 }
