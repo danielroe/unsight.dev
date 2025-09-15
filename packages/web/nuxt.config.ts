@@ -41,7 +41,6 @@ export default defineNuxtConfig({
   sourcemap: {
     client: true,
   },
-  future: { compatibilityVersion: 4 },
   experimental: {
     viewTransition: true,
     typedPages: true,

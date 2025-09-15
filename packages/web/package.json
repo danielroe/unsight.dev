@@ -27,7 +27,7 @@
     "hex-rgb": "^5.0.0",
     "ml-distance": "^4.0.1",
     "ml-kmeans": "^6.0.0",
-    "nuxt": "^3.17.6",
+    "nuxt": "^4.0.0",
     "nuxt-time": "1.0.3",
     "nuxt-webhook-validators": "0.2.1",
     "ohash": "^2.0.11",
