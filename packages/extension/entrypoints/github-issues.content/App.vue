@@ -22,7 +22,7 @@ const { data: issues } = useFetch(issueUrl, {
 <template>
   <div class="section w-full">
     <div class="px-2 text-xs flex flex-col gap-2 w-full">
-      <h3 class="!text-xs">Related issues</h3>
+      <h3 class="!text-xs text-[--fgColor-muted]">Related issues</h3>
       <RelatedIssueItem v-for="issue of issues " :issue="issue" />
       <span v-if="issues.length === 0" class="mt-1 mb-2">No similar issues found.</span>
     </div>
