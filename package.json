@@ -2,7 +2,7 @@
   "name": "unsight-dev",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.12.4",
+  "packageManager": "pnpm@10.16.1",
   "scripts": {
     "dev": "pnpm --filter web dev",
     "dev:ext": "pnpm --filter unsight dev",
@@ -12,11 +12,11 @@
     "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "5.0.0",
+    "@antfu/eslint-config": "5.3.0",
     "eslint": "9.35.0",
-    "lint-staged": "16.1.2",
-    "simple-git-hooks": "2.13.0",
-    "typescript": "5.8.3"
+    "lint-staged": "16.1.6",
+    "simple-git-hooks": "2.13.1",
+    "typescript": "5.9.2"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
