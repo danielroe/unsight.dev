@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@iconify-json/ri": "1.2.5",
-    "@iconify-json/tabler": "1.2.22",
+    "@iconify-json/tabler": "1.2.23",
     "@nuxthub/core": "^0.9.0",
     "@nuxtjs/html-validator": "2.1.0",
     "@octokit/auth-app": "^8.0.1",
@@ -38,9 +38,9 @@
     "unplugin-vue-router": "^0.15.0"
   },
   "devDependencies": {
-    "@nuxt/eslint": "1.4.1",
+    "@nuxt/eslint": "1.9.0",
     "drizzle-kit": "0.31.4",
     "vue-tsc": "3.0.7",
-    "wrangler": "4.37.0"
+    "wrangler": "4.38.0"
   }
 }
