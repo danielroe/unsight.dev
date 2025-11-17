@@ -100,8 +100,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       ml-kmeans:
-        specifier: ^6.0.0
-        version: 6.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       nuxt:
         specifier: ^4.0.0
         version: 4.2.1(@parcel/watcher@2.5.1)(@types/node@24.10.0)(@vue/compiler-sfc@3.5.24)(db0@0.3.4(drizzle-orm@0.44.7(@cloudflare/workers-types@4.20251109.0)))(drizzle-orm@0.44.7(@cloudflare/workers-types@4.20251109.0))(eslint@9.39.1(jiti@2.6.1))(ioredis@5.8.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.1)(terser@5.44.1)(typescript@5.9.2)(vite@7.2.2(@types/node@24.10.0)(jiti@2.6.1)(terser@5.44.1)(yaml@2.8.1))(vue-tsc@3.0.7(typescript@5.9.2))(xml2js@0.6.2)(yaml@2.8.1)
@@ -4892,26 +4892,29 @@ packages:
   ml-distance-euclidean@2.0.0:
     resolution: {integrity: sha512-yC9/2o8QF0A3m/0IXqCTXCzz2pNEzvmcE/9HFKOZGnTjatvBbsn4lWYJkxENkA4Ug2fnYl7PXQxnPi21sgMy/Q==}
 
+  ml-distance-euclidean@3.0.1:
+    resolution: {integrity: sha512-jEEu/1a73ArPmIiwOzrcah6TfhtV19dCKnnM7JvdR2xTzyVJFGgIIR78Vg8Pl9z2NVeSRoFOpzc0910sPMINsA==}
+
   ml-distance@4.0.1:
     resolution: {integrity: sha512-feZ5ziXs01zhyFUUUeZV5hwc0f5JW0Sh0ckU1koZe/wdVkJdGxcP06KNQuF0WBTj8FttQUzcvQcpcrOp/XrlEw==}
 
-  ml-kmeans@6.0.0:
-    resolution: {integrity: sha512-aziEZqeHxczaDvo1qkfCrC7XNVAPevs6PigAzy7dp9TzeQI7oGan6NfCgADwL/FAlA/wWi+1DkV8da6pXfuuPg==}
+  ml-kmeans@7.0.0:
+    resolution: {integrity: sha512-Ud8x4YMURVgupAcuSxD9iwc/us4mqyryFnx08gjEGfAyP1iWlJSdBADD96PlpkpHUvRVDNEmk28euGQJZeuU7A==}
 
   ml-matrix@6.12.1:
     resolution: {integrity: sha512-TJ+8eOFdp+INvzR4zAuwBQJznDUfktMtOB6g/hUcGh3rcyjxbz4Te57Pgri8Q9bhSQ7Zys4IYOGhFdnlgeB6Lw==}
 
-  ml-nearest-vector@2.0.1:
-    resolution: {integrity: sha512-gMPwNm3eed59ewJYiCK/+wElWBfNoD6JizH965ePiQgCo0pvQL63w4YdZhLs5eUV0iWcq6brVMUBL6iMySHnqg==}
+  ml-nearest-vector@3.0.1:
+    resolution: {integrity: sha512-7UQ60sPS1Dpe6N6zuEsaL3nrUGHkaiSmjWcQHfMYFfV1dgp6TiPtv3ZtdLHwpf1jS0KQDSkw9pycJO1gYBiEoA==}
 
-  ml-random@0.5.0:
-    resolution: {integrity: sha512-zLJBmNb34LOz+vN6BD8l3aYm/VWYWbmAunrLMPs4dHf4gTl8BWlhil72j56HubPg86zrXioIs4qoHq7Topy6tw==}
+  ml-random@2.0.0:
+    resolution: {integrity: sha512-/ziHm0qyvsvwRy0y+EhmhTKbvq+9ghqf9UYSexKeyx8pp+9avDBLctYaopdTaJ1HU4qnJPEy7XH0CVeh9tHIgQ==}
 
   ml-tree-similarity@1.0.0:
     resolution: {integrity: sha512-XJUyYqjSuUQkNQHMscr6tcjldsOoAekxADTplt40QKfwW6nd++1wHWV9AArl0Zvw/TIHgNaZZNvr8QGvE8wLRg==}
 
-  ml-xsadd@2.0.0:
-    resolution: {integrity: sha512-VoAYUqmPRmzKbbqRejjqceGFp3VF81Qe8XXFGU0UXLxB7Mf4GGvyGq5Qn3k4AiQgDEV6WzobqlPOd+j0+m6IrA==}
+  ml-xsadd@3.0.1:
+    resolution: {integrity: sha512-Fz2q6dwgzGM8wYKGArTUTZDGa4lQFA2Vi6orjGeTVRy22ZnQFKlJuwS9n8NRviqz1KHAHAzdKJwbnYhdo38uYg==}
 
   mlly@1.8.0:
     resolution: {integrity: sha512-l8D9ODSRWLe2KHJSifWGwBqpTZXIXTeo8mlKjY+E2HAakaTeNpqAyBZ8GSqLzHgw4XmHmC8whvpjJNMbFZN7/g==}
@@ -11863,38 +11866,40 @@ snapshots:
 
   ml-distance-euclidean@2.0.0: {}
 
+  ml-distance-euclidean@3.0.1: {}
+
   ml-distance@4.0.1:
     dependencies:
       ml-array-mean: 1.1.6
       ml-distance-euclidean: 2.0.0
       ml-tree-similarity: 1.0.0
 
-  ml-kmeans@6.0.0:
+  ml-kmeans@7.0.0:
     dependencies:
-      ml-distance-euclidean: 2.0.0
+      ml-distance-euclidean: 3.0.1
       ml-matrix: 6.12.1
-      ml-nearest-vector: 2.0.1
-      ml-random: 0.5.0
+      ml-nearest-vector: 3.0.1
+      ml-random: 2.0.0
 
   ml-matrix@6.12.1:
     dependencies:
       is-any-array: 2.0.1
       ml-array-rescale: 1.3.7
 
-  ml-nearest-vector@2.0.1:
+  ml-nearest-vector@3.0.1:
     dependencies:
-      ml-distance-euclidean: 2.0.0
+      ml-distance-euclidean: 3.0.1
 
-  ml-random@0.5.0:
+  ml-random@2.0.0:
     dependencies:
-      ml-xsadd: 2.0.0
+      ml-xsadd: 3.0.1
 
   ml-tree-similarity@1.0.0:
     dependencies:
       binary-search: 1.3.6
       num-sort: 2.1.0
 
-  ml-xsadd@2.0.0: {}
+  ml-xsadd@3.0.1: {}
 
   mlly@1.8.0:
     dependencies:
