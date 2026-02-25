@@ -32,6 +32,7 @@ export default defineNuxtConfig({
         appSlug: 'unsight-dev',
       },
     },
+    adminSecret: '',
     github: {
       token: '',
       appId: '',
