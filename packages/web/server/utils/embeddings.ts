@@ -136,6 +136,10 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
   }
 
   const embeddings = await generateEmbedding(text)
+  if (!embeddings.length) {
+    console.warn('failed to generate embedding for issue:', repo.owner.login, repo.name, issue.number)
+    return
+  }
 
   const updatedValues = {
     repoId,
