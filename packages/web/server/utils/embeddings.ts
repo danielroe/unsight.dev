@@ -64,7 +64,7 @@ export async function removeStoredEmbeddingsForRepo(owner: string, repo: string)
     return
   }
 
-  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
+  const vectorize = useEvent()?.context.cloudflare?.env?.VECTORIZE_ISSUES || null
   if (vectorize) {
     const issues = await useDrizzle()
       .select({ number: tables.issues.number })
@@ -87,7 +87,7 @@ export async function removeIssue(issue: Pick<Issue, 'number'>, repo: { owner: {
   if (!repoId) {
     return
   }
-  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
+  const vectorize = useEvent()?.context.cloudflare?.env?.VECTORIZE_ISSUES || null
   await Promise.all([
     useDrizzle().delete(tables.issues).where(
       and(eq(tables.issues.repoId, repoId), eq(tables.issues.number, issue.number)),
