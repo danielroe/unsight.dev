@@ -119,7 +119,7 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
     eq(tables.issues.number, issue.number),
   )).get()
 
-  if (res && (res.mtime <= issueUpdatedTime || res.hash === issueHash)) {
+  if (res && (res.mtime >= issueUpdatedTime || res.hash === issueHash)) {
     return await Promise.all([
       vectorize?.upsert([{
         id: storageKeyForIssue(repo.owner.login, repo.name, issue.number),
