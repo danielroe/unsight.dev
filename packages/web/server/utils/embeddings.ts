@@ -143,10 +143,7 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
     title: issue.title,
     state: issue.state || 'open',
     number: issue.number,
-    metadata: JSON.stringify({
-      ...issueMetadata,
-      labels: issue.labels,
-    }),
+    metadata: JSON.stringify(issueMetadata),
     mtime: issueUpdatedTime,
     embeddings: JSON.stringify(embeddings),
   }
