@@ -145,7 +145,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
   let indexed = 0
   let skipped = 0
 
-  await octokit.paginate(octokit.rest.issues.listForRepo, {
+  for await (const response of octokit.paginate.iterator(octokit.rest.issues.listForRepo, {
     owner: owner!,
     repo: name!,
     state: 'all',
@@ -153,7 +153,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
     direction: 'asc',
     per_page: 100,
     ...(since ? { since } : {}),
-  }, async (response) => {
+  })) {
     // Process each page in batches of 10 concurrent requests
     const issues = response.data
     for (let i = 0; i < issues.length; i += 10) {
@@ -175,8 +175,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
     if (Number.parseInt(response.headers['x-ratelimit-remaining'] || '999') < 100) {
       console.info(Number.parseInt(response.headers['x-ratelimit-remaining']!), 'requests remaining')
     }
-    return []
-  })
+  }
 
   console.log('indexed', indexed, 'issues (skipped', skipped, ') from', `${owner}/${name}`)
 }
