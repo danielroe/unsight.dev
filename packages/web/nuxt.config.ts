@@ -63,21 +63,11 @@ export default defineNuxtConfig({
     },
   },
   hub: {
-    ai: true,
-    analytics: true,
-    cache: true,
-    database: true,
-    vectorize: {
-      issues: {
-        dimensions: 1024,
-        metric: 'euclidean',
-        metadataIndexes: {
-          owner: 'string',
-          repository: 'string',
-          state: 'string',
-        },
-      },
+    db: {
+      dialect: 'sqlite',
+      driver: 'd1',
     },
+    cache: true,
     kv: true,
   },
   typescript: {

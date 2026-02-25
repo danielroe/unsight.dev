@@ -93,7 +93,7 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
     return
   }
 
-  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
+  const vectorize = useEvent()!.context.cloudflare?.env?.VECTORIZE_ISSUES || null
 
   const issueUpdatedTime = new Date(issue.updated_at).getTime()
 
@@ -218,10 +218,10 @@ export function chunkIssue(issue: Pick<Issue | RestIssue, IssueSegments>, exclud
 }
 
 async function generateEmbedding(text: string): Promise<number[]> {
-  const ai = hubAI()
   try {
+    const ai = useEvent()!.context.cloudflare.env.AI
     const res = await ai.run('@cf/baai/bge-large-en-v1.5', { text })
-    return (res as Exclude<typeof res, { request_id?: string }>).data?.[0] || []
+    return (res as { data?: number[][] }).data?.[0] || []
   }
   catch {
     return []

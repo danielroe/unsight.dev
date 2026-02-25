@@ -1,0 +1,6 @@
+[ai]
+binding = "AI"
+
+[[vectorize]]
+binding = "VECTORIZE_ISSUES"
+index_name = "issues"

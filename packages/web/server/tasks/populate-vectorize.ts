@@ -1,4 +1,5 @@
 import type { StoredEmbeddings } from '~~/server/utils/embeddings'
+import { kv } from 'hub:kv'
 import { defineTask } from 'nitropack/runtime'
 
 export default defineTask({
@@ -7,19 +8,24 @@ export default defineTask({
     description: 'Populate Vectorize with issue embeddings',
   },
   async run() {
-    const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
+    const vectorize = useEvent()!.context.cloudflare?.env?.VECTORIZE_ISSUES || null
     if (!vectorize) {
       return { result: 'Vectorize not available' }
     }
-    const kv = hubKV()
-    const keys = await kv.getKeys('issue:').then(r => r.reverse())
+    const keys = await kv.keys('issue:').then((r: string[]) => r.reverse())
     console.info('Loaded', keys.length, 'issues')
     const total = keys.length
     let count = 1
     try {
       do {
-        const batch = await kv.getItems<StoredEmbeddings>(keys.splice(0, 100))
+        const batchKeys = keys.splice(0, 100)
+        const batch = await Promise.all(batchKeys.map(async (key: string) => ({
+          key,
+          value: await kv.get<StoredEmbeddings>(key),
+        })))
         for (const issue of batch) {
+          if (!issue.value)
+            continue
           try {
             await vectorize.insert([{
               id: issue.key,
