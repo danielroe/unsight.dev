@@ -34,7 +34,7 @@ export default defineTask({
         continue
       }
       await useDrizzle().insert(tables.repos).values({
-        full_name: fetchedRepo.data.full_name,
+        full_name: fetchedRepo.data.full_name.toLowerCase(),
         id: fetchedRepo.data.id,
         node_id: fetchedRepo.data.node_id,
         private: +fetchedRepo.data.private,

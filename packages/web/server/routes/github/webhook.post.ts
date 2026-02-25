@@ -95,7 +95,7 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
       return undefined
     }
     return useDrizzle().insert(tables.repos).values({
-      full_name: repo.full_name,
+      full_name: repo.full_name.toLowerCase(),
       id: repo.id,
       node_id: repo.node_id,
       private: +repo.private,
@@ -124,7 +124,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
   console.log('starting to index', `${repo.full_name}`)
 
   const [owner, name] = repo.full_name.split('/')
-  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`)).get() || {}
+  const { repoId } = await useDrizzle().select({ repoId: tables.repos.id }).from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`.toLowerCase())).get() || {}
   if (!repoId) {
     console.error('Failed to find repoId for', `${owner}/${name}`)
     return

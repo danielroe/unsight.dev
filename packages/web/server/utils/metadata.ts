@@ -12,7 +12,7 @@ export type RepoMetadata = InstallationRepo & {
 export const currentIndexVersion = 4
 
 export async function getMetadataForRepo(owner: string, name: string) {
-  const repo = await useDrizzle().select().from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`)).get()
+  const repo = await useDrizzle().select().from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`.toLowerCase())).get()
   if (repo) {
     return {
       ...repo,
@@ -22,5 +22,5 @@ export async function getMetadataForRepo(owner: string, name: string) {
 }
 
 export async function removeMetadataForRepo(owner: string, name: string) {
-  await useDrizzle().delete(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`))
+  await useDrizzle().delete(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`.toLowerCase()))
 }
