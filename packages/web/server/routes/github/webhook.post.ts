@@ -100,7 +100,7 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
       node_id: repo.node_id,
       private: +repo.private,
       indexed: 0,
-    })
+    }).onConflictDoNothing()
   })))
 
   for (const repo of repos) {
