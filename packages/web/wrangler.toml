@@ -1,6 +1,11 @@
 [ai]
 binding = "AI"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "unsight"
+database_id = "39a984ad-2ed1-48f3-a792-86a81217e6f4"
+
 [[vectorize]]
 binding = "VECTORIZE_ISSUES"
 index_name = "issues"
