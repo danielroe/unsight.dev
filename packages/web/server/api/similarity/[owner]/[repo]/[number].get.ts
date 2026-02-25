@@ -11,7 +11,7 @@ export default defineCachedCorsEventHandler(async (event) => {
     })
   }
 
-  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
+  const vectorize = event.context.cloudflare?.env?.VECTORIZE_ISSUES || null
 
   // TODO: support similar repos
   const issueVector = await vectorize?.getByIds([storageKeyForIssue(owner, repo, number)])

@@ -1,10 +1,10 @@
 import type { TaskPayload } from '~~/server/tasks/add-repo'
 
-export default defineNitroPlugin(async () => {
+export default defineNitroPlugin(async (nitro) => {
   const config = useRuntimeConfig()
 
-  onHubReady(async () => {
-    runTask('add-repo', {
+  nitro.hooks.hook('request', async () => {
+    await runTask('add-repo', {
       payload: {
         repos: config.localDev.presetRepos,
         index: true,

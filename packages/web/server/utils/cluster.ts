@@ -86,8 +86,6 @@ export function findDuplicates<T extends { number: number, title: string }>(_iss
 }
 
 export async function generateClusterName<T extends { number: number, title: string, description?: string }>(clusterIssues: T[], otherClusters: T[][] = []): Promise<string> {
-  const ai = hubAI()
-
   const titles = clusterIssues.slice(0, 10).map(issue => chunkIssue(issue))
   const otherClusterTitles = otherClusters.slice(0, 3).map(cluster => cluster.slice(0, 3).map(issue => chunkIssue(issue)))
 
@@ -113,14 +111,16 @@ Generate only a short, descriptive phrase (4-5 words maximum) that captures the 
 Your response should contain ONLY the phrase - no explanation or other text. It should not contain general words like 'cluster' - it should be as short and simple as possible while still expressing the core theme of the cluster. It should be lowercase except for proper nouns and acronyms, and should not end with a period.
 `
 
-    const res = await ai.run('@hf/nousresearch/hermes-2-pro-mistral-7b', {
+    const { generateText } = await import('ai')
+    const { createWorkersAI } = await import('workers-ai-provider')
+    const workersai = createWorkersAI({ binding: useEvent()!.context.cloudflare.env.AI })
+    const { text } = await generateText({
+      model: workersai('@hf/nousresearch/hermes-2-pro-mistral-7b'),
       prompt,
       temperature: 0.2,
     })
 
-    return 'response' in res
-      ? res.response?.trim().replace(/^["']|["']$/g, '').replace(/^title:?\s*|\s*cluster$/i, '') || ''
-      : ''
+    return text?.trim().replace(/^["']|["']$/g, '').replace(/^title:?\s*|\s*cluster$/i, '') || ''
   }
   catch (error) {
     console.error('Error generating cluster name:', error)
