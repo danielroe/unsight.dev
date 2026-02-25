@@ -64,6 +64,20 @@ export async function removeStoredEmbeddingsForRepo(owner: string, repo: string)
     return
   }
 
+  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
+  if (vectorize) {
+    const issues = await useDrizzle()
+      .select({ number: tables.issues.number })
+      .from(tables.issues)
+      .where(eq(tables.issues.repoId, repoId))
+      .all()
+    const vectorIds = issues.map(i => storageKeyForIssue(owner, repo, i.number))
+    // Vectorize deleteByIds supports up to 1000 IDs per call
+    for (let i = 0; i < vectorIds.length; i += 1000) {
+      await vectorize.deleteByIds(vectorIds.slice(i, i + 1000))
+    }
+  }
+
   const result = await useDrizzle().delete(tables.issues).where(eq(tables.issues.repoId, repoId))
   console.log('removed stored embeddings for repo:', owner, repo, result)
 }
