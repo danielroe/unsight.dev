@@ -10,7 +10,16 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event).catch(() => ({}))
-  const result = await runTask(name, { payload: body || {} })
 
-  return result
+  try {
+    const result = await runTask(name, { payload: body || {} })
+    return result
+  }
+  catch (error) {
+    throw createError({
+      statusCode: 500,
+      message: error instanceof Error ? error.message : 'Task failed',
+      data: { task: name, error: String(error) },
+    })
+  }
 })

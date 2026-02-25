@@ -38,9 +38,12 @@ export default defineTask({
       })
 
       // List all repos accessible to this installation
-      const repos = await octokit.paginate(octokit.rest.apps.listReposAccessibleToInstallation, {
-        per_page: 100,
-      })
+      // This endpoint returns { total_count, repositories }, so we use the mapFn to extract
+      const repos = await octokit.paginate(
+        octokit.rest.apps.listReposAccessibleToInstallation,
+        { per_page: 100 },
+        response => response.data as typeof response.data & { full_name: string, id: number, node_id: string, private: boolean }[],
+      )
 
       for (const repo of repos) {
         if (repo.private)
@@ -63,11 +66,8 @@ export default defineTask({
     // Reset all repos to unindexed so index-repo will pick them up
     await drizzle.update(tables.repos).set({ indexed: 0 })
 
-    // Trigger indexing
-    const result = await runTask('index-repo', { payload: {} })
-
     return {
-      result: `Resynced ${added.length} repos. ${(result as { result?: string })?.result || ''}`,
+      result: `Resynced ${added.length} repos (${added.join(', ')}). Run index-repo task to start indexing.`,
     }
   },
 })
