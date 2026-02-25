@@ -156,9 +156,9 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
   console.log('added', promises.length, 'issues from', `${owner}/${name}`, 'to the index')
 }
 
-async function deleteRepo(event: H3Event, repo: InstallationRepo) {
+async function deleteRepo(_event: H3Event, repo: InstallationRepo) {
   const [owner, name] = repo.full_name.split('/')
 
-  event.waitUntil(removeMetadataForRepo(owner!, name!))
   await removeStoredEmbeddingsForRepo(owner!, name!)
+  await removeMetadataForRepo(owner!, name!)
 }
