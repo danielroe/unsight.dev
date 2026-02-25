@@ -7,13 +7,14 @@ export default defineTask({
     name: 'resync',
     description: 'Discover all installed repos and trigger a full re-index',
   },
-  async run() {
-    const config = useRuntimeConfig()
+  async run(ctx) {
+    const payload = ctx.payload as Record<string, unknown>
+    const github = (payload._context as { github?: { appId: string, privateKey: string } })?.github || useRuntimeConfig().github
     const appOctokit = new Octokit({
       authStrategy: createAppAuth,
       auth: {
-        appId: config.github.appId,
-        privateKey: config.github.privateKey,
+        appId: github.appId,
+        privateKey: github.privateKey,
       },
     })
 
@@ -31,8 +32,8 @@ export default defineTask({
       const octokit = new Octokit({
         authStrategy: createAppAuth,
         auth: {
-          appId: config.github.appId,
-          privateKey: config.github.privateKey,
+          appId: github.appId,
+          privateKey: github.privateKey,
           installationId: installation.id,
         },
       })

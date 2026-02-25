@@ -16,8 +16,9 @@ export default defineTask({
     description: 'Index repositories',
   },
   async run(ctx) {
-    const payload = ctx.payload as unknown as TaskPayload
-    const octokit = new Octokit({ auth: useRuntimeConfig().github.token })
+    const payload = ctx.payload as unknown as TaskPayload & { _context?: { github?: { token: string } } }
+    const github = payload._context?.github || useRuntimeConfig().github
+    const octokit = new Octokit({ auth: github.token })
 
     const repos = await $fetch('/api/repos')
     const indexed: string[] = []

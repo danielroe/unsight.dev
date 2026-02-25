@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
-  const secret = useRuntimeConfig(event).adminSecret
-  if (!secret || getHeader(event, 'authorization') !== `Bearer ${secret}`) {
+  const config = useRuntimeConfig(event)
+  if (!config.adminSecret || getHeader(event, 'authorization') !== `Bearer ${config.adminSecret}`) {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
@@ -12,7 +12,15 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event).catch(() => ({}))
 
   try {
-    const result = await runTask(name, { payload: body || {} })
+    // Pass runtime config context so tasks can access secrets on Cloudflare Workers
+    const result = await runTask(name, {
+      payload: {
+        ...body,
+        _context: {
+          github: config.github,
+        },
+      },
+    })
     return result
   }
   catch (error) {
