@@ -64,11 +64,18 @@ export default defineTask({
 
     console.log(`Added/confirmed ${added.length} repos: ${added.join(', ')}`)
 
+    // If reset is requested, wipe all issues to fix data integrity issues
+    if (payload.reset) {
+      console.log('Resetting: deleting all issues...')
+      await drizzle.delete(tables.issues)
+      console.log('All issues deleted')
+    }
+
     // Reset all repos to unindexed so index-repo will pick them up
     await drizzle.update(tables.repos).set({ indexed: 0 })
 
     return {
-      result: `Resynced ${added.length} repos (${added.join(', ')}). Run index-repo task to start indexing.`,
+      result: `Resynced ${added.length} repos (${added.join(', ')}).${payload.reset ? ' All issues wiped.' : ''} Run index-repo task to start indexing.`,
     }
   },
 })
