@@ -130,16 +130,32 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
     return
   }
 
-  const promises: Array<Promise<unknown>> = []
+  let indexed = 0
+  let skipped = 0
 
   await octokit.paginate(octokit.rest.issues.listForRepo, {
     owner: owner!,
     repo: name!,
     state: 'all',
     per_page: 100,
-  }, (response) => {
-    for (const issue of response.data) {
-      promises.push(indexIssue(issue, { owner: { login: owner! }, name: name! }))
+  }, async (response) => {
+    // Process each page in batches of 10 concurrent requests
+    const issues = response.data
+    for (let i = 0; i < issues.length; i += 10) {
+      const batch = issues.slice(i, i + 10)
+      const results = await Promise.allSettled(
+        batch.map(issue => indexIssue(issue, { owner: { login: owner! }, name: name! })),
+      )
+      for (const r of results) {
+        if (r.status === 'fulfilled') {
+          if (r.value)
+            indexed++
+          else skipped++
+        }
+        else {
+          console.error('Failed to index issue:', r.reason)
+        }
+      }
     }
     if (Number.parseInt(response.headers['x-ratelimit-remaining'] || '999') < 100) {
       console.info(Number.parseInt(response.headers['x-ratelimit-remaining']!), 'requests remaining')
@@ -147,13 +163,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
     return []
   })
 
-  await Promise.allSettled(promises).then((r) => {
-    if (r.some(p => p.status === 'rejected')) {
-      console.error('Failed to fetch some issues from', `${owner}/${name}`)
-    }
-  })
-
-  console.log('added', promises.length, 'issues from', `${owner}/${name}`, 'to the index')
+  console.log('indexed', indexed, 'issues (skipped', skipped, ') from', `${owner}/${name}`)
 }
 
 async function deleteRepo(_event: H3Event, repo: InstallationRepo) {

@@ -34,9 +34,10 @@ export default defineTask({
           continue
 
         await indexRepo(octokit, meta)
-        indexed.push(repo.repo)
 
+        // Mark indexed immediately so progress survives timeouts
         await useDrizzle().update(tables.repos).set({ indexed: currentIndexVersion }).where(eq(tables.repos.id, meta.id))
+        indexed.push(repo.repo)
       }
       catch (e) {
         console.error(e)
