@@ -242,7 +242,8 @@ async function generateEmbedding(text: string): Promise<number[]> {
     const res = await ai.run('@cf/baai/bge-large-en-v1.5', { text })
     return (res as { data?: number[][] }).data?.[0] || []
   }
-  catch {
+  catch (e) {
+    console.error('generateEmbedding failed:', e)
     return []
   }
 }
