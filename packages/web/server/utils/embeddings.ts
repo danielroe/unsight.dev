@@ -73,9 +73,13 @@ export async function removeIssue(issue: Pick<Issue, 'number'>, repo: { owner: {
   if (!repoId) {
     return
   }
-  await useDrizzle().delete(tables.issues).where(
-    and(eq(tables.issues.repoId, repoId), eq(tables.issues.number, issue.number)),
-  )
+  const vectorize = typeof hubVectorize !== 'undefined' ? hubVectorize('issues') : null
+  await Promise.all([
+    useDrizzle().delete(tables.issues).where(
+      and(eq(tables.issues.repoId, repoId), eq(tables.issues.number, issue.number)),
+    ),
+    vectorize?.deleteByIds([storageKeyForIssue(repo.owner.login, repo.name, issue.number)]),
+  ])
   console.log('removed issue:', repo.owner.login, repo.name, issue.number)
 }
 
