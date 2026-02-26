@@ -130,18 +130,6 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
     return
   }
 
-  // Find the latest mtime we have for this repo to resume from where we left off
-  const latest = await useDrizzle()
-    .select({ mtime: sql<number>`max(${tables.issues.mtime})` })
-    .from(tables.issues)
-    .where(eq(tables.issues.repoId, repoId))
-    .get()
-
-  const since = latest?.mtime ? new Date(latest.mtime).toISOString() : undefined
-  if (since) {
-    console.log('resuming from', since, 'for', `${owner}/${name}`)
-  }
-
   let indexed = 0
   let skipped = 0
 
@@ -149,10 +137,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
     owner: owner!,
     repo: name!,
     state: 'all',
-    sort: 'updated',
-    direction: 'asc',
     per_page: 100,
-    ...(since ? { since } : {}),
   })) {
     // Process each page in batches of 10 concurrent requests
     const issues = response.data
