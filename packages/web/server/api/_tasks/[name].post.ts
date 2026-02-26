@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Task name required' })
   }
 
-  const body = await readBody(event).catch(() => ({})) as Record<string, unknown>
+  const body = await readBody(event).catch(() => ({})) || {} as Record<string, unknown>
 
   try {
     if (name === 'index-repo') {
