@@ -15,17 +15,17 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
-    "@vueuse/core": "14.0.0",
+    "@vueuse/core": "14.2.1",
     "@wxt-dev/auto-icons": "^1.0.2",
     "vue": "^3.5.17"
   },
   "devDependencies": {
-    "@types/chrome": "0.1.11",
+    "@types/chrome": "0.1.37",
     "@wxt-dev/module-vue": "1.0.3",
     "@wxt-dev/unocss": "1.0.1",
-    "typescript": "5.9.2",
-    "unocss": "66.5.1",
-    "vue-tsc": "3.0.7",
-    "wxt": "0.20.11"
+    "typescript": "5.9.3",
+    "unocss": "66.6.2",
+    "vue-tsc": "3.2.5",
+    "wxt": "0.20.18"
   }
 }
