@@ -20,24 +20,25 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(_
   const k = embeddings.length < 11 ? Math.ceil(embeddings.length / 2) : Math.max(10, Math.floor(Math.sqrt(embeddings.length) / 2))
   const { clusters } = kmeans(embeddings, k, {})
 
-  const clusteredIssues: Record<string, T[]> = {}
+  const clusteredIssueIndices: Record<string, number[]> = {}
   for (let i = 0; i < issues.length; i++) {
-    clusteredIssues[clusters[i]!] ||= []
-    clusteredIssues[clusters[i]!]!.push(issues[i]!)
+    clusteredIssueIndices[clusters[i]!] ||= []
+    clusteredIssueIndices[clusters[i]!]!.push(i)
   }
 
   const sortedClusters: Array<Array<T & { avgSimilarity: number }>> = []
 
-  for (const cluster in clusteredIssues) {
-    const chunk = clusteredIssues[cluster]!
-    let sortedChunk = chunk.map((issue) => {
+  for (const cluster in clusteredIssueIndices) {
+    const indices = clusteredIssueIndices[cluster]!
+    let sortedChunk = indices.map((idx) => {
       let totalSimilarity = 0
-      for (const other of chunk) {
-        if (issue !== other) {
-          totalSimilarity += similarity.cosine(embeddings[issues.indexOf(issue)], embeddings[issues.indexOf(other)])
+      for (const otherIdx of indices) {
+        if (idx !== otherIdx) {
+          totalSimilarity += similarity.cosine(embeddings[idx]!, embeddings[otherIdx]!)
         }
       }
-      return { ...issue, avgSimilarity: Math.floor(100 * totalSimilarity / (chunk.length - 1)) / 100 }
+      const divisor = indices.length - 1
+      return { ...issues[idx]!, avgSimilarity: divisor > 0 ? Math.floor(100 * totalSimilarity / divisor) / 100 : 0 }
     })
 
     const similarityThreshold = 0.30
