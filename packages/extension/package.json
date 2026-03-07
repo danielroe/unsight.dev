@@ -11,6 +11,7 @@
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
+    "release": "bumpp",
     "compile": "vue-tsc --noEmit",
     "postinstall": "wxt prepare"
   },
@@ -23,6 +24,7 @@
     "@types/chrome": "0.1.11",
     "@wxt-dev/module-vue": "1.0.3",
     "@wxt-dev/unocss": "1.0.1",
+    "bumpp": "^10.4.1",
     "typescript": "5.9.2",
     "unocss": "66.5.1",
     "vue-tsc": "3.0.7",
