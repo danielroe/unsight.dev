@@ -79,7 +79,6 @@ jobs:
           FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
 
-      - name: Create GitHub Release
-        run: gh release create "extension-v${{ needs.check-version.outputs.version }}" packages/extension/.output/*-chrome.zip packages/extension/.output/*-firefox.zip --title "Extension v${{ needs.check-version.outputs.version }}" --generate-notes
+      - run: pnpm changelogithub
         env:
-          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
