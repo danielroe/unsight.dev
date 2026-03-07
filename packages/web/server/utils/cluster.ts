@@ -53,7 +53,7 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(_
   return sortedClusters
 }
 
-export function findDuplicates<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][]) {
+export function findDuplicates<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][], maxIssues = 2000, maxDuplicates = 200) {
   const validIndices = []
   for (let i = 0; i < _issues.length; i++) {
     if (_embeddings[i]!.length > 0) {
@@ -64,22 +64,28 @@ export function findDuplicates<T extends { number: number, title: string }>(_iss
     }
   }
 
-  const issues = validIndices.map(i => _issues[i]!)
-  const embeddings = validIndices.map(i => _embeddings[i]!)
+  const issues = validIndices.map(i => _issues[i]!).slice(0, maxIssues)
+  const embeddings = validIndices.map(i => _embeddings[i]!).slice(0, maxIssues)
+
+  if (issues.length > maxIssues) {
+    console.warn(`Duplicate detection capped at ${maxIssues} issues (${validIndices.length} total)`)
+  }
 
   const duplicates: Array<Array<T & { score: number }>> = []
   for (let i = 0; i < issues.length; i++) {
     const embedding = embeddings[i]
     const chunk: Array<T & { score: number }> = []
     for (let j = i + 1; j < issues.length; j++) {
-      const issue = issues[j]!
       const score = similarity.cosine(embedding, embeddings[j])
       if (score > 0.85) {
-        chunk.push({ ...issue, score })
+        chunk.push({ ...issues[j]!, score })
       }
     }
     if (chunk.length > 0) {
       duplicates.push([{ ...issues[i]!, score: 1 }, ...chunk])
+    }
+    if (duplicates.length >= maxDuplicates) {
+      break
     }
   }
 
