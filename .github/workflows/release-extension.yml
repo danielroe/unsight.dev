@@ -1,0 +1,80 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - packages/extension/package.json
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check.outputs.changed }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 2
+
+      - name: Check if version changed
+        id: check
+        run: |
+          NEW_VERSION=$(jq -r '.version' packages/extension/package.json)
+          OLD_VERSION=$(git show HEAD~1:packages/extension/package.json | jq -r '.version')
+          if [ "$NEW_VERSION" != "$OLD_VERSION" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+            echo "Version changed: $OLD_VERSION -> $NEW_VERSION"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Version unchanged: $NEW_VERSION"
+          fi
+
+  submit:
+    needs: check-version
+    if: needs.check-version.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - run: corepack enable
+      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6
+        with:
+          node-version: lts/-1
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build and zip extensions
+        run: |
+          pnpm --filter unsight zip
+          pnpm --filter unsight zip:firefox
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: extension-zips-${{ needs.check-version.outputs.version }}
+          path: packages/extension/.output/*.zip
+          if-no-files-found: error
+
+      - name: Submit to stores
+        run: |
+          pnpm --filter unsight wxt submit \
+            --chrome-zip packages/extension/.output/*-chrome.zip \
+            --firefox-zip packages/extension/.output/*-firefox.zip \
+            --firefox-sources-zip packages/extension/.output/*-sources.zip
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+
+      - name: Create GitHub Release
+        run: gh release create "extension-v${{ needs.check-version.outputs.version }}" packages/extension/.output/*-chrome.zip packages/extension/.output/*-firefox.zip --title "Extension v${{ needs.check-version.outputs.version }}" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
