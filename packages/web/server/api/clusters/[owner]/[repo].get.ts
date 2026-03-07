@@ -5,7 +5,7 @@ import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
 import { clusterEmbeddings, generateClusterName } from '~~/server/utils/cluster'
 import { getStoredEmbeddingsForRepo } from '~~/server/utils/embeddings'
 
-let invalidateKey = ''
+const invalidateKeys = new Set<string>()
 export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo } = getRouterParams(event)
   if (!owner || !repo) {
@@ -72,7 +72,10 @@ export default defineCachedCorsEventHandler(async (event) => {
   swr: true,
   maxAge: 60 * 60 * 24,
   staleMaxAge: 60 * 60 * 24,
-  shouldInvalidateCache: event => !!invalidateKey && getHeaders(event).invalidate === invalidateKey,
+  shouldInvalidateCache: (event) => {
+    const key = getHeaders(event).invalidate
+    return !!key && invalidateKeys.delete(key)
+  },
   // shouldBypassCache: () => !!import.meta.dev,
   getKey(event) {
     const { owner, repo } = getRouterParams(event)
@@ -81,11 +84,11 @@ export default defineCachedCorsEventHandler(async (event) => {
 })
 
 export async function invalidateCluster(owner: string, repo: string) {
-  invalidateKey = randomUUID()
+  const key = randomUUID()
+  invalidateKeys.add(key)
   await $fetch(`/api/clusters/${owner}/${repo}`, {
     headers: {
-      invalidate: invalidateKey,
+      invalidate: key,
     },
   })
-  invalidateKey = ''
 }
