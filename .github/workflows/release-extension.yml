@@ -64,8 +64,9 @@ jobs:
           include-hidden-files: true
 
       - name: Submit to stores
+        working-directory: packages/extension
         run: |
-          pnpm --filter unsight exec wxt submit \
+          npx wxt submit \
             --chrome-zip .output/*-chrome.zip \
             --firefox-zip .output/*-firefox.zip \
             --firefox-sources-zip .output/*-sources.zip
