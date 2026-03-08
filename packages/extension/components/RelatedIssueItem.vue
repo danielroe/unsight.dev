@@ -43,16 +43,19 @@ const formatter = new Intl.RelativeTimeFormat()
 
 function formatDate(date: Date) {
   const diffInSeconds = (date.getTime() - Date.now()) / 1000
-  const units: Array<{ unit: Intl.RelativeTimeFormatUnit, value: number }> = [
-    {unit: 'second', value: diffInSeconds},
-    {unit: 'minute', value: diffInSeconds / 60},
-    {unit: 'hour', value: diffInSeconds / 3600},
-    {unit: 'day', value: diffInSeconds / 86400},
-    {unit: 'month', value: diffInSeconds / 2592000},
-    {unit: 'year', value: diffInSeconds / 31536000},
+  const units: Array<{ unit: Intl.RelativeTimeFormatUnit, threshold: number }> = [
+    {unit: 'year', threshold: 31536000},
+    {unit: 'month', threshold: 2592000},
+    {unit: 'day', threshold: 86400},
+    {unit: 'hour', threshold: 3600},
+    {unit: 'minute', threshold: 60},
   ]
-  const {unit, value} = units.find(({value}) => Math.abs(value) < 60) || units[units.length - 1]!
-  return formatter.format(Math.round(value), unit)
+  for (const {unit, threshold} of units) {
+    if (Math.abs(diffInSeconds) >= threshold) {
+      return formatter.format(Math.round(diffInSeconds / threshold), unit)
+    }
+  }
+  return formatter.format(Math.round(diffInSeconds), 'second')
 }
 
 </script>
