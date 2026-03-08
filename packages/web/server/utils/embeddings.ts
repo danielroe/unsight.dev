@@ -225,7 +225,7 @@ export interface StoredEmbeddings {
 function preprocessText(text: string): string {
   return text
     .toLowerCase()
-    .replace(/### (Environment|Reproduction).*### /, '### ')
+    .replace(/### (Environment|Reproduction).*?### /s, '### ')
     .replace(/### \w+\s+_No response_/, '')
     .replace(/[^\w\s]/g, '')
     .trim()
