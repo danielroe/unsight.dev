@@ -233,7 +233,7 @@ function preprocessText(text: string): string {
 
 export function chunkIssue(issue: Pick<Issue | RestIssue, IssueSegments>, exclude?: Set<string>) {
   const labels = getLabels(issue).filter(l => !exclude?.has(l))
-  return preprocessText(`${issue.title}\n${labels.join(', ')}\n${issue.body}`)
+  return preprocessText(`${issue.title}\n${labels.join(', ')}\n${issue.body || ''}`)
 }
 
 async function generateEmbedding(text: string): Promise<number[]> {
