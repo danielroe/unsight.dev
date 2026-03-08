@@ -146,7 +146,7 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
       }]),
       drizzle.update(tables.issues).set({
         title: issue.title,
-        state: issue.state,
+        state: issue.state || 'open',
         metadata: JSON.stringify(issueMetadata),
         mtime: issueUpdatedTime,
       }).where(eq(tables.issues.id, res.id)).execute(),
