@@ -24,10 +24,9 @@ export default defineContentScript({
     })
 
     ctx.addEventListener(window, 'wxt:locationchange', ({ newUrl }) => {
+      ui.remove()
       if (watchPattern.includes(newUrl))
         ui.mount()
-      else
-        ui.remove()
     })
 
     if (watchPattern.includes(window.location.href)) {
