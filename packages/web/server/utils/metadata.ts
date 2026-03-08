@@ -23,4 +23,5 @@ export async function getMetadataForRepo(owner: string, name: string) {
 
 export async function removeMetadataForRepo(owner: string, name: string) {
   await useDrizzle().delete(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`.toLowerCase()))
+  clearRepoIdCache(owner, name)
 }
