@@ -61,6 +61,7 @@ function formatDate(date: Date) {
         {{ formatDate(new Date(issue.updated_at)) }}
       </time>
     </span>
+    <span v-if="issue.score" class="ml-0.5">&middot; {{ Math.floor(issue.score * 100) }}%</span>
   </div>
 </template>
 
