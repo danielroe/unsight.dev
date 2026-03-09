@@ -160,8 +160,15 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo) {
         }
       }
     }
-    if (Number.parseInt(response.headers['x-ratelimit-remaining'] || '999') < 100) {
-      console.info(Number.parseInt(response.headers['x-ratelimit-remaining']!), 'requests remaining')
+    const remaining = Number.parseInt(response.headers['x-ratelimit-remaining'] || '999')
+    if (remaining < 100) {
+      console.info(remaining, 'requests remaining')
+    }
+    if (remaining < 50) {
+      const resetAt = Number.parseInt(response.headers['x-ratelimit-reset'] || '0') * 1000
+      const waitMs = Math.max(resetAt - Date.now(), 0) + 1000
+      console.warn(`Rate limit low (${remaining}), pausing for ${Math.ceil(waitMs / 1000)}s`)
+      await new Promise(resolve => setTimeout(resolve, waitMs))
     }
   }
 
