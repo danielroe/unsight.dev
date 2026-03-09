@@ -5,7 +5,7 @@ import { chunkIssue } from '~~/server/utils/embeddings'
 const STRIP_QUOTES_RE = /^["']|["']$/g
 const STRIP_PREFIX_RE = /^title:?\s*|\s*cluster$/i
 
-export function clusterEmbeddings<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][]) {
+export function clusterEmbeddings<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][], similarityThreshold = 0.30) {
   const validIndices = []
   for (let i = 0; i < _issues.length; i++) {
     if (_embeddings[i]!.length > 0) {
@@ -44,8 +44,6 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(_
       return { ...issues[idx]!, avgSimilarity: divisor > 0 ? Math.floor(100 * totalSimilarity / divisor) / 100 : 0 }
     })
 
-    const similarityThreshold = 0.30
-
     sortedChunk = sortedChunk.filter(i => i.avgSimilarity >= similarityThreshold).sort((a, b) => b.avgSimilarity - a.avgSimilarity)
 
     if (sortedChunk.length > 1) {
@@ -56,7 +54,7 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(_
   return sortedClusters
 }
 
-export function findDuplicates<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][], maxIssues = 2000, maxDuplicates = 200) {
+export function findDuplicates<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][], { duplicateThreshold = 0.85, maxIssues = 2000, maxDuplicates = 200 } = {}) {
   const validIndices = []
   for (let i = 0; i < _issues.length; i++) {
     if (_embeddings[i]!.length > 0) {
@@ -80,7 +78,7 @@ export function findDuplicates<T extends { number: number, title: string }>(_iss
     const chunk: Array<T & { score: number }> = []
     for (let j = i + 1; j < issues.length; j++) {
       const score = similarity.cosine(embedding, embeddings[j])
-      if (score > 0.85) {
+      if (score > duplicateThreshold) {
         chunk.push({ ...issues[j]!, score })
       }
     }

@@ -29,7 +29,9 @@ export default defineCachedCorsEventHandler(async (event) => {
       return [issues, embeddings] as const
     })
 
-  const clusters = clusterEmbeddings(issues, embeddings)
+  const query = getQuery(event)
+  const similarityThreshold = query.threshold ? Number.parseFloat(String(query.threshold)) : undefined
+  const clusters = clusterEmbeddings(issues, embeddings, similarityThreshold)
   console.log('generated', clusters.length, 'clusters from', issues.length, embeddings.length)
 
   // Generate titles for each cluster
