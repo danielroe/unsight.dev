@@ -1,8 +1,10 @@
 import type { IssueMetadata } from '~~/server/utils/embeddings'
+import { randomUUID } from 'uncrypto'
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
 import { findDuplicates } from '~~/server/utils/cluster'
 import { getStoredEmbeddingsForRepo } from '~~/server/utils/embeddings'
 
+const invalidateKeys = new Set<string>()
 export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo } = getRouterParams(event)
   if (!owner || !repo) {
@@ -41,8 +43,24 @@ export default defineCachedCorsEventHandler(async (event) => {
   })))
 }, {
   swr: true,
+  maxAge: 60 * 60 * 24,
+  staleMaxAge: 60 * 60 * 24,
+  shouldInvalidateCache: (event) => {
+    const key = getHeaders(event).invalidate
+    return !!key && invalidateKeys.delete(key)
+  },
   getKey(event) {
     const { owner, repo } = getRouterParams(event)
     return `v${2 + currentIndexVersion}:duplicates:${owner}:${repo}`.toLowerCase()
   },
 })
+
+export async function invalidateDuplicates(owner: string, repo: string) {
+  const key = randomUUID()
+  invalidateKeys.add(key)
+  await $fetch(`/api/duplicates/${owner}/${repo}`, {
+    headers: {
+      invalidate: key,
+    },
+  })
+}

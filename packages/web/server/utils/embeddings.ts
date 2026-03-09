@@ -3,6 +3,7 @@ import type { Issue } from '@octokit/webhooks-types'
 import { inArray } from 'drizzle-orm'
 import { hash } from 'ohash'
 import { invalidateCluster } from '~~/server/api/clusters/[owner]/[repo].get'
+import { invalidateDuplicates } from '~~/server/api/duplicates/[owner]/[repo].get'
 
 type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 
@@ -199,8 +200,11 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
       : drizzle.insert(tables.issues).values(updatedValues).execute(),
   ])
 
-  // invalidate clusters for this repo
-  await invalidateCluster(repo.owner.login, repo.name)
+  // invalidate clusters and duplicates for this repo
+  await Promise.all([
+    invalidateCluster(repo.owner.login, repo.name),
+    invalidateDuplicates(repo.owner.login, repo.name),
+  ])
 
   console.log('indexed issue:', issueMetadata)
 

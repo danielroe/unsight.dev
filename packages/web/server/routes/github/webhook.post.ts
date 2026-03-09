@@ -5,6 +5,7 @@ import { createAppAuth } from '@octokit/auth-app'
 
 import { Octokit } from '@octokit/rest'
 import { invalidateCluster } from '~~/server/api/clusters/[owner]/[repo].get'
+import { invalidateDuplicates } from '~~/server/api/duplicates/[owner]/[repo].get'
 import { currentIndexVersion, getMetadataForRepo, removeMetadataForRepo } from '~~/server/utils/metadata'
 import { indexIssue, removeIssue, removeStoredEmbeddingsForRepo } from '../../utils/embeddings'
 
@@ -62,6 +63,7 @@ export default defineEventHandler(async (event) => {
       case 'closed': {
         promises.push(indexIssue(body.issue, body.repository))
         promises.push(invalidateCluster(body.repository.owner.login, body.repository.name))
+        promises.push(invalidateDuplicates(body.repository.owner.login, body.repository.name))
         break
       }
 
@@ -69,6 +71,7 @@ export default defineEventHandler(async (event) => {
       case 'deleted': {
         promises.push(removeIssue(body.issue, body.repository))
         promises.push(invalidateCluster(body.repository.owner.login, body.repository.name))
+        promises.push(invalidateDuplicates(body.repository.owner.login, body.repository.name))
         break
       }
     }
