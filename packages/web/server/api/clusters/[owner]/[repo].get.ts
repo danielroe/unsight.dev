@@ -34,40 +34,57 @@ export default defineCachedCorsEventHandler(async (event) => {
   const clusters = clusterEmbeddings(issues, embeddings, similarityThreshold)
   console.log('generated', clusters.length, 'clusters from', issues.length, embeddings.length)
 
-  // Generate titles for each cluster
-  const clustersWithTitles = await Promise.all(clusters.map(async (cluster) => {
-    // Use other clusters for contrast when generating names
-    const otherClusters = clusters.filter(c => c !== cluster).map(c => c.map(issue => ({
-      number: issue.number,
-      title: issue.title,
-    })))
+  // Generate titles for each cluster, with limited concurrency
+  const concurrency = 5
+  const clustersWithTitles: Array<{
+    title: string
+    issues: Array<{
+      owner: string
+      repository: string
+      number: number
+      title: string
+      url: string
+      updated_at: string
+      state: string
+      avgSimilarity: number
+      labels: Array<string | { name: string, color?: string }>
+    }>
+  }> = []
 
-    // Generate a unique name for this cluster
-    const title = await generateClusterName(
-      cluster.map(issue => ({
+  for (let i = 0; i < clusters.length; i += concurrency) {
+    const batch = clusters.slice(i, i + concurrency)
+    const results = await Promise.all(batch.map(async (cluster) => {
+      const otherClusters = clusters.filter(c => c !== cluster).map(c => c.map(issue => ({
         number: issue.number,
         title: issue.title,
-        description: issue.description,
-      })),
-      otherClusters,
-    )
+      })))
 
-    // Return the cluster with its generated title
-    return {
-      title,
-      issues: cluster.map(i => ({
-        owner: i.owner,
-        repository: i.repository,
-        number: i.number,
-        title: i.title,
-        url: i.url,
-        updated_at: i.updated_at,
-        state: i.state,
-        avgSimilarity: i.avgSimilarity,
-        labels: i.labels,
-      })),
-    }
-  }))
+      const title = await generateClusterName(
+        cluster.map(issue => ({
+          number: issue.number,
+          title: issue.title,
+          description: issue.description,
+        })),
+        otherClusters,
+      )
+
+      return {
+        title,
+        issues: cluster.map(i => ({
+          owner: i.owner,
+          repository: i.repository,
+          number: i.number,
+          title: i.title,
+          url: i.url,
+          updated_at: i.updated_at,
+          state: i.state,
+          avgSimilarity: i.avgSimilarity,
+          labels: i.labels,
+        })),
+      }
+    }))
+    clustersWithTitles.push(...results)
+  }
 
   return clustersWithTitles
 }, {
