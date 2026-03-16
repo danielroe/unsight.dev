@@ -2,7 +2,7 @@
 const route = useRoute('owner-repo-issue')
 
 useSeoMeta({
-  title: () => `Similar issues - #${route.params.issue} - ${route.params.owner}/${route.params.repo}`
+  title: () => `Similar issues - #${route.params.issue} - ${route.params.owner}/${route.params.repo}`,
 })
 
 const { data: issues, status } = useFetch(`/api/similarity/${route.params.owner}/${route.params.repo}/${route.params.issue}`, {

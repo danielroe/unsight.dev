@@ -14,7 +14,8 @@ if (import.meta.client && isCallback.value) {
     refresh()
   }, 1000)
   const unsub = watch(allowedRepos, (newRepos) => {
-    if (newRepos.length === numRepos) return
+    if (newRepos.length === numRepos)
+      return
 
     isCallback.value = false
     clearInterval(interval)
@@ -31,20 +32,20 @@ const repos = computed(() => allowedRepos.value.filter(r => r.issuesIndexed > 10
       <p class="text-xl md:text-2xl lg:text-3xl mb-8 text-center mt-18 md:mt-36">
         cluster issues by similarity across multiple repositories
       </p>
-        <NuxtLink
-          class="bg-green-700 rounded-md px-5 py-2.5 font-medium flex flex-row gap-2 items-center color-white no-underline focus:bg-green-800 hover:bg-green-800 transition-colors shadow-lg"
-          :href="isCallback ? '' : installationURL"
-          :class="{ 'pointer-events-none opacity-50': isCallback }"
-        >
-          <template v-if="isCallback">
-            <span class="i-tabler-refresh animate-spin inline-block w-5 h-5" />
-            updating repositories
-          </template>
-          <template v-else>
-            <span class="i-ri:github-fill inline-block w-5 h-5" />
-            install as a github app
-          </template>
-        </NuxtLink>
+      <NuxtLink
+        class="bg-green-700 rounded-md px-5 py-2.5 font-medium flex flex-row gap-2 items-center color-white no-underline focus:bg-green-800 hover:bg-green-800 transition-colors shadow-lg"
+        :href="isCallback ? '' : installationURL"
+        :class="{ 'pointer-events-none opacity-50': isCallback }"
+      >
+        <template v-if="isCallback">
+          <span class="i-tabler-refresh animate-spin inline-block w-5 h-5" />
+          updating repositories
+        </template>
+        <template v-else>
+          <span class="i-ri:github-fill inline-block w-5 h-5" />
+          install as a github app
+        </template>
+      </NuxtLink>
       <div class="flex flex-row gap-2">
         <NuxtLink class="hover:underline focus:underline font-medium color-gray-200 flex flex-row gap-2 items-center color-white no-underline outline-none" to="https://chromewebstore.google.com/detail/unsight/dnkemphgofcdnnfjblcpclofbkeimpnc" target="_blank">
           <span class="i-ri:chrome-fill inline-block w-5 h-5" />

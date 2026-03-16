@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFetch } from '@vueuse/core'
 import { computed } from 'vue'
-import RelatedIssueItem from "@/components/RelatedIssueItem.vue";
+import RelatedIssueItem from '@/components/RelatedIssueItem.vue'
 
 const { owner, repo, issue } = window.location.pathname.match(/\/(?<owner>[^/]+)\/(?<repo>[^/]+)\/issues\/(?<issue>\d+)/)?.groups || {}
 
@@ -14,16 +14,17 @@ const { data: issues } = useFetch(issueUrl, {
   onFetchError: (ctx) => {
     console.error('Failed to fetch similar issues:', ctx.error)
     return ctx
-  }
+  },
 }).json()
-
 </script>
 
 <template>
   <div class="section w-full">
     <div class="px-2 text-xs flex flex-col gap-2 w-full">
-      <h3 class="!text-xs text-[--fgColor-muted]">Related issues</h3>
-      <RelatedIssueItem v-for="issue of issues " :issue="issue" />
+      <h3 class="!text-xs text-[--fgColor-muted]">
+        Related issues
+      </h3>
+      <RelatedIssueItem v-for="(item, index) of issues" :key="index" :issue="item" />
       <span v-if="issues.length === 0" class="mt-1 mb-2">No similar issues found.</span>
     </div>
   </div>

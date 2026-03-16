@@ -2,6 +2,9 @@ import { similarity } from 'ml-distance'
 import { kmeans } from 'ml-kmeans'
 import { chunkIssue } from '~~/server/utils/embeddings'
 
+const STRIP_QUOTES_RE = /^["']|["']$/g
+const STRIP_PREFIX_RE = /^title:?\s*|\s*cluster$/i
+
 export function clusterEmbeddings<T extends { number: number, title: string }>(_issues: T[], _embeddings: number[][]) {
   const validIndices = []
   for (let i = 0; i < _issues.length; i++) {
@@ -127,7 +130,7 @@ Your response should contain ONLY the phrase - no explanation or other text. It 
       temperature: 0.2,
     })
 
-    return text?.trim().replace(/^["']|["']$/g, '').replace(/^title:?\s*|\s*cluster$/i, '') || ''
+    return text?.trim().replace(STRIP_QUOTES_RE, '').replace(STRIP_PREFIX_RE, '') || ''
   }
   catch (error) {
     console.error('Error generating cluster name:', error)
