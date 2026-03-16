@@ -15,6 +15,6 @@
     "changelogithub": "14.0.0",
     "eslint": "9.39.4",
     "typescript": "5.9.3",
-    "vite-plus": "^0.1.12"
+    "vite-plus": "0.1.12"
   }
 }
