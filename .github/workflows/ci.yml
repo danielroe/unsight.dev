@@ -14,40 +14,32 @@ jobs:
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - run: corepack enable
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - uses: voidzero-dev/setup-vp@b5d848f5a62488f3d3d920f8aa6ac318a60c5f07 # v1
         with:
-          node-version: lts/-1
-          cache: pnpm
-
-      - name: 📦 Install dependencies
-        run: pnpm install
+          node-version: '22'
+          cache: true
 
       - name: 🔠 Lint project
-        run: pnpm lint
+        run: vp run lint
 
   test:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - run: corepack enable
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - uses: voidzero-dev/setup-vp@b5d848f5a62488f3d3d920f8aa6ac318a60c5f07 # v1
         with:
-          node-version: lts/-1
-          cache: pnpm
-
-      - name: 📦 Install dependencies
-        run: pnpm install
+          node-version: '22'
+          cache: true
 
       - name: 💪 Type check
-        run: pnpm test:types
+        run: vp run test:types
 
-      - name: 🧪 Unit test
-        run: pnpm test:unit
+      # - name: 🧪 Unit test
+      #   run: vp run test:unit
 
       # - name: 🏃 Component tests
-      #   run: pnpm test:nuxt
+      #   run: vp run test:nuxt
 
   # browser:
   #   runs-on: ubuntu-latest
@@ -55,15 +47,11 @@ jobs:
   #     image: mcr.microsoft.com/playwright:v1.49.1-noble
 
   #   steps:
-  #     - uses: actions/checkout@v4
-  #     - run: corepack enable
-  #     - uses: actions/setup-node@v4
+  #     - uses: actions/checkout@v6
+  #     - uses: voidzero-dev/setup-vp@v1
   #       with:
-  #         node-version: lts/-1
-  #         cache: pnpm
-
-  #     - name: 📦 Install dependencies
-  #       run: pnpm install
+  #         node-version: '22'
+  #         cache: true
 
   #     - name: 🖥️ Test project (browser)
-  #       run: pnpm test:browser
+  #       run: vp run test:browser

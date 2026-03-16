@@ -4,27 +4,17 @@
   "private": true,
   "packageManager": "pnpm@10.21.0",
   "scripts": {
-    "dev": "pnpm --filter web dev",
-    "dev:ext": "pnpm --filter unsight dev",
+    "dev": "vp run --filter web dev",
+    "dev:ext": "vp run --filter unsight dev",
     "lint": "eslint --cache .",
-    "test:types": "pnpm -r test:types",
-    "test:unit": "pnpm -r test:unit",
-    "postinstall": "simple-git-hooks"
+    "test:types": "vp run -r test:types",
+    "test:unit": "vp run -r test:unit"
   },
   "devDependencies": {
     "@antfu/eslint-config": "6.0.0",
     "changelogithub": "14.0.0",
     "eslint": "9.39.4",
-    "nano-staged": "0.9.0",
-    "simple-git-hooks": "2.13.1",
-    "typescript": "5.9.2"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "npx nano-staged"
-  },
-  "nano-staged": {
-    "*.{js,ts,mjs,cjs,json,.*rc}": [
-      "npx eslint --fix"
-    ]
+    "typescript": "5.9.2",
+    "vite-plus": "^0.1.12"
   }
 }
