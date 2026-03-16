@@ -41,19 +41,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - run: corepack enable
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - uses: voidzero-dev/setup-vp@b5d848f5a62488f3d3d920f8aa6ac318a60c5f07 # v1
         with:
-          node-version: lts/-1
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+          node-version: '22'
+          cache: true
 
       - name: Build and zip extensions
         run: |
-          pnpm --filter unsight zip
-          pnpm --filter unsight zip:firefox
+          vp run --filter unsight zip
+          vp run --filter unsight zip:firefox
 
       - name: Upload artifacts
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
@@ -66,7 +62,7 @@ jobs:
       - name: Submit to stores
         working-directory: packages/extension
         run: |
-          npx wxt submit \
+          vpx wxt submit \
             --chrome-zip .output/*-chrome.zip \
             --firefox-zip .output/*-firefox.zip \
             --firefox-sources-zip .output/*-sources.zip
@@ -79,6 +75,6 @@ jobs:
           FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
 
-      - run: pnpm changelogithub
+      - run: vp dlx changelogithub
         env:
           GITHUB_TOKEN: ${{ github.token }}
