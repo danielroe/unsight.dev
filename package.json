@@ -2,7 +2,7 @@
   "name": "unsight-dev",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.21.0",
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "dev": "vp run --filter web dev",
     "dev:ext": "vp run --filter unsight dev",
@@ -11,10 +11,10 @@
     "test:unit": "vp run -r test:unit"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "6.0.0",
+    "@antfu/eslint-config": "6.7.3",
     "changelogithub": "14.0.0",
     "eslint": "9.39.4",
-    "typescript": "5.9.2",
+    "typescript": "5.9.3",
     "vite-plus": "^0.1.12"
   }
 }
