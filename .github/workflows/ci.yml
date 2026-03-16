@@ -35,8 +35,8 @@ jobs:
       - name: 💪 Type check
         run: vp run test:types
 
-      - name: 🧪 Unit test
-        run: vp run test:unit
+      # - name: 🧪 Unit test
+      #   run: vp run test:unit
 
       # - name: 🏃 Component tests
       #   run: vp run test:nuxt

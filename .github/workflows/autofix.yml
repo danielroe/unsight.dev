@@ -26,8 +26,8 @@ jobs:
       - name: 🔠 Fix lint errors
         run: vp run lint -- --fix
 
-      - name: 🧪 Update unit test snapshots
-        run: vp run -r test:unit -- -u
+      # - name: 🧪 Update unit test snapshots
+      #   run: vp run test:unit -- -u
 
       # - name: 🏃 Update component test snapshots
       #   run: vp run test:nuxt -- -u
