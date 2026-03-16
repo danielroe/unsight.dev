@@ -2,7 +2,7 @@
 const route = useRoute('owner-repo')
 
 useSeoMeta({
-  title: () => `Issue clusters - ${route.params.owner}/${route.params.repo}`
+  title: () => `Issue clusters - ${route.params.owner}/${route.params.repo}`,
 })
 
 const { data: allowedRepos } = useRepos()
@@ -23,7 +23,6 @@ const { data: duplicates, status: duplicateStatus } = useFetch(() => `/api/dupli
 const unsub = [] as Array<() => void>
 onMounted(async () => {
   if ('startViewTransition' in document) {
-
     let finishTransition: () => void
     const promise = new Promise<void>((resolve) => {
       finishTransition = resolve
@@ -108,13 +107,14 @@ const openState = reactive<Record<string, boolean>>({})
     <template v-if="showDuplicates">
       <section
         v-for="(cluster, i) of showDuplicates ? duplicates : []"
+        :key="i"
         class="flex flex-col gap-4 md:rounded-md md:border-solid md:border md:border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 flex-wrap border-b-solid"
       >
         <h2 class="my-4 font-bold text-2xl flex items-baseline">
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
           <span>{{ i + 1 }}</span>
           <span class="ml-auto text-white bg-gray-700 text-sm font-normal rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 border-gray-700 inline-block leading-tight flex items-center">
-            <span class="i-tabler-wash-dryclean-off inline-block w-4 h-4"></span>
+            <span class="i-tabler-wash-dryclean-off inline-block w-4 h-4" />
             possible duplicate
           </span>
         </h2>
@@ -132,7 +132,6 @@ const openState = reactive<Record<string, boolean>>({})
           :state="issue.state"
         />
       </section>
-
     </template>
     <template v-if="status === 'idle' || status === 'pending'">
       <section
@@ -177,7 +176,7 @@ const openState = reactive<Record<string, boolean>>({})
           <span class="text-gray-500 inline-block mr-1 font-normal">#</span>{{ c + 1 }}
           <span class="ml-2 font-normal text-lg color-gray-300">&mdash; {{ cluster.title }}</span>
           <span class="ml-auto text-white bg-gray-700 text-sm font-normal rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 border-gray-700 inline-block leading-tight flex items-center">
-            <span class="i-tabler:copy inline-block w-4 h-4"></span>
+            <span class="i-tabler:copy inline-block w-4 h-4" />
             cluster
           </span>
         </h2>

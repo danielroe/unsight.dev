@@ -24,7 +24,7 @@ defineProps({
   state: {
     type: String,
     default: 'open',
-  }
+  },
 })
 
 function labelColors(color: string) {
@@ -44,8 +44,8 @@ function labelColors(color: string) {
 
 <template>
   <article class="flex flex-row gap-2 leading-tightest">
-    <span 
-      class="flex-shrink-0 inline-block w-5 h-5" 
+    <span
+      class="flex-shrink-0 inline-block w-5 h-5"
       :class="state === 'open' ? 'i-tabler-circle-dot text-green-500' : 'i-tabler-circle-check text-purple-500'"
     />
     <div class="flex flex-row gap-2 flex-wrap md:flex-nowrap md:pb-6 flex-grow">
@@ -65,7 +65,7 @@ function labelColors(color: string) {
           :to="{
             name: 'owner-repo',
             params: {
-              owner: owner,
+              owner,
               repo: repository,
             },
           }"
@@ -77,8 +77,8 @@ function labelColors(color: string) {
           <span v-if="state === 'closed'">closed</span>
           <span v-else>updated</span>
           <NuxtTime
-          :datetime="updated_at"
-          relative
+            :datetime="updated_at"
+            relative
           />
         </span>
         &middot;
@@ -87,7 +87,7 @@ function labelColors(color: string) {
           :to="owner && repository ? {
             name: 'owner-repo-issue',
             params: {
-              owner: owner,
+              owner,
               repo: repository,
               issue: number,
             },

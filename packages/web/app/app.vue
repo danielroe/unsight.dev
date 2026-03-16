@@ -29,7 +29,7 @@ const { data: repos } = useRepos()
           to="/"
           class="flex flex-row items-center gap-2 text-lg font-bold my-4 no-underline color-current"
         >
-          <span class="icon bg-pink-400 w-10 h-10 self-center"></span>
+          <span class="icon bg-pink-400 w-10 h-10 self-center" />
           <div class="flex flex-row items-baseline gap-2">
             <h1>unsight.dev</h1>
             <span class="text-pink-400 text-xs">

@@ -1,45 +1,43 @@
-<template>
-  <span>
-    <template v-for="(part, index) in formattedParts" :key="index">
-        <template v-if="part.isCode">
-          <code>{{ part.content }}</code>
-        </template>
-        <template v-else>
-          {{ part.content }}
-        </template>
-      </template>
-  </span>
-</template>
-
 <script setup lang="ts">
-
 const props = defineProps<{
   text: string
 }>()
 
+const CODE_RE = /`([^`]+)`/g
 
 const formattedParts = computed(() => {
-  const text = props.text;
-  const parts = [];
-  const regex = /`([^`]+)`/g;
-  let lastIndex = 0;
-  let match;
+  const text = props.text
+  const parts = []
+  let lastIndex = 0
 
-  while ((match = regex.exec(text)) !== null) {
+  for (const match of text.matchAll(CODE_RE)) {
     if (match.index > lastIndex) {
-      parts.push({isCode: false, content: text.slice(lastIndex, match.index)});
+      parts.push({ isCode: false, content: text.slice(lastIndex, match.index) })
     }
-    parts.push({isCode: true, content: match[1]});
-    lastIndex = regex.lastIndex;
+    parts.push({ isCode: true, content: match[1] })
+    lastIndex = match.index + match[0].length
   }
 
   if (lastIndex < text.length) {
-    parts.push({isCode: false, content: text.slice(lastIndex)});
+    parts.push({ isCode: false, content: text.slice(lastIndex) })
   }
 
-  return parts;
+  return parts
 })
 </script>
+
+<template>
+  <span>
+    <template v-for="(part, index) in formattedParts" :key="index">
+      <template v-if="part.isCode">
+        <code>{{ part.content }}</code>
+      </template>
+      <template v-else>
+        {{ part.content }}
+      </template>
+    </template>
+  </span>
+</template>
 
 <style scoped>
 code {

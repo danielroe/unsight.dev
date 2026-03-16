@@ -222,12 +222,16 @@ export interface StoredEmbeddings {
   embeddings: number[]
 }
 
+const STRIP_ENV_SECTION_RE = /### (Environment|Reproduction).*?### /s
+const STRIP_NO_RESPONSE_RE = /### \w+\s+_No response_/
+const STRIP_SPECIAL_CHARS_RE = /[^\w\s]/g
+
 function preprocessText(text: string): string {
   return text
     .toLowerCase()
-    .replace(/### (Environment|Reproduction).*?### /s, '### ')
-    .replace(/### \w+\s+_No response_/, '')
-    .replace(/[^\w\s]/g, '')
+    .replace(STRIP_ENV_SECTION_RE, '### ')
+    .replace(STRIP_NO_RESPONSE_RE, '')
+    .replace(STRIP_SPECIAL_CHARS_RE, '')
     .trim()
 }
 
