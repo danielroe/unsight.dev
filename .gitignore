@@ -28,3 +28,6 @@ test-results
 .eslintcache
 
 .wxt
+
+# vite-plus
+.vite-hooks

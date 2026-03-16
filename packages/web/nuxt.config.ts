@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@nuxt/eslint',
     '@nuxthub/core',
-    'nuxt-time',
     '@nuxtjs/html-validator',
     // TODO: 'nuxt-og-image',
     'nuxt-webhook-validators',
