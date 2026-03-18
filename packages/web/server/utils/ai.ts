@@ -6,7 +6,8 @@
  */
 export function useAI(): { run: (model: string, input: unknown) => Promise<unknown> } | null {
   const binding = useEvent()?.context.cloudflare?.env?.AI
-  if (binding) return binding
+  if (binding)
+    return binding
 
   // Fallback to Cloudflare AI REST API for local dev
   const config = useRuntimeConfig()

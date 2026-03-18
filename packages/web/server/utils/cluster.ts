@@ -137,7 +137,8 @@ Your response should contain ONLY the phrase - no explanation or other text. It 
     }
     else {
       const ai = useAI()
-      if (!ai) return 'Unnamed cluster'
+      if (!ai)
+        return 'Unnamed cluster'
       const res = await ai.run('@hf/nousresearch/hermes-2-pro-mistral-7b', {
         prompt,
         temperature: 0.2,
