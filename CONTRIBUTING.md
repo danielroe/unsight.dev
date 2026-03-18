@@ -176,6 +176,7 @@ See the [README](./README.md#configure-your-secrets) for the full list of requir
 | **Framework** | [Nuxt 4](https://nuxt.com/) (Vue 3) |
 | **Server engine** | [Nitro](https://nitro.build/) |
 | **Styling** | [UnoCSS](https://unocss.dev/) (with Tailwind compat reset) |
+| **UI primitives** | [Reka UI](https://reka-ui.com/) |
 | **Database** | [Cloudflare D1](https://developers.cloudflare.com/d1/) (SQLite) via [Drizzle ORM](https://orm.drizzle.team/) |
 | **Vector search** | [Cloudflare Vectorize](https://developers.cloudflare.com/vectorize/) |
 | **AI / Embeddings** | [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) |
