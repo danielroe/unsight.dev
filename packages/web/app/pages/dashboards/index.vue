@@ -47,16 +47,6 @@ async function createDashboard() {
     creating.value = false
   }
 }
-
-function toggleRepo(repo: string) {
-  const idx = selectedRepos.value.indexOf(repo)
-  if (idx >= 0) {
-    selectedRepos.value.splice(idx, 1)
-  }
-  else {
-    selectedRepos.value.push(repo)
-  }
-}
 </script>
 
 <template>
@@ -94,7 +84,7 @@ function toggleRepo(repo: string) {
         class="flex flex-col gap-3 md:rounded-md md:border-solid md:border border-gray-700 md:px-4 py-4 mb-6"
         @submit.prevent="createDashboard"
       >
-        <label class="flex flex-col gap-1">
+        <Label class="flex flex-col gap-1">
           <span class="text-sm text-gray-400">name</span>
           <input
             v-model="newDashboardName"
@@ -102,23 +92,23 @@ function toggleRepo(repo: string) {
             placeholder="e.g. Nuxt Ecosystem"
             class="bg-shark-500 rounded-md px-3 py-2 color-white border-solid border border-gray-600 text-sm"
           >
-        </label>
+        </Label>
         <div class="flex flex-col gap-1">
           <span class="text-sm text-gray-400">repositories</span>
-          <div class="flex flex-row flex-wrap gap-2">
-            <button
+          <ToggleGroupRoot
+            v-model="selectedRepos"
+            type="multiple"
+            class="flex flex-row flex-wrap gap-2"
+          >
+            <ToggleGroupItem
               v-for="repo in availableRepos"
               :key="repo.repo"
-              type="button"
-              class="text-xs rounded-md px-2 py-1 border-solid border transition-colors"
-              :class="selectedRepos.includes(repo.repo)
-                ? 'border-green-600 bg-green-700/20 color-green-300'
-                : 'border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 hover:border-gray-400'"
-              @click="toggleRepo(repo.repo)"
+              :value="repo.repo"
+              class="text-xs rounded-md px-2 py-1 border-solid border transition-colors border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 hover:border-gray-400 data-[state=on]:border-green-600 data-[state=on]:bg-green-700/20 data-[state=on]:color-green-300"
             >
               {{ repo.repo }}
-            </button>
-          </div>
+            </ToggleGroupItem>
+          </ToggleGroupRoot>
           <p
             v-if="selectedRepos.length"
             class="text-xs text-gray-500 mt-1"

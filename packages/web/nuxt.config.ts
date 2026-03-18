@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     // TODO: 'nuxt-og-image',
     'nuxt-webhook-validators',
     'nuxt-auth-utils',
+    'reka-ui/nuxt',
   ],
   devtools: { enabled: true },
   app: {
@@ -77,6 +78,14 @@ export default defineNuxtConfig({
     db: 'sqlite',
     cache: true,
     kv: true,
+  },
+  vite: {
+    optimizeDeps: {
+      include: [
+        'hex-rgb',
+        'rgb-to-hsl', // CJS
+      ],
+    },
   },
   typescript: {
     hoist: ['nitropack/runtime', '@cloudflare/workers-types'],

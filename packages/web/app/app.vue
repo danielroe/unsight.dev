@@ -76,14 +76,19 @@ const { user, clear } = useUserSession()
       </nav>
       <NuxtPage />
     </main>
-    <footer class="justify-center flex flex-col md:flex-row gap-2 font-sans p-2 text-center text-sm opacity-75 hover:opacity-100 mb-4">
+    <footer class="justify-center flex flex-col md:flex-row items-center gap-2 font-sans p-2 text-center text-sm opacity-75 hover:opacity-100 mb-4">
       <a
         class="no-underline hover:underline text-white"
         href="https://github.com/danielroe/unsight.dev"
       >
         source
       </a>
-      <span class="before:hidden md:before:inline-block before:content-['·'] before:mr-2">
+      <Separator
+        decorative
+        orientation="vertical"
+        class="hidden md:inline-block w-px h-3 bg-gray-600"
+      />
+      <span>
         made with ❤️ by
         <a
           class="no-underline font-semibold hover:underline text-white"
@@ -92,7 +97,12 @@ const { user, clear } = useUserSession()
           @danielroe.dev
         </a>
       </span>
-      <span class="before:hidden md:before:inline-block before:content-['·'] before:mr-2">
+      <Separator
+        decorative
+        orientation="vertical"
+        class="hidden md:inline-block w-px h-3 bg-gray-600"
+      />
+      <span>
         {{ repos.length }} repos
       </span>
     </footer>

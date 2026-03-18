@@ -68,10 +68,9 @@ async function saveDashboard() {
   }
 }
 
+const showDeleteDialog = ref(false)
+
 async function deleteDashboard() {
-  // eslint-disable-next-line no-alert
-  if (!confirm('Are you sure you want to delete this dashboard?'))
-    return
   deleting.value = true
   try {
     await $fetch(`/api/dashboards/${dashboardId.value}`, {
@@ -85,16 +84,6 @@ async function deleteDashboard() {
   }
   finally {
     deleting.value = false
-  }
-}
-
-function toggleRepo(repo: string) {
-  const idx = selectedRepos.value.indexOf(repo)
-  if (idx >= 0) {
-    selectedRepos.value.splice(idx, 1)
-  }
-  else {
-    selectedRepos.value.push(repo)
   }
 }
 </script>
@@ -137,31 +126,31 @@ function toggleRepo(repo: string) {
         class="flex flex-col gap-4 md:rounded-md md:border-solid md:border border-gray-700 md:px-4 py-4"
         @submit.prevent="saveDashboard"
       >
-        <label class="flex flex-col gap-1">
+        <Label class="flex flex-col gap-1">
           <span class="text-sm text-gray-400">name</span>
           <input
             v-model="editName"
             type="text"
             class="bg-shark-500 rounded-md px-3 py-2 color-white border-solid border border-gray-600 text-sm"
           >
-        </label>
+        </Label>
 
         <div class="flex flex-col gap-1">
           <span class="text-sm text-gray-400">repositories</span>
-          <div class="flex flex-row flex-wrap gap-2">
-            <button
+          <ToggleGroupRoot
+            v-model="selectedRepos"
+            type="multiple"
+            class="flex flex-row flex-wrap gap-2"
+          >
+            <ToggleGroupItem
               v-for="repo in availableRepos"
               :key="repo.repo"
-              type="button"
-              class="text-xs rounded-md px-2 py-1 border-solid border transition-colors"
-              :class="selectedRepos.includes(repo.repo)
-                ? 'border-green-600 bg-green-700/20 color-green-300'
-                : 'border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 hover:border-gray-400'"
-              @click="toggleRepo(repo.repo)"
+              :value="repo.repo"
+              class="text-xs rounded-md px-2 py-1 border-solid border transition-colors border-gray-700 bg-transparent color-gray-400 hover:color-gray-200 hover:border-gray-400 data-[state=on]:border-green-600 data-[state=on]:bg-green-700/20 data-[state=on]:color-green-300"
             >
               {{ repo.repo }}
-            </button>
-          </div>
+            </ToggleGroupItem>
+          </ToggleGroupRoot>
           <p
             v-if="selectedRepos.length"
             class="text-xs text-gray-500 mt-1"
@@ -184,14 +173,37 @@ function toggleRepo(repo: string) {
           >
             cancel
           </NuxtLink>
-          <button
-            type="button"
-            :disabled="deleting"
-            class="ml-auto rounded-md px-4 py-2 text-sm bg-transparent color-red-400 border-solid border border-red-900 hover:bg-red-900/20 hover:color-red-300 transition-colors disabled:opacity-50 cursor-pointer"
-            @click="deleteDashboard"
-          >
-            {{ deleting ? 'deleting...' : 'delete dashboard' }}
-          </button>
+          <AlertDialogRoot v-model:open="showDeleteDialog">
+            <AlertDialogTrigger
+              type="button"
+              :disabled="deleting"
+              class="ml-auto rounded-md px-4 py-2 text-sm bg-transparent color-red-400 border-solid border border-red-900 hover:bg-red-900/20 hover:color-red-300 transition-colors disabled:opacity-50 cursor-pointer"
+            >
+              {{ deleting ? 'deleting...' : 'delete dashboard' }}
+            </AlertDialogTrigger>
+            <AlertDialogPortal>
+              <AlertDialogOverlay class="fixed inset-0 bg-black/60 z-50" />
+              <AlertDialogContent class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-shark-400 rounded-lg p-6 z-50 max-w-md w-[90vw] border-solid border border-gray-700">
+                <AlertDialogTitle class="text-base font-medium mb-2">
+                  delete dashboard
+                </AlertDialogTitle>
+                <AlertDialogDescription class="text-sm text-gray-400 mb-5">
+                  this action cannot be undone. this will permanently delete the dashboard and remove its configuration.
+                </AlertDialogDescription>
+                <div class="flex gap-3 justify-end">
+                  <AlertDialogCancel class="rounded-md px-4 py-2 text-sm bg-transparent color-gray-400 border-solid border border-gray-700 hover:color-gray-200 hover:border-gray-400 transition-colors cursor-pointer">
+                    cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    class="rounded-md px-4 py-2 text-sm bg-red-900/30 color-red-300 border-solid border border-red-900 hover:bg-red-900/50 transition-colors cursor-pointer"
+                    @click="deleteDashboard"
+                  >
+                    delete
+                  </AlertDialogAction>
+                </div>
+              </AlertDialogContent>
+            </AlertDialogPortal>
+          </AlertDialogRoot>
         </div>
       </form>
     </template>

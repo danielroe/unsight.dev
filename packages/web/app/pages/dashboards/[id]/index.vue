@@ -59,8 +59,6 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   unsub.forEach(u => u())
 })
-
-const openState = reactive<Record<string, boolean>>({})
 </script>
 
 <template>
@@ -138,45 +136,47 @@ const openState = reactive<Record<string, boolean>>({})
       <span class="text-gray-400 flex-shrink-0 i-tabler-refresh inline-block w-4 h-4 animate-spin" />
       loading cross-repo duplicates
     </div>
-    <button
-      v-else-if="!showDuplicates && duplicates.length"
-      class="mt-6 rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex items-center gap-2 justify-center w-full"
-      type="button"
-      @click="showDuplicates = true"
-    >
-      show {{ duplicates?.length }} possible cross-repo duplicates
-    </button>
-
     <!-- Duplicates -->
-    <template v-if="showDuplicates">
-      <section
-        v-for="(cluster, i) of duplicates"
-        :key="i"
-        class="flex flex-col gap-4 md:rounded-md md:border-solid md:border md:border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 flex-wrap border-b-solid"
+    <CollapsibleRoot
+      v-if="duplicateStatus === 'success' && duplicates.length"
+      v-model:open="showDuplicates"
+      class="mt-6"
+    >
+      <CollapsibleTrigger
+        class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex items-center gap-2 justify-center w-full"
       >
-        <h2 class="my-4 font-bold text-2xl flex items-baseline">
-          <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
-          <span>{{ i + 1 }}</span>
-          <span class="ml-auto text-white bg-gray-700 text-sm font-normal rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 border-gray-700 inline-block leading-tight flex items-center">
-            <span class="i-tabler-wash-dryclean-off inline-block w-4 h-4" />
-            possible duplicate
-          </span>
-        </h2>
-        <GitHubIssue
-          v-for="(issue, j) of cluster"
-          :key="j"
-          :url="issue.url"
-          :title="issue.title"
-          :owner="issue.owner"
-          :repository="issue.repository"
-          :number="issue.number"
-          :avg-similarity="issue.score"
-          :labels="issue.labels"
-          :updated_at="issue.updated_at"
-          :state="issue.state"
-        />
-      </section>
-    </template>
+        {{ showDuplicates ? 'hide' : 'show' }} {{ duplicates?.length }} possible cross-repo duplicates
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <section
+          v-for="(cluster, i) of duplicates"
+          :key="i"
+          class="flex flex-col gap-4 md:rounded-md md:border-solid md:border md:border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 flex-wrap border-b-solid"
+        >
+          <h2 class="my-4 font-bold text-2xl flex items-baseline">
+            <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
+            <span>{{ i + 1 }}</span>
+            <span class="ml-auto text-white bg-gray-700 text-sm font-normal rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 border-gray-700 inline-block leading-tight flex items-center">
+              <span class="i-tabler-wash-dryclean-off inline-block w-4 h-4" />
+              possible duplicate
+            </span>
+          </h2>
+          <GitHubIssue
+            v-for="(issue, j) of cluster"
+            :key="j"
+            :url="issue.url"
+            :title="issue.title"
+            :owner="issue.owner"
+            :repository="issue.repository"
+            :number="issue.number"
+            :avg-similarity="issue.score"
+            :labels="issue.labels"
+            :updated_at="issue.updated_at"
+            :state="issue.state"
+          />
+        </section>
+      </CollapsibleContent>
+    </CollapsibleRoot>
 
     <!-- Cluster loading state -->
     <template v-if="clusterStatus === 'idle' || clusterStatus === 'pending'">
@@ -227,7 +227,7 @@ const openState = reactive<Record<string, boolean>>({})
           </span>
         </h2>
         <GitHubIssue
-          v-for="(issue, i) of openState[c] !== true ? cluster.issues.slice(0, 5) : cluster.issues"
+          v-for="(issue, i) of cluster.issues.slice(0, 5)"
           :key="i"
           :url="issue.url"
           :title="issue.title"
@@ -239,14 +239,28 @@ const openState = reactive<Record<string, boolean>>({})
           :updated_at="issue.updated_at"
           :state="issue.state"
         />
-        <button
-          v-if="cluster.issues.length > 5 && openState[c] !== true"
-          class="rounded-md text-sm border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
-          type="button"
-          @click="openState[c] = !openState[c]"
-        >
-          show {{ cluster.issues.length - 5 }} more
-        </button>
+        <CollapsibleRoot v-if="cluster.issues.length > 5">
+          <CollapsibleTrigger
+            class="rounded-md text-sm border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors w-full"
+          >
+            show {{ cluster.issues.length - 5 }} more
+          </CollapsibleTrigger>
+          <CollapsibleContent class="flex flex-col gap-4 mt-4">
+            <GitHubIssue
+              v-for="(issue, i) of cluster.issues.slice(5)"
+              :key="i"
+              :url="issue.url"
+              :title="issue.title"
+              :owner="issue.owner"
+              :repository="issue.repository"
+              :number="issue.number"
+              :avg-similarity="issue.avgSimilarity"
+              :labels="issue.labels"
+              :updated_at="issue.updated_at"
+              :state="issue.state"
+            />
+          </CollapsibleContent>
+        </CollapsibleRoot>
       </section>
     </template>
   </div>

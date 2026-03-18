@@ -33,6 +33,7 @@
     "nuxt-auth-utils": "^0.5.29",
     "nuxt-webhook-validators": "0.2.7",
     "ohash": "^2.0.11",
+    "reka-ui": "^2.9.2",
     "rgb-to-hsl": "^0.0.3",
     "uncrypto": "^0.1.3",
     "universal-github-app-jwt": "^2.2.2",

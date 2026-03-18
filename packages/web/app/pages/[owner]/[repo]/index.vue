@@ -36,15 +36,13 @@ onBeforeUnmount(() => {
   unsub.forEach(unsub => unsub())
 })
 
-function navigateToRepo(event: Event) {
-  const [owner, repo] = (event.target as HTMLSelectElement).value.split('/') as [string, string]
+function navigateToRepo(value: string) {
+  const [owner, repo] = value.split('/') as [string, string]
   return navigateTo({
     name: 'owner-repo',
     params: { owner, repo },
   })
 }
-
-const openState = reactive<Record<string, boolean>>({})
 </script>
 
 <template>
@@ -66,25 +64,36 @@ const openState = reactive<Record<string, boolean>>({})
           <span class="sr-only">refresh data</span>
         </button>
       </div>
-      <label class="w-full text-xs border-solid border border-gray-600 rounded-md flex flex-row items-center relative">
-        <span class="sr-only">pick a repository to cluster issues</span>
-        <select
-          :value="selectedRepo"
-          class="pl-8 bg-shark-500 rounded-md pr-2 py-2 color-white border-0 w-full appearance-none"
-          @change="navigateToRepo"
+      <SelectRoot
+        :model-value="selectedRepo"
+        @update:model-value="navigateToRepo"
+      >
+        <SelectTrigger
+          class="w-full text-xs border-solid border border-gray-600 rounded-md flex flex-row items-center px-3 py-2 bg-shark-500 color-white gap-2"
+          aria-label="pick a repository to cluster issues"
         >
-          <option
-            v-for="repo in allowedRepos.filter((repo) => repo.issuesIndexed > 0)"
-            :key="repo.repo"
-            :selected="repo.repo === selectedRepo"
+          <span class="text-gray-400 flex-shrink-0 i-tabler-search inline-block w-5 h-5" />
+          <SelectValue placeholder="pick a repository" />
+        </SelectTrigger>
+        <SelectPortal>
+          <SelectContent
+            class="bg-shark-400 border-solid border border-gray-600 rounded-md overflow-hidden z-50"
+            position="popper"
+            :side-offset="4"
           >
-            {{ repo.repo }}
-          </option>
-        </select>
-        <span
-          class="absolute ml-2 text-gray-400 flex-shrink-0 i-tabler-search inline-block w-5 h-5"
-        />
-      </label>
+            <SelectViewport class="p-1">
+              <SelectItem
+                v-for="repo in allowedRepos.filter((r) => r.issuesIndexed > 0)"
+                :key="repo.repo"
+                :value="repo.repo"
+                class="text-xs color-white px-3 py-2 rounded cursor-pointer outline-none data-[highlighted]:bg-shark-300"
+              >
+                <SelectItemText>{{ repo.repo }}</SelectItemText>
+              </SelectItem>
+            </SelectViewport>
+          </SelectContent>
+        </SelectPortal>
+      </SelectRoot>
     </form>
     <div
       v-if="duplicateStatus !== 'success' && duplicateStatus !== 'error'"
@@ -96,43 +105,46 @@ const openState = reactive<Record<string, boolean>>({})
       />
       loading duplicates
     </div>
-    <button
-      v-else-if="!showDuplicates && duplicates.length"
-      class="mt-6 rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex items-center gap-2 justify-center w-full"
-      type="button"
-      @click="showDuplicates = true"
+    <CollapsibleRoot
+      v-else-if="duplicates.length"
+      v-model:open="showDuplicates"
+      class="mt-6"
     >
-      show {{ duplicates?.length }} possible duplicates
-    </button>
-    <template v-if="showDuplicates">
-      <section
-        v-for="(cluster, i) of showDuplicates ? duplicates : []"
-        :key="i"
-        class="flex flex-col gap-4 md:rounded-md md:border-solid md:border md:border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 flex-wrap border-b-solid"
+      <CollapsibleTrigger
+        class="rounded-md border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors flex items-center gap-2 justify-center w-full"
       >
-        <h2 class="my-4 font-bold text-2xl flex items-baseline">
-          <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
-          <span>{{ i + 1 }}</span>
-          <span class="ml-auto text-white bg-gray-700 text-sm font-normal rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 border-gray-700 inline-block leading-tight flex items-center">
-            <span class="i-tabler-wash-dryclean-off inline-block w-4 h-4" />
-            possible duplicate
-          </span>
-        </h2>
-        <GitHubIssue
-          v-for="(issue, j) of cluster"
-          :key="j"
-          :url="issue.url"
-          :title="issue.title"
-          :owner="issue.owner"
-          :repository="issue.repository"
-          :number="issue.number"
-          :avg-similarity="issue.score"
-          :labels="issue.labels"
-          :updated_at="issue.updated_at"
-          :state="issue.state"
-        />
-      </section>
-    </template>
+        {{ showDuplicates ? 'hide' : 'show' }} {{ duplicates?.length }} possible duplicates
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <section
+          v-for="(cluster, i) of duplicates"
+          :key="i"
+          class="flex flex-col gap-4 md:rounded-md md:border-solid md:border md:border-gray-700 md:px-4 pb-8 mt-6 columns-1 lg:columns-2 flex-wrap border-b-solid"
+        >
+          <h2 class="my-4 font-bold text-2xl flex items-baseline">
+            <span class="text-gray-500 inline-block mr-1 font-normal">#</span>
+            <span>{{ i + 1 }}</span>
+            <span class="ml-auto text-white bg-gray-700 text-sm font-normal rounded-full px-2 py-0.5 whitespace-pre border-solid border-1 border-gray-700 inline-block leading-tight flex items-center">
+              <span class="i-tabler-wash-dryclean-off inline-block w-4 h-4" />
+              possible duplicate
+            </span>
+          </h2>
+          <GitHubIssue
+            v-for="(issue, j) of cluster"
+            :key="j"
+            :url="issue.url"
+            :title="issue.title"
+            :owner="issue.owner"
+            :repository="issue.repository"
+            :number="issue.number"
+            :avg-similarity="issue.score"
+            :labels="issue.labels"
+            :updated_at="issue.updated_at"
+            :state="issue.state"
+          />
+        </section>
+      </CollapsibleContent>
+    </CollapsibleRoot>
     <template v-if="status === 'idle' || status === 'pending'">
       <section
         v-for="i in 7"
@@ -181,7 +193,7 @@ const openState = reactive<Record<string, boolean>>({})
           </span>
         </h2>
         <GitHubIssue
-          v-for="(issue, i) of openState[c] !== true ? cluster.issues.slice(0, 5) : cluster.issues"
+          v-for="(issue, i) of cluster.issues.slice(0, 5)"
           :key="i"
           :url="issue.url"
           :title="issue.title"
@@ -193,14 +205,28 @@ const openState = reactive<Record<string, boolean>>({})
           :updated_at="issue.updated_at"
           :state="issue.state"
         />
-        <button
-          v-if="cluster.issues.length > 5 && openState[c] !== true"
-          class="rounded-md text-sm border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors"
-          type="button"
-          @click="openState[c] = !openState[c]"
-        >
-          show {{ cluster.issues.length - 5 }} more
-        </button>
+        <CollapsibleRoot v-if="cluster.issues.length > 5">
+          <CollapsibleTrigger
+            class="rounded-md text-sm border-solid border border-gray-700 bg-transparent color-gray-400 py-2 hover:color-gray-200 active:color-white focus:color-gray-200 hover:border-gray-400 active:border-white focus:border-gray-400 transition-colors w-full"
+          >
+            show {{ cluster.issues.length - 5 }} more
+          </CollapsibleTrigger>
+          <CollapsibleContent class="flex flex-col gap-4 mt-4">
+            <GitHubIssue
+              v-for="(issue, i) of cluster.issues.slice(5)"
+              :key="i"
+              :url="issue.url"
+              :title="issue.title"
+              :owner="issue.owner"
+              :repository="issue.repository"
+              :number="issue.number"
+              :avg-similarity="issue.avgSimilarity"
+              :labels="issue.labels"
+              :updated_at="issue.updated_at"
+              :state="issue.state"
+            />
+          </CollapsibleContent>
+        </CollapsibleRoot>
       </section>
     </template>
   </div>
