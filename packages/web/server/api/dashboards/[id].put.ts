@@ -3,6 +3,9 @@ import { inArray } from 'drizzle-orm'
 export default defineEventHandler(async (event) => {
   const session = await requireUserSession(event)
   const { id } = getRouterParams(event)
+  if (!id) {
+    throw createError({ statusCode: 400, message: 'Dashboard ID is required' })
+  }
 
   const drizzle = useDrizzle()
 
