@@ -1,6 +1,6 @@
 import { Octokit } from '@octokit/rest'
-import { indexRepo } from '~~/server/routes/github/webhook.post'
-import { currentIndexVersion, getMetadataForRepo } from '~~/server/utils/metadata'
+import { indexRepo } from '~~/server/utils/index-repo'
+import { getMetadataForRepo } from '~~/server/utils/metadata'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
@@ -40,13 +40,24 @@ export default defineEventHandler(async (event) => {
 async function indexRepoHandler(github: { token: string }, body: Record<string, unknown>) {
   const octokit = new Octokit({ auth: github.token })
   const filter = body.filter as string[] | undefined
+  const timeBudgetMs = typeof body.timeBudgetMs === 'number' ? body.timeBudgetMs : undefined
 
   const repos = await $fetch('/api/repos')
   const indexed: string[] = []
-  let count = 1
+  const partial: string[] = []
+
+  // Also check for repos with a non-zero cursor (partially indexed from a previous run)
+  const allRepos = await useDrizzle().select({
+    fullName: tables.repos.full_name,
+    indexCursor: tables.repos.indexCursor,
+    indexedVersion: tables.repos.indexed,
+  }).from(tables.repos).all()
+  const cursorMap = new Map(allRepos.map(r => [r.fullName, r.indexCursor]))
 
   for (const repo of repos as { repo: string, indexed: boolean }[]) {
-    if (repo.indexed || (filter && !filter.includes(repo.repo)))
+    const cursor = cursorMap.get(repo.repo) || 0
+    const needsIndexing = !repo.indexed || cursor > 0
+    if (!needsIndexing || (filter && !filter.includes(repo.repo)))
       continue
 
     try {
@@ -55,17 +66,29 @@ async function indexRepoHandler(github: { token: string }, body: Record<string, 
       if (!meta)
         continue
 
-      await indexRepo(octokit, meta)
-      await useDrizzle().update(tables.repos).set({ indexed: currentIndexVersion }).where(eq(tables.repos.id, meta.id))
-      indexed.push(repo.repo)
+      const result = await indexRepo(octokit, meta, { timeBudgetMs })
+
+      if (result.complete) {
+        indexed.push(repo.repo)
+      }
+      else {
+        partial.push(repo.repo)
+        // Stop processing more repos — this one consumed the time budget
+        break
+      }
     }
     catch (e) {
       console.error('Error indexing', repo.repo, e)
     }
-
-    if (count++ > 30)
-      break
   }
 
-  return { result: `Indexed repositories (${indexed.join(', ')}).` }
+  const parts = []
+  if (indexed.length)
+    parts.push(`Fully indexed: ${indexed.join(', ')}`)
+  if (partial.length)
+    parts.push(`Partially indexed (will resume): ${partial.join(', ')}`)
+  if (!parts.length)
+    parts.push('No repos needed indexing')
+
+  return { result: `${parts.join('. ')}.` }
 }

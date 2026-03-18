@@ -6,6 +6,7 @@ export const repos = sqliteTable('repos', {
   full_name: text('full_name').notNull().unique(),
   private: integer('private').notNull(),
   indexed: integer('indexed').notNull().default(0),
+  indexCursor: integer('index_cursor').notNull().default(0),
 })
 
 export const issues = sqliteTable('issues', {

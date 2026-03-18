@@ -23,6 +23,7 @@ export default defineCachedCorsEventHandler(async () => {
     repo: repo.full_name,
     issuesIndexed: issueCountMap.get(repo.id) || 0,
     indexed: repo.indexed === currentIndexVersion,
+    indexingInProgress: repo.indexCursor > 0,
   }))
 }, {
   swr: true,
