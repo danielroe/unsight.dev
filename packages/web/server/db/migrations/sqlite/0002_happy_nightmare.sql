@@ -1,0 +1,1 @@
+ALTER TABLE `repos` ADD `index_cursor` integer DEFAULT 0 NOT NULL;
