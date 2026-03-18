@@ -10,19 +10,15 @@
 
 - [👉 &nbsp;Check it out](https://unsight.dev/)
 
-<!--
-TODO: add listing on app stores
-
-A browser extension (work in progress) that enhances GitHub issue pages by adding a "Similar Issues" section to the issue header. This feature helps users discover related issues more easily.
- -->
-
 ## ✨ Features
 
-- Built on [Nuxt](https://nuxt.com/)
-- [Nitro server API routes](https://nuxt.com/docs/guide/concepts/server-engine#server-engine)
-- [GitHub API](https://docs.github.com/en/rest) and a [GitHub App](https://docs.github.com/en/apps/creating-github-apps)
-- [UnoCSS](https://unocss.dev/)
-- Deployed on [Cloudflare](https://cloudflare.com/) with [NuxtHub](https://hub.nuxt.com/), using [Workers AI](https://developers.cloudflare.com/workers-ai/#_top), [Workers KV](https://developers.cloudflare.com/kv/#_top) and [Vectorize](http://developers.cloudflare.com/vectorize/)
+- Built on [Nuxt 4](https://nuxt.com/) with [Nitro](https://nitro.build/) server engine
+- AI-powered issue embeddings and k-means clustering
+- [GitHub App](https://docs.github.com/en/apps/creating-github-apps) integration via [@octokit/rest](https://github.com/octokit/rest.js)
+- [UnoCSS](https://unocss.dev/) for styling
+- [Drizzle ORM](https://orm.drizzle.team/) for database access
+- Deployed on [Cloudflare](https://cloudflare.com/) with [NuxtHub](https://hub.nuxt.com/), using [Workers AI](https://developers.cloudflare.com/workers-ai/), [D1](https://developers.cloudflare.com/d1/) (SQLite), [KV](https://developers.cloudflare.com/kv/) and [Vectorize](https://developers.cloudflare.com/vectorize/)
+- [Browser extension](#-browser-extension) for Chrome and Firefox
 
 ## 🌎 Browser extension
 
@@ -142,6 +138,10 @@ These repositories will automatically be indexed when you start your dev server.
 
 > [!IMPORTANT]
 > This only has an effect in development mode.
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines, project structure, and development workflow.
 
 ## Credits
 
