@@ -1,5 +1,7 @@
 import type { Octokit } from '@octokit/rest'
 import type { InstallationRepo } from '~~/server/utils/metadata'
+
+import { count } from 'drizzle-orm'
 import { indexIssue } from '~~/server/utils/embeddings'
 import { currentIndexVersion } from '~~/server/utils/metadata'
 
@@ -13,6 +15,10 @@ export interface IndexRepoResult {
   skipped: number
   /** Whether all pages were processed (false = timed out, needs another invocation) */
   complete: boolean
+  /** Current page the cursor is at (0 if complete) */
+  currentPage: number
+  /** Number of issues already stored in the DB for this repo */
+  totalStored: number
 }
 
 /**
@@ -29,7 +35,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
   const { timeBudgetMs = 20_000 } = options
 
   if (repo.private) {
-    return { indexed: 0, skipped: 0, complete: true }
+    return { indexed: 0, skipped: 0, complete: true, currentPage: 0, totalStored: 0 }
   }
 
   const [owner, name] = repo.full_name.split('/')
@@ -38,7 +44,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
   const repoRow = await drizzle.select({ repoId: tables.repos.id, indexCursor: tables.repos.indexCursor }).from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`.toLowerCase())).get()
   if (!repoRow) {
     console.error('Failed to find repo row for', `${owner}/${name}`)
-    return { indexed: 0, skipped: 0, complete: true }
+    return { indexed: 0, skipped: 0, complete: true, currentPage: 0, totalStored: 0 }
   }
 
   const startPage = repoRow.indexCursor || 1
@@ -48,6 +54,12 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
   let skipped = 0
   let currentPage = startPage
   const deadline = Date.now() + timeBudgetMs
+
+  /** Count how many issues are stored in the DB for this repo */
+  async function getStoredCount(): Promise<number> {
+    const result = await drizzle.select({ count: count() }).from(tables.issues).where(eq(tables.issues.repoId, repoRow!.repoId)).get()
+    return result?.count ?? 0
+  }
 
   for await (const response of octokit.paginate.iterator(octokit.rest.issues.listForRepo, {
     owner: owner!,
@@ -60,8 +72,9 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
     if (Date.now() >= deadline) {
       console.log(`Time budget exhausted for ${repo.full_name} at page ${currentPage}, saving cursor`)
       await drizzle.update(tables.repos).set({ indexCursor: currentPage }).where(eq(tables.repos.id, repo.id))
-      console.log('indexed', indexed, 'issues (skipped', skipped, ') from', `${owner}/${name}`, '(partial, will resume)')
-      return { indexed, skipped, complete: false }
+      const totalStored = await getStoredCount()
+      console.log('indexed', indexed, 'issues (skipped', skipped, `, total stored: ${totalStored}) from`, `${owner}/${name}`, '(partial, will resume)')
+      return { indexed, skipped, complete: false, currentPage, totalStored }
     }
 
     // Process each page in batches of 10 concurrent requests
@@ -87,8 +100,9 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
         // Save cursor at current page so we re-process it (some issues in this page may not have been done)
         console.log(`Time budget exhausted for ${repo.full_name} mid-page ${currentPage}, saving cursor`)
         await drizzle.update(tables.repos).set({ indexCursor: currentPage }).where(eq(tables.repos.id, repo.id))
-        console.log('indexed', indexed, 'issues (skipped', skipped, ') from', `${owner}/${name}`, '(partial, will resume)')
-        return { indexed, skipped, complete: false }
+        const totalStored = await getStoredCount()
+        console.log('indexed', indexed, 'issues (skipped', skipped, `, total stored: ${totalStored}) from`, `${owner}/${name}`, '(partial, will resume)')
+        return { indexed, skipped, complete: false, currentPage, totalStored }
       }
     }
 
@@ -104,7 +118,8 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
       if (Date.now() + waitMs >= deadline) {
         console.warn(`Rate limit pause (${Math.ceil(waitMs / 1000)}s) would exceed time budget, saving cursor at page ${currentPage}`)
         await drizzle.update(tables.repos).set({ indexCursor: currentPage + 1 }).where(eq(tables.repos.id, repo.id))
-        return { indexed, skipped, complete: false }
+        const totalStored = await getStoredCount()
+        return { indexed, skipped, complete: false, currentPage: currentPage + 1, totalStored }
       }
       console.warn(`Rate limit low (${remaining}), pausing for ${Math.ceil(waitMs / 1000)}s`)
       await new Promise(resolve => setTimeout(resolve, waitMs))
@@ -119,6 +134,7 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
     indexCursor: 0,
   }).where(eq(tables.repos.id, repo.id))
 
-  console.log('indexed', indexed, 'issues (skipped', skipped, ') from', `${owner}/${name}`, '(complete)')
-  return { indexed, skipped, complete: true }
+  const totalStored = await getStoredCount()
+  console.log('indexed', indexed, 'issues (skipped', skipped, `, total stored: ${totalStored}) from`, `${owner}/${name}`, '(complete)')
+  return { indexed, skipped, complete: true, currentPage: 0, totalStored }
 }
