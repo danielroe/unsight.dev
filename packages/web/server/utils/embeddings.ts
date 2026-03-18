@@ -1,5 +1,6 @@
 import type { RestEndpointMethodTypes } from '@octokit/rest'
 import type { Issue } from '@octokit/webhooks-types'
+import { inArray } from 'drizzle-orm'
 import { hash } from 'ohash'
 import { invalidateCluster } from '~~/server/api/clusters/[owner]/[repo].get'
 
@@ -49,7 +50,25 @@ export async function getStoredEmbeddingsForRepo(owner: string, repo: string, st
     state === 'all'
       ? eq(tables.issues.repoId, repoId)
       : and(eq(tables.issues.repoId, repoId), eq(tables.issues.state, state)),
-  ).all()
+  )
+
+  return issues.map(i => ({
+    ...i,
+    metadata: JSON.parse(i.metadata) as IssueMetadata,
+    embeddings: JSON.parse(i.embeddings) as number[],
+  }))
+}
+
+export async function getStoredEmbeddingsForRepos(repoIds: number[], state: 'open' | 'closed' | 'all' = 'open') {
+  if (!repoIds.length) {
+    return []
+  }
+
+  const issues = await useDrizzle().select().from(tables.issues).where(
+    state === 'all'
+      ? inArray(tables.issues.repoId, repoIds)
+      : and(inArray(tables.issues.repoId, repoIds), eq(tables.issues.state, state)),
+  )
 
   return issues.map(i => ({
     ...i,
@@ -70,7 +89,6 @@ export async function removeStoredEmbeddingsForRepo(owner: string, repo: string)
       .select({ number: tables.issues.number })
       .from(tables.issues)
       .where(eq(tables.issues.repoId, repoId))
-      .all()
     const vectorIds = issues.map(i => storageKeyForIssue(owner, repo, i.number))
     // Vectorize deleteByIds supports up to 1000 IDs per call
     for (let i = 0; i < vectorIds.length; i += 1000) {
@@ -242,7 +260,11 @@ export function chunkIssue(issue: Pick<Issue | RestIssue, IssueSegments>, exclud
 
 async function generateEmbedding(text: string): Promise<number[]> {
   try {
-    const ai = useEvent()!.context.cloudflare.env.AI
+    const ai = useAI()
+    if (!ai) {
+      console.warn('generateEmbedding: no AI binding or REST API configured, skipping')
+      return []
+    }
     const res = await ai.run('@cf/baai/bge-large-en-v1.5', { text })
     return (res as { data?: number[][] }).data?.[0] || []
   }

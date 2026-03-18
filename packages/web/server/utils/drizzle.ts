@@ -1,6 +1,6 @@
 import { db, schema } from 'hub:db'
 
-export { and, eq, or, sql } from 'drizzle-orm'
+export { and, eq, inArray, or, sql } from 'drizzle-orm'
 
 export const tables = schema
 

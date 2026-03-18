@@ -7,7 +7,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "db:generate": "drizzle-kit generate",
+    "db:generate": "nuxt db generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test:types": "vue-tsc -b --noEmit"
@@ -15,6 +15,7 @@
   "dependencies": {
     "@iconify-json/ri": "1.2.10",
     "@iconify-json/tabler": "1.2.31",
+    "@libsql/client": "^0.17.0",
     "@nuxthub/core": "^0.10.6",
     "@nuxtjs/html-validator": "2.1.0",
     "@octokit/auth-app": "^8.0.1",
@@ -29,6 +30,7 @@
     "ml-distance": "^4.0.1",
     "ml-kmeans": "^7.0.0",
     "nuxt": "^4.0.0",
+    "nuxt-auth-utils": "^0.5.29",
     "nuxt-webhook-validators": "0.2.7",
     "ohash": "^2.0.11",
     "rgb-to-hsl": "^0.0.3",
@@ -36,6 +38,7 @@
     "universal-github-app-jwt": "^2.2.2",
     "unocss": "^66.3.2",
     "unplugin-vue-router": "^0.19.0",
+    "unstorage": "^1.17.4",
     "workers-ai-provider": "^3.1.2"
   },
   "devDependencies": {

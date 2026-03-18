@@ -5,15 +5,14 @@ export default defineCachedCorsEventHandler(async () => {
   const drizzle = useDrizzle()
 
   const [repos, issueCounts] = await Promise.all([
-    drizzle.select().from(tables.repos).all(),
+    drizzle.select().from(tables.repos),
     drizzle
       .select({
         repoId: tables.issues.repoId,
         count: count(),
       })
       .from(tables.issues)
-      .groupBy(tables.issues.repoId)
-      .all(),
+      .groupBy(tables.issues.repoId),
   ])
 
   const issueCountMap = new Map(

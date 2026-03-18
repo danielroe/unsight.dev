@@ -31,7 +31,7 @@ export default defineNuxtModule<ModuleOptions>({
     uiOnly: process.argv.includes('--ui-only'),
     presetRepos: ('DEV_REPOS_TO_INDEX' in process.env && process.env.DEV_REPOS_TO_INDEX)
       ? process.env.DEV_REPOS_TO_INDEX.split(',').filter(Boolean)
-      : ['nitrojs/nitro', 'nuxt/nuxt'],
+      : ['nuxt/module-builder', 'nuxt/cli'],
   }),
   setup(options, nuxt) {
     if (!nuxt.options.dev && !nuxt.options._prepare) {

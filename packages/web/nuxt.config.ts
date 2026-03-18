@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/html-validator',
     // TODO: 'nuxt-og-image',
     'nuxt-webhook-validators',
+    'nuxt-auth-utils',
   ],
   devtools: { enabled: true },
   app: {
@@ -32,10 +33,20 @@ export default defineNuxtConfig({
       },
     },
     adminSecret: '',
+    oauth: {
+      github: {
+        clientId: '',
+        clientSecret: '',
+      },
+    },
     github: {
       token: '',
       appId: '',
       privateKey: '',
+    },
+    cloudflare: {
+      accountId: '',
+      apiToken: '',
     },
   },
   sourcemap: {
@@ -63,10 +74,7 @@ export default defineNuxtConfig({
     },
   },
   hub: {
-    db: {
-      dialect: 'sqlite',
-      driver: 'd1',
-    },
+    db: 'sqlite',
     cache: true,
     kv: true,
   },

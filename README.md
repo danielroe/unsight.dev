@@ -126,7 +126,7 @@ You can now directly visit `http://localhost:3000/<your-user-name>/<your-repo>` 
 
 ### Preset repo
 
-By default, in local development, we'll also index `nuxt/nuxt` and `nitrojs/nitro` so you don't have to register the GitHub app on any repository in order to see and play around with the cluster algorithm.
+By default, in local development, we'll also index `nuxt/module-builder` and `nuxt/cli` so you don't have to register the GitHub app on any repository in order to see and play around with the cluster algorithm.
 
 If you want to customise this, you can configure the `DEV_REPOS_TO_INDEX` environment variable.
 

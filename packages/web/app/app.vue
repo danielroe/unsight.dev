@@ -18,13 +18,14 @@ if (import.meta.server) {
 }
 
 const { data: repos } = useRepos()
+const { user, clear } = useUserSession()
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
     <NuxtRouteAnnouncer />
     <main class="flex flex-col font-sans m-4 flex-grow">
-      <nav>
+      <nav class="flex flex-row items-center gap-4">
         <NuxtLink
           to="/"
           class="flex flex-row items-center gap-2 text-lg font-bold my-4 no-underline color-current"
@@ -37,6 +38,41 @@ const { data: repos } = useRepos()
             </span>
           </div>
         </NuxtLink>
+        <div class="ml-auto flex flex-row items-center gap-3">
+          <NuxtLink
+            to="/dashboards"
+            class="text-sm text-gray-400 no-underline hover:text-gray-200 transition-colors flex items-center gap-1"
+          >
+            <span class="i-tabler-layout-dashboard inline-block w-4 h-4" />
+            <span class="hidden md:inline">dashboards</span>
+          </NuxtLink>
+          <AuthState v-slot="{ loggedIn: isLoggedIn }">
+            <template v-if="isLoggedIn && user">
+              <div class="flex items-center gap-2">
+                <img
+                  :src="user.avatar"
+                  :alt="user.login"
+                  class="w-6 h-6 rounded-full"
+                >
+                <button
+                  class="text-xs text-gray-400 hover:text-gray-200 transition-colors bg-transparent border-0 cursor-pointer"
+                  @click="clear"
+                >
+                  sign out
+                </button>
+              </div>
+            </template>
+            <template v-else>
+              <a
+                href="/auth/github"
+                class="text-sm text-gray-400 no-underline hover:text-gray-200 transition-colors flex items-center gap-1"
+              >
+                <span class="i-ri:github-fill inline-block w-4 h-4" />
+                <span class="hidden md:inline">sign in</span>
+              </a>
+            </template>
+          </AuthState>
+        </div>
       </nav>
       <NuxtPage />
     </main>

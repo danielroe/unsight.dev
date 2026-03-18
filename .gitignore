@@ -31,3 +31,5 @@ test-results
 
 # vite-plus
 .vite-hooks
+
+packages/web/.data

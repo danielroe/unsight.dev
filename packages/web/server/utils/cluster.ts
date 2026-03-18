@@ -121,14 +121,30 @@ Generate only a short, descriptive phrase (4-5 words maximum) that captures the 
 Your response should contain ONLY the phrase - no explanation or other text. It should not contain general words like 'cluster' - it should be as short and simple as possible while still expressing the core theme of the cluster. It should be lowercase except for proper nouns and acronyms, and should not end with a period.
 `
 
+    const binding = useEvent()?.context.cloudflare?.env?.AI
     const { generateText } = await import('ai')
-    const { createWorkersAI } = await import('workers-ai-provider')
-    const workersai = createWorkersAI({ binding: useEvent()!.context.cloudflare.env.AI })
-    const { text } = await generateText({
-      model: workersai('@hf/nousresearch/hermes-2-pro-mistral-7b'),
-      prompt,
-      temperature: 0.2,
-    })
+
+    let text: string
+    if (binding) {
+      const { createWorkersAI } = await import('workers-ai-provider')
+      const workersai = createWorkersAI({ binding })
+      const result = await generateText({
+        model: workersai('@hf/nousresearch/hermes-2-pro-mistral-7b'),
+        prompt,
+        temperature: 0.2,
+      })
+      text = result.text
+    }
+    else {
+      const ai = useAI()
+      if (!ai) return 'Unnamed cluster'
+      const res = await ai.run('@hf/nousresearch/hermes-2-pro-mistral-7b', {
+        prompt,
+        temperature: 0.2,
+        max_tokens: 50,
+      }) as { response?: string }
+      text = res.response || ''
+    }
 
     return text?.trim().replace(STRIP_QUOTES_RE, '').replace(STRIP_PREFIX_RE, '') || ''
   }
