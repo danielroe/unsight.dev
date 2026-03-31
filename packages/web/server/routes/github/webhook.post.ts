@@ -6,6 +6,7 @@ import { createAppAuth } from '@octokit/auth-app'
 import { Octokit } from '@octokit/rest'
 import { invalidateCluster } from '~~/server/api/clusters/[owner]/[repo].get'
 import { invalidateDuplicates } from '~~/server/api/duplicates/[owner]/[repo].get'
+import { invalidateRepos } from '~~/server/api/repos.get'
 import { indexRepo } from '~~/server/utils/index-repo'
 import { removeMetadataForRepo } from '~~/server/utils/metadata'
 import { indexIssue, removeIssue, removeStoredEmbeddingsForRepo } from '../../utils/embeddings'
@@ -116,6 +117,9 @@ async function addRepos(event: H3Event, installation: Installation | Installatio
     // Incomplete repos will be picked up by the index-repo task on the next invocation.
     await indexRepo(octokit, repo)
   }
+
+  // Invalidate repos cache so the next index-repo task sees the updated state
+  await invalidateRepos().catch(e => console.warn('Failed to invalidate repos cache:', e))
 }
 
 async function deleteRepo(_event: H3Event, repo: InstallationRepo) {

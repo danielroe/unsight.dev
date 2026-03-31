@@ -1,7 +1,7 @@
 import type { Octokit } from '@octokit/rest'
 import type { InstallationRepo } from '~~/server/utils/metadata'
 
-import { count } from 'drizzle-orm'
+import { count, sql } from 'drizzle-orm'
 import { indexIssue } from '~~/server/utils/embeddings'
 import { currentIndexVersion } from '~~/server/utils/metadata'
 
@@ -135,6 +135,38 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
   }).where(eq(tables.repos.id, repo.id))
 
   const totalStored = await getStoredCount()
+
+  // Post-index validation: check for any duplicates that may have been created
+  const dupes = await drizzle.all(
+    sql`SELECT number, COUNT(*) as cnt
+        FROM issues
+        WHERE repo_id = ${repoRow.repoId}
+        GROUP BY number
+        HAVING COUNT(*) > 1`,
+  ) as { number: number, cnt: number }[]
+
+  if (dupes.length > 0) {
+    const dupeCount = dupes.reduce((sum, d) => sum + (d.cnt - 1), 0)
+    console.warn(
+      `Post-index validation: found ${dupeCount} duplicate rows across ${dupes.length} issues in ${owner}/${name}. `
+      + `Cleaning up...`,
+    )
+    // Auto-clean: keep only the most recent row per (repo_id, number)
+    await drizzle.run(
+      sql`DELETE FROM issues WHERE repo_id = ${repoRow.repoId} AND id NOT IN (
+        SELECT id FROM (
+          SELECT id, ROW_NUMBER() OVER (
+            PARTITION BY number
+            ORDER BY mtime DESC, id DESC
+          ) AS rn
+          FROM issues
+          WHERE repo_id = ${repoRow.repoId}
+        ) WHERE rn = 1
+      )`,
+    )
+    console.log(`Cleaned ${dupeCount} duplicate rows for ${owner}/${name}`)
+  }
+
   console.log('indexed', indexed, 'issues (skipped', skipped, `, total stored: ${totalStored}) from`, `${owner}/${name}`, '(complete)')
   return { indexed, skipped, complete: true, currentPage: 0, totalStored }
 }

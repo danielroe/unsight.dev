@@ -20,7 +20,7 @@ export const issues = sqliteTable('issues', {
   hash: text('hash').notNull(),
   mtime: integer('mtime').notNull(),
 }, table => [
-  index('idx_repo_id_number').on(table.repoId, table.number),
+  uniqueIndex('idx_repo_id_number').on(table.repoId, table.number),
   index('idx_state').on(table.state),
 ])
 

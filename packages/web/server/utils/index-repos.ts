@@ -1,4 +1,5 @@
 import type { Octokit } from '@octokit/rest'
+import { invalidateRepos } from '~~/server/api/repos.get'
 import { indexRepo } from '~~/server/utils/index-repo'
 import { getMetadataForRepo } from '~~/server/utils/metadata'
 
@@ -70,6 +71,11 @@ export async function indexRepos(octokit: Octokit, options: IndexReposOptions = 
     catch (e) {
       console.error('Error indexing', repo.repo, e)
     }
+  }
+
+  // Invalidate the repos list cache so the next run sees updated state
+  if (progress.length) {
+    await invalidateRepos().catch(e => console.warn('Failed to invalidate repos cache:', e))
   }
 
   return {

@@ -1,5 +1,8 @@
 import { count } from 'drizzle-orm'
+import { randomUUID } from 'uncrypto'
 import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
+
+const invalidateKeys = new Set<string>()
 
 export default defineCachedCorsEventHandler(async () => {
   const drizzle = useDrizzle()
@@ -30,4 +33,21 @@ export default defineCachedCorsEventHandler(async () => {
   maxAge: 60 * 60 * 24,
   staleMaxAge: 60 * 60 * 24,
   shouldBypassCache: () => !!import.meta.dev,
+  shouldInvalidateCache: (event) => {
+    const key = getHeaders(event).invalidate
+    return !!key && invalidateKeys.delete(key)
+  },
+  getKey() {
+    return `v1:repos`
+  },
 })
+
+export async function invalidateRepos() {
+  const key = randomUUID()
+  invalidateKeys.add(key)
+  await $fetch('/api/repos', {
+    headers: {
+      invalidate: key,
+    },
+  })
+}

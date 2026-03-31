@@ -9,16 +9,18 @@ type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 
 export type IssueSegments = 'labels' | 'title' | 'body'
 
-// Cache for repository IDs to avoid repeated lookups
-const repoIdCache = new Map<string, number | null>()
+// Cache for repository IDs to avoid repeated lookups (only caches found repos)
+const repoIdCache = new Map<string, number>()
 
-// Function to get repository ID with caching
+// Function to get repository ID with caching.
+// Only caches successful lookups — null results are not cached so that
+// a repo added after a miss will be found on the next call.
 async function getRepoId(owner: string, repo: string): Promise<number | null> {
   const cacheKey = `${owner}/${repo}`.toLowerCase()
 
-  // Check cache first
-  if (repoIdCache.has(cacheKey)) {
-    return repoIdCache.get(cacheKey) as number | null
+  const cached = repoIdCache.get(cacheKey)
+  if (cached !== undefined) {
+    return cached
   }
 
   // Query database if not in cache
@@ -29,7 +31,9 @@ async function getRepoId(owner: string, repo: string): Promise<number | null> {
     .get()
 
   const repoId = result?.repoId ?? null
-  repoIdCache.set(cacheKey, repoId)
+  if (repoId !== null) {
+    repoIdCache.set(cacheKey, repoId)
+  }
   return repoId
 }
 
@@ -189,16 +193,26 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
     embeddings: JSON.stringify(embeddings),
   }
 
-  await Promise.all([
-    vectorize?.upsert([{
-      id: storageKeyForIssue(repo.owner.login, repo.name, issue.number),
-      values: embeddings,
-      metadata: { ...issueMetadata, labels: JSON.stringify(issueMetadata.labels) },
-    }]),
-    res
-      ? drizzle.update(tables.issues).set(updatedValues).where(eq(tables.issues.id, res.id)).execute()
-      : drizzle.insert(tables.issues).values(updatedValues).execute(),
-  ])
+  try {
+    await Promise.all([
+      vectorize?.upsert([{
+        id: storageKeyForIssue(repo.owner.login, repo.name, issue.number),
+        values: embeddings,
+        metadata: { ...issueMetadata, labels: JSON.stringify(issueMetadata.labels) },
+      }]),
+      drizzle.insert(tables.issues)
+        .values(updatedValues)
+        .onConflictDoUpdate({
+          target: [tables.issues.repoId, tables.issues.number],
+          set: updatedValues,
+        })
+        .execute(),
+    ])
+  }
+  catch (e) {
+    console.error(`Failed to upsert issue ${repo.owner.login}/${repo.name}#${issue.number}:`, e)
+    throw e
+  }
 
   // invalidate clusters and duplicates for this repo
   await Promise.all([
@@ -262,20 +276,31 @@ export function chunkIssue(issue: Pick<Issue | RestIssue, IssueSegments>, exclud
   return preprocessText(`${issue.title}\n${labels.join(', ')}\n${issue.body || ''}`)
 }
 
-async function generateEmbedding(text: string): Promise<number[]> {
-  try {
-    const ai = useAI()
-    if (!ai) {
-      console.warn('generateEmbedding: no AI binding or REST API configured, skipping')
-      return []
-    }
-    const res = await ai.run('@cf/baai/bge-large-en-v1.5', { text })
-    return (res as { data?: number[][] }).data?.[0] || []
-  }
-  catch (e) {
-    console.error('generateEmbedding failed:', e)
+async function generateEmbedding(text: string, retries = 2): Promise<number[]> {
+  const ai = useAI()
+  if (!ai) {
+    console.warn('generateEmbedding: no AI binding or REST API configured, skipping')
     return []
   }
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await ai.run('@cf/baai/bge-large-en-v1.5', { text })
+      return (res as { data?: number[][] }).data?.[0] || []
+    }
+    catch (e) {
+      if (attempt < retries) {
+        console.warn(`generateEmbedding attempt ${attempt + 1} failed, retrying...`, e)
+        await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)))
+      }
+      else {
+        console.error(`generateEmbedding failed after ${retries + 1} attempts:`, e)
+        return []
+      }
+    }
+  }
+
+  return []
 }
 
 function getLabels(issue: Pick<Issue | RestIssue, IssueSegments>) {
