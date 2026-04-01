@@ -1,7 +1,7 @@
 import type { Octokit } from '@octokit/rest'
-import { invalidateRepos } from '~~/server/api/repos.get'
-import { indexRepo } from '~~/server/utils/index-repo'
-import { currentIndexVersion, getMetadataForRepo } from '~~/server/utils/metadata'
+import { invalidateRepos } from '#server/api/repos.get'
+import { indexRepo } from '#server/utils/index-repo'
+import { currentIndexVersion, getMetadataForRepo } from '#server/utils/metadata'
 
 export interface IndexReposOptions {
   filter?: string[]
