@@ -1,7 +1,7 @@
 import type { Octokit } from '@octokit/rest'
 import { invalidateRepos } from '~~/server/api/repos.get'
 import { indexRepo } from '~~/server/utils/index-repo'
-import { getMetadataForRepo } from '~~/server/utils/metadata'
+import { currentIndexVersion, getMetadataForRepo } from '~~/server/utils/metadata'
 
 export interface IndexReposOptions {
   filter?: string[]
@@ -29,25 +29,22 @@ export interface IndexReposResult {
 export async function indexRepos(octokit: Octokit, options: IndexReposOptions = {}): Promise<IndexReposResult> {
   const { filter, timeBudgetMs } = options
 
-  const repos = await $fetch('/api/repos')
-
   // Check for repos with a non-zero cursor (partially indexed from a previous run)
-  const allRepos = await useDrizzle().select({
+  const repos = await useDrizzle().select({
     fullName: tables.repos.full_name,
     indexCursor: tables.repos.indexCursor,
+    indexed: tables.repos.indexed,
   }).from(tables.repos).all()
-  const cursorMap = new Map(allRepos.map(r => [r.fullName, r.indexCursor]))
 
   const progress: RepoProgress[] = []
 
   for (const repo of repos) {
-    const cursor = cursorMap.get(repo.repo) || 0
-    const needsIndexing = !repo.indexed || cursor > 0
-    if (!needsIndexing || (filter && !filter.includes(repo.repo)))
+    const needsIndexing = repo.indexed !== currentIndexVersion || repo.indexCursor > 0
+    if (!needsIndexing || (filter && !filter.includes(repo.fullName)))
       continue
 
     try {
-      const [owner, name] = repo.repo.split('/')
+      const [owner, name] = repo.fullName.split('/')
       const meta = await getMetadataForRepo(owner!, name!)
       if (!meta)
         continue
@@ -55,7 +52,7 @@ export async function indexRepos(octokit: Octokit, options: IndexReposOptions = 
       const result = await indexRepo(octokit, meta, { timeBudgetMs })
 
       progress.push({
-        repo: repo.repo,
+        repo: repo.fullName,
         indexed: result.indexed,
         skipped: result.skipped,
         totalStored: result.totalStored,
@@ -69,7 +66,7 @@ export async function indexRepos(octokit: Octokit, options: IndexReposOptions = 
       }
     }
     catch (e) {
-      console.error('Error indexing', repo.repo, e)
+      console.error('Error indexing', repo.fullName, e)
     }
   }
 
