@@ -10,7 +10,12 @@ export interface IndexReposOptions {
 
 interface RepoProgress {
   repo: string
+  /** DB indexed version (compared against currentIndexVersion) */
+  indexedVersion: number
+  indexCursor: number
+  /** Number of issues newly indexed this run */
   indexed: number
+  /** Number of issues skipped (unchanged) this run */
   skipped: number
   totalStored: number
   currentPage: number
@@ -18,6 +23,7 @@ interface RepoProgress {
 }
 
 export interface IndexReposResult {
+  currentIndexVersion: number
   repos: RepoProgress[]
   result: string
 }
@@ -37,11 +43,23 @@ export async function indexRepos(octokit: Octokit, options: IndexReposOptions = 
   }).from(tables.repos).all()
 
   const progress: RepoProgress[] = []
+  let didIndex = false
 
   for (const repo of repos) {
     const needsIndexing = repo.indexed !== currentIndexVersion || repo.indexCursor > 0
-    if (!needsIndexing || (filter && !filter.includes(repo.fullName)))
+    if (!needsIndexing || (filter && !filter.includes(repo.fullName))) {
+      progress.push({
+        repo: repo.fullName,
+        indexedVersion: repo.indexed,
+        indexCursor: repo.indexCursor,
+        indexed: 0,
+        skipped: 0,
+        totalStored: 0,
+        currentPage: 0,
+        complete: true,
+      })
       continue
+    }
 
     try {
       const [owner, name] = repo.fullName.split('/')
@@ -50,9 +68,12 @@ export async function indexRepos(octokit: Octokit, options: IndexReposOptions = 
         continue
 
       const result = await indexRepo(octokit, meta, { timeBudgetMs })
+      didIndex = true
 
       progress.push({
         repo: repo.fullName,
+        indexedVersion: repo.indexed,
+        indexCursor: repo.indexCursor,
         indexed: result.indexed,
         skipped: result.skipped,
         totalStored: result.totalStored,
@@ -71,11 +92,12 @@ export async function indexRepos(octokit: Octokit, options: IndexReposOptions = 
   }
 
   // Invalidate the repos list cache so the next run sees updated state
-  if (progress.length) {
+  if (didIndex) {
     await invalidateRepos().catch(e => console.warn('Failed to invalidate repos cache:', e))
   }
 
   return {
+    currentIndexVersion,
     repos: progress,
     result: formatResult(progress),
   }
