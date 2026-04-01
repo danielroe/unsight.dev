@@ -1,9 +1,9 @@
 import type { RestEndpointMethodTypes } from '@octokit/rest'
 import type { Issue } from '@octokit/webhooks-types'
+import { invalidateCluster } from '#server/api/clusters/[owner]/[repo].get'
+import { invalidateDuplicates } from '#server/api/duplicates/[owner]/[repo].get'
 import { inArray } from 'drizzle-orm'
 import { hash } from 'ohash'
-import { invalidateCluster } from '~~/server/api/clusters/[owner]/[repo].get'
-import { invalidateDuplicates } from '~~/server/api/duplicates/[owner]/[repo].get'
 
 type RestIssue = RestEndpointMethodTypes['issues']['get']['response']['data']
 

@@ -1,6 +1,6 @@
+import { indexRepos } from '#server/utils/index-repos'
 import { Octokit } from '@octokit/rest'
 import { defineTask } from 'nitropack/runtime'
-import { indexRepos } from '~~/server/utils/index-repos'
 
 export interface TaskPayload {
   /**

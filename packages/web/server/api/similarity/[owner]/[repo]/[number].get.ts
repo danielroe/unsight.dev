@@ -1,5 +1,5 @@
-import type { IssueKeys, IssueMetadata, Label } from '~~/server/utils/embeddings'
-import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
+import type { IssueKeys, IssueMetadata, Label } from '#server/utils/embeddings'
+import { defineCachedCorsEventHandler } from '#server/utils/cached-cors'
 
 export default defineCachedCorsEventHandler(async (event) => {
   const { owner, repo, number } = getRouterParams(event)

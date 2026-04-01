@@ -1,7 +1,7 @@
-import type { IssueMetadata } from '~~/server/utils/embeddings'
-import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
-import { findDuplicates } from '~~/server/utils/cluster'
-import { getStoredEmbeddingsForRepos } from '~~/server/utils/embeddings'
+import type { IssueMetadata } from '#server/utils/embeddings'
+import { defineCachedCorsEventHandler } from '#server/utils/cached-cors'
+import { findDuplicates } from '#server/utils/cluster'
+import { getStoredEmbeddingsForRepos } from '#server/utils/embeddings'
 
 export default defineCachedCorsEventHandler(async (event) => {
   const { id } = getRouterParams(event)

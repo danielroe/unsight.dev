@@ -1,9 +1,9 @@
+import type { InstallationRepo } from '#server/utils/metadata'
 import type { Octokit } from '@octokit/rest'
-import type { InstallationRepo } from '~~/server/utils/metadata'
 
+import { indexIssue } from '#server/utils/embeddings'
+import { currentIndexVersion } from '#server/utils/metadata'
 import { count, sql } from 'drizzle-orm'
-import { indexIssue } from '~~/server/utils/embeddings'
-import { currentIndexVersion } from '~~/server/utils/metadata'
 
 export interface IndexRepoOptions {
   /** Time budget in milliseconds. Indexing will stop after this. Default: 20_000 (20s) */

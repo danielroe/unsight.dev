@@ -1,6 +1,6 @@
+import { storageKeyForIssue } from '#server/utils/embeddings'
 import { count, sql } from 'drizzle-orm'
 import { defineTask } from 'nitropack/runtime'
-import { storageKeyForIssue } from '~~/server/utils/embeddings'
 
 export interface TaskPayload {
   /**

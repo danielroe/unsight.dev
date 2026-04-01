@@ -1,6 +1,6 @@
+import { defineCachedCorsEventHandler } from '#server/utils/cached-cors'
 import { count } from 'drizzle-orm'
 import { randomUUID } from 'uncrypto'
-import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
 
 const invalidateKeys = new Set<string>()
 

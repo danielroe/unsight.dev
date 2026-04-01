@@ -1,6 +1,6 @@
+import { chunkIssue } from '#server/utils/embeddings'
 import { similarity } from 'ml-distance'
 import { kmeans } from 'ml-kmeans'
-import { chunkIssue } from '~~/server/utils/embeddings'
 
 const STRIP_QUOTES_RE = /^["']|["']$/g
 const STRIP_PREFIX_RE = /^title:?\s*|\s*cluster$/i

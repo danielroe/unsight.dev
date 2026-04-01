@@ -1,4 +1,4 @@
-import type { StoredEmbeddings } from '~~/server/utils/embeddings'
+import type { StoredEmbeddings } from '#server/utils/embeddings'
 import { kv } from 'hub:kv'
 import { defineTask } from 'nitropack/runtime'
 

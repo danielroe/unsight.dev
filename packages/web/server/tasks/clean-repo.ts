@@ -1,7 +1,7 @@
+import { getStoredEmbeddingsForRepo, removeIssue } from '#server/utils/embeddings'
+import { getMetadataForRepo } from '#server/utils/metadata'
 import { Octokit } from '@octokit/rest'
 import { defineTask } from 'nitropack/runtime'
-import { getStoredEmbeddingsForRepo, removeIssue } from '~~/server/utils/embeddings'
-import { getMetadataForRepo } from '~~/server/utils/metadata'
 
 export interface TaskPayload {
   /**

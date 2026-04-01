@@ -1,4 +1,4 @@
-import type { TaskPayload as IndexRepoTaskPayload } from '~~/server/tasks/index-repo'
+import type { TaskPayload as IndexRepoTaskPayload } from '#server/tasks/index-repo'
 import { Octokit } from '@octokit/rest'
 import { defineTask } from 'nitropack/runtime'
 

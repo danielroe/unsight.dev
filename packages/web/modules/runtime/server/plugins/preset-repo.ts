@@ -1,4 +1,4 @@
-import type { TaskPayload } from '~~/server/tasks/add-repo'
+import type { TaskPayload } from '#server/tasks/add-repo'
 
 export default defineNitroPlugin(async (nitro) => {
   const config = useRuntimeConfig()

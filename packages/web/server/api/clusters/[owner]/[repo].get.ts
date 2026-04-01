@@ -1,9 +1,9 @@
-import type { IssueMetadata } from '~~/server/utils/embeddings'
+import type { IssueMetadata } from '#server/utils/embeddings'
 
+import { defineCachedCorsEventHandler } from '#server/utils/cached-cors'
+import { clusterEmbeddings, generateClusterName } from '#server/utils/cluster'
+import { getStoredEmbeddingsForRepo } from '#server/utils/embeddings'
 import { randomUUID } from 'uncrypto'
-import { defineCachedCorsEventHandler } from '~~/server/utils/cached-cors'
-import { clusterEmbeddings, generateClusterName } from '~~/server/utils/cluster'
-import { getStoredEmbeddingsForRepo } from '~~/server/utils/embeddings'
 
 const invalidateKeys = new Set<string>()
 export default defineCachedCorsEventHandler(async (event) => {

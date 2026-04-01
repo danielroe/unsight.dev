@@ -1,5 +1,5 @@
+import { indexRepos } from '#server/utils/index-repos'
 import { Octokit } from '@octokit/rest'
-import { indexRepos } from '~~/server/utils/index-repos'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
