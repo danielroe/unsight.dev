@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@iconify-json/ri": "1.2.10",
-    "@iconify-json/tabler": "1.2.31",
+    "@iconify-json/tabler": "1.2.33",
     "@libsql/client": "^0.17.0",
     "@nuxthub/core": "^0.10.6",
     "@nuxtjs/html-validator": "2.1.0",
@@ -44,8 +44,8 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "1.15.2",
-    "drizzle-kit": "0.31.9",
-    "vue-tsc": "3.2.5",
-    "wrangler": "4.74.0"
+    "drizzle-kit": "0.31.10",
+    "vue-tsc": "3.2.6",
+    "wrangler": "4.80.0"
   }
 }
