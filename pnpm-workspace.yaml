@@ -8,9 +8,12 @@ trustPolicyExclude:
 packages:
   - packages/*
 
-ignoredBuiltDependencies:
-  - esbuild
-  - workerd
-
-onlyBuiltDependencies:
-  - simple-git-hooks
+allowBuilds:
+  '@parcel/watcher': false
+  esbuild: false
+  sharp: false
+  simple-git-hooks: true
+  spawn-sync: false
+  unrs-resolver: false
+  vue-demi: false
+  workerd: false
