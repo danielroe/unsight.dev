@@ -145,8 +145,8 @@ importers:
         specifier: ^1.17.4
         version: 1.17.5(db0@0.3.4(@libsql/client@0.17.0)(drizzle-orm@0.45.2(@libsql/client@0.17.0)))(ioredis@5.11.1)
       workers-ai-provider:
-        specifier: ^3.1.2
-        version: 3.1.2(@ai-sdk/provider@4.0.5)(ai@7.0.52(zod@4.3.6))
+        specifier: ^4.0.0
+        version: 4.0.0(@ai-sdk/provider@4.0.5)(ai@7.0.52(zod@4.3.6))
     devDependencies:
       '@nuxt/eslint':
         specifier: 1.15.2
@@ -8121,11 +8121,21 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  workers-ai-provider@3.1.2:
-    resolution: {integrity: sha512-ZXCWZIWk9rmjVKo0rUmbLQrRXdKWViAdqyV/cdqNQYT7FlSwITyZfZG/9CaInKKRDQQdBNvdPyB2+LWIz1E8Bw==}
+  workers-ai-provider@4.0.0:
+    resolution: {integrity: sha512-FkhwMP1EP/MKXR8Jv1o7wLVKfTqu0h/PUaEmhZ7gyDiioib5Wsh3oPAKhG+7+SWfU3roTDHaEWlJpkJjpXu+fQ==}
     peerDependencies:
-      '@ai-sdk/provider': ^3.0.0
-      ai: ^6.0.0
+      '@ai-sdk/anthropic': ^4.0.0
+      '@ai-sdk/google': ^4.0.0
+      '@ai-sdk/openai': ^4.0.0
+      '@ai-sdk/provider': ^4.0.0
+      ai: ^7.0.0
+    peerDependenciesMeta:
+      '@ai-sdk/anthropic':
+        optional: true
+      '@ai-sdk/google':
+        optional: true
+      '@ai-sdk/openai':
+        optional: true
 
   wrangler@4.74.0:
     resolution: {integrity: sha512-3qprbhgdUyqYGHZ+Y1k0gsyHLMOlLrKL/HU0LDqLlCkbsKPprUA0/ThE4IZsxD84xAAXY6pv5JUuxS2+OnMa3A==}
@@ -16928,7 +16938,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20260312.1
       '@cloudflare/workerd-windows-64': 1.20260312.1
 
-  workers-ai-provider@3.1.2(@ai-sdk/provider@4.0.5)(ai@7.0.52(zod@4.3.6)):
+  workers-ai-provider@4.0.0(@ai-sdk/provider@4.0.5)(ai@7.0.52(zod@4.3.6)):
     dependencies:
       '@ai-sdk/provider': 4.0.5
       ai: 7.0.52(zod@4.3.6)
