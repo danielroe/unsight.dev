@@ -23,7 +23,7 @@
     "@octokit/webhooks-types": "^7.6.1",
     "@unocss/nuxt": "^66.3.2",
     "@unocss/reset": "^66.3.2",
-    "ai": "^6.0.100",
+    "ai": "^7.0.0",
     "consola": "^3.4.2",
     "drizzle-orm": "^0.45.0",
     "hex-rgb": "^5.0.0",
