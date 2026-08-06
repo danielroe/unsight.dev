@@ -1,8 +1,8 @@
 import type { IssueMetadata } from '#server/utils/embeddings'
+import { randomUUID } from 'uncrypto'
 import { defineCachedCorsEventHandler } from '#server/utils/cached-cors'
 import { findDuplicates } from '#server/utils/cluster'
 import { getStoredEmbeddingsForRepo } from '#server/utils/embeddings'
-import { randomUUID } from 'uncrypto'
 
 const invalidateKeys = new Set<string>()
 export default defineCachedCorsEventHandler(async (event) => {
