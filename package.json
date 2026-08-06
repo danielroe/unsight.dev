@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "7.7.2",
-    "changelogithub": "14.0.0",
+    "changelogithub": "15.0.4",
     "eslint": "9.39.5",
     "typescript": "5.9.3",
     "vite-plus": "0.1.12"
