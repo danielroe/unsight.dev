@@ -10,8 +10,7 @@ export default defineConfig({
           gecko: {
             id: '{b5fe58db-5527-42ae-91df-715d7d9110d6}',
             data_collection_permissions: {
-              isTechnicalDataSent: false,
-              isInteractionDataSent: false,
+              required: ['none'],
             },
           },
         }
