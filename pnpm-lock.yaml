@@ -26,9 +26,6 @@ importers:
 
   packages/extension:
     dependencies:
-      '@vueuse/core':
-        specifier: 14.4.0
-        version: 14.4.0(vue@3.5.41(typescript@5.9.3))
       '@wxt-dev/auto-icons':
         specifier: ^1.0.2
         version: 1.1.2(@types/node@26.1.2)(wxt@0.21.3(esbuild@0.28.1)(eslint@10.8.0(jiti@2.7.0)(supports-color@10.2.2))(oxc-parser@0.131.0)(rolldown@1.2.2)(rollup@4.62.4)(typescript@5.9.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.2)(tsx@4.23.9)(yaml@2.9.0))(webpack@5.103.0(cssnano@8.0.4(postcss@8.5.25))(csso@5.0.5)(esbuild@0.28.1)(lightningcss@1.33.0)(postcss@8.5.25)))

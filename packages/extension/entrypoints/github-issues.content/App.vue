@@ -1,21 +1,31 @@
 <script setup lang="ts">
-import { useFetch } from '@vueuse/core'
-import { computed } from 'vue'
+import type { Issue } from '@/types'
+import { onMounted, ref } from 'vue'
 import RelatedIssueItem from '@/components/RelatedIssueItem.vue'
 
 const { owner, repo, issue } = window.location.pathname.match(/\/(?<owner>[^/]+)\/(?<repo>[^/]+)\/issues\/(?<issue>\d+)/)?.groups || {}
 
-const issueUrl = computed(() => new URL(`/api/similarity/${owner}/${repo}/${issue}`, 'https://unsight.dev/').toString())
+const issues = ref<Issue[]>([])
+const loading = ref(true)
+const failed = ref(false)
 
-const { data: issues } = useFetch(issueUrl, {
-  immediate: true,
-  initialData: [],
-  timeout: 5000,
-  onFetchError: (ctx) => {
-    console.error('Failed to fetch similar issues:', ctx.error)
-    return ctx
-  },
-}).json()
+onMounted(async () => {
+  try {
+    const url = new URL(`/api/similarity/${owner}/${repo}/${issue}`, 'https://unsight.dev/').toString()
+    const response = await browser.runtime.sendMessage({ type: 'fetch-similar-issues', url })
+    if (response?.error || !Array.isArray(response?.issues)) {
+      throw new Error(response?.error || 'Unexpected response')
+    }
+    issues.value = response.issues
+  }
+  catch (err) {
+    failed.value = true
+    console.error('Failed to fetch similar issues:', err)
+  }
+  finally {
+    loading.value = false
+  }
+})
 </script>
 
 <template>
@@ -24,8 +34,12 @@ const { data: issues } = useFetch(issueUrl, {
       <h3 class="!text-xs text-[--fgColor-muted]">
         Related issues
       </h3>
-      <RelatedIssueItem v-for="(item, index) of issues" :key="index" :issue="item" />
-      <span v-if="issues.length === 0" class="mt-1 mb-2">No similar issues found.</span>
+      <span v-if="loading" class="mt-1 mb-2">Loading...</span>
+      <span v-else-if="failed" class="mt-1 mb-2">Could not load similar issues.</span>
+      <template v-else>
+        <RelatedIssueItem v-for="(item, index) of issues" :key="index" :issue="item" />
+        <span v-if="issues.length === 0" class="mt-1 mb-2">No similar issues found.</span>
+      </template>
     </div>
   </div>
 </template>

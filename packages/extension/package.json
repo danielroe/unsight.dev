@@ -16,7 +16,6 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
-    "@vueuse/core": "14.4.0",
     "@wxt-dev/auto-icons": "^1.0.2",
     "vue": "^3.5.17"
   },
