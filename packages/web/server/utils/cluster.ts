@@ -74,10 +74,10 @@ export function findDuplicates<T extends { number: number, title: string }>(_iss
 
   const duplicates: Array<Array<T & { score: number }>> = []
   for (let i = 0; i < issues.length; i++) {
-    const embedding = embeddings[i]
+    const embedding = embeddings[i]!
     const chunk: Array<T & { score: number }> = []
     for (let j = i + 1; j < issues.length; j++) {
-      const score = similarity.cosine(embedding, embeddings[j])
+      const score = similarity.cosine(embedding, embeddings[j]!)
       if (score > duplicateThreshold) {
         chunk.push({ ...issues[j]!, score })
       }
