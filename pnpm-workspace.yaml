@@ -23,4 +23,4 @@ overrides:
   # publish-browser-extension@6 sends the AMO sources zip as a bare Blob, so the
   # multipart part has no filename and AMO rejects it with "Unsupported file type".
   # https://github.com/aklinker1/publish-browser-extension/issues/90
-  publish-browser-extension: 5.1.0
+  publish-browser-extension: 6.1.0
