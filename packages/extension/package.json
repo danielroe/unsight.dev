@@ -23,7 +23,7 @@
     "@types/chrome": "0.2.7",
     "@wxt-dev/module-vue": "1.0.3",
     "@wxt-dev/unocss": "1.0.1",
-    "bumpp": "12.2.1",
+    "bumpp": "12.2.2",
     "typescript": "5.9.3",
     "unocss": "66.8.1",
     "vue-tsc": "3.3.11",
