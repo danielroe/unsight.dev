@@ -2,7 +2,7 @@
   "name": "unsight-dev",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@11.24.0",
+  "packageManager": "pnpm@11.25.0",
   "scripts": {
     "dev": "vp run --filter web dev",
     "dev:ext": "vp run --filter unsight dev",
@@ -11,7 +11,7 @@
     "test:unit": "vp run -r test:unit"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "9.3.0",
+    "@antfu/eslint-config": "9.5.1",
     "changelogithub": "15.0.5",
     "eslint": "10.9.1",
     "typescript": "5.9.3",
