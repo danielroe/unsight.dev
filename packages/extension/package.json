@@ -25,7 +25,7 @@
     "@wxt-dev/unocss": "1.0.1",
     "bumpp": "12.3.0",
     "typescript": "5.9.3",
-    "unocss": "66.10.0",
+    "unocss": "66.10.2",
     "vue-tsc": "3.3.11",
     "wxt": "0.21.4"
   }
