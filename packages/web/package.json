@@ -27,7 +27,7 @@
     "consola": "^3.4.2",
     "drizzle-orm": "^0.45.0",
     "hex-rgb": "^5.0.0",
-    "ml-distance": "^4.0.1",
+    "ml-distance": "^5.0.0",
     "ml-kmeans": "^7.0.0",
     "nuxt": "^4.0.0",
     "nuxt-auth-utils": "^0.5.29",

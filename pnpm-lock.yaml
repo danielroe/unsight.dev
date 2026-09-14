@@ -106,8 +106,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       ml-distance:
-        specifier: ^4.0.1
-        version: 4.1.0
+        specifier: ^5.0.0
+        version: 5.0.0
       ml-kmeans:
         specifier: ^7.0.0
         version: 7.0.1
@@ -6008,8 +6008,8 @@ packages:
   ml-distance-euclidean@3.0.1:
     resolution: {integrity: sha512-jEEu/1a73ArPmIiwOzrcah6TfhtV19dCKnnM7JvdR2xTzyVJFGgIIR78Vg8Pl9z2NVeSRoFOpzc0910sPMINsA==}
 
-  ml-distance@4.1.0:
-    resolution: {integrity: sha512-qCGHqSbuNV6S3ysp7ECzPGICm9I3djG8F0Z5IbOYATd2K3C9oilGckyVms2BFGY4T8BUIgNrmerv8KnbWXLjNg==}
+  ml-distance@5.0.0:
+    resolution: {integrity: sha512-wCGhmaLw9Tb0OgrKMZF3mjUzVKA2qCyC2GtLkOXhJZxHl9QQJWaQxruspg+56CTd0kytNXIeo6RAecp3OoY5ow==}
 
   ml-kmeans@7.0.1:
     resolution: {integrity: sha512-yrBTntVdMf9gdMQnHBY1HQ5IhFdTAW8hcUhagiktqmx3lwR8VC2ONyP9oJfaVzMkummOd/XKgT64E2DgJlmfrQ==}
@@ -13985,7 +13985,7 @@ snapshots:
 
   ml-distance-euclidean@3.0.1: {}
 
-  ml-distance@4.1.0:
+  ml-distance@5.0.0:
     dependencies:
       cheminfo-types: 1.15.0
       ml-distance-euclidean: 3.0.1
