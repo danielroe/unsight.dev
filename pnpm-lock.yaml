@@ -67,8 +67,8 @@ importers:
         specifier: 1.2.10
         version: 1.2.10
       '@iconify-json/tabler':
-        specifier: 1.2.38
-        version: 1.2.38
+        specifier: 1.2.39
+        version: 1.2.39
       '@libsql/client':
         specifier: ^0.18.0
         version: 0.18.0
@@ -1257,8 +1257,8 @@ packages:
   '@iconify-json/ri@1.2.10':
     resolution: {integrity: sha512-WWMhoncVVM+Xmu9T5fgu2lhYRrKTEWhKk3Com0KiM111EeEsRLiASjpsFKnC/SrB6covhUp95r2mH8tGxhgd5Q==}
 
-  '@iconify-json/tabler@1.2.38':
-    resolution: {integrity: sha512-9v6ooRU/bKOK/Whv4w2aiK5gBnfCV9Ei+uD1iDDeLu2b+EnF3G3ZKkRKWEOOLG8bJyfKn6XEia6gUQ9oO7cF+Q==}
+  '@iconify-json/tabler@1.2.39':
+    resolution: {integrity: sha512-lMj4kPXAS9G7fkkHxxR/LqBeaFXywTtnK5kRFDNEYxsYzGZBcBpQDaxRE4SZQS6XHBHoeOpRbE+Bg8kv0is+wg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -8478,7 +8478,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/tabler@1.2.38':
+  '@iconify-json/tabler@1.2.39':
     dependencies:
       '@iconify/types': 2.0.0
 
