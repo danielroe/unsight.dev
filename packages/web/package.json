@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@iconify-json/ri": "1.2.10",
-    "@iconify-json/tabler": "1.2.38",
+    "@iconify-json/tabler": "1.2.39",
     "@libsql/client": "^0.18.0",
     "@nuxthub/core": "^0.10.6",
     "@nuxtjs/html-validator": "2.1.0",
