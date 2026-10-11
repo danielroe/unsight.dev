@@ -2,7 +2,7 @@
   "name": "unsight-dev",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@11.28.4",
+  "packageManager": "pnpm@12.11.2",
   "scripts": {
     "dev": "vp run --filter web dev",
     "dev:ext": "vp run --filter unsight dev",
