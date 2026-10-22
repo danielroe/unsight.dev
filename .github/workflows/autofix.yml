@@ -24,15 +24,15 @@ jobs:
       #   run: vp dlx playwright install
 
       - name: 🔠 Fix lint errors
-        run: vp run lint -- --fix
+        run: vp run lint --fix
 
       # - name: 🧪 Update unit test snapshots
-      #   run: vp run test:unit -- -u
+      #   run: vp run test:unit -u
 
       # - name: 🏃 Update component test snapshots
-      #   run: vp run test:nuxt -- -u
+      #   run: vp run test:nuxt -u
 
       # - name: 🖥️ Update browser test snapshots
-      #   run: vp run test:browser -- --update-snapshots
+      #   run: vp run test:browser --update-snapshots
 
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # 635ffb0c9798bd160680f18fd73371e355b85f27
