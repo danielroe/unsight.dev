@@ -42,7 +42,9 @@ export default defineTask({
     for (const repo of repos) {
       // Count total issues
       const totalResult = await drizzle
-        .select({ count: count() })
+        .select({
+          count: count(),
+        })
         .from(tables.issues)
         .where(eq(tables.issues.repoId, repo.id))
         .get()
@@ -81,7 +83,9 @@ export default defineTask({
     }
 
     // Overall stats
-    const totalIssuesResult = await drizzle.select({ count: count() }).from(tables.issues).get()
+    const totalIssuesResult = await drizzle.select({
+      count: count(),
+    }).from(tables.issues).get()
     const totalIssues = totalIssuesResult?.count ?? 0
 
     const reposWithDupes = diagnostics.filter(d => d.duplicateRows > 0)

@@ -19,7 +19,9 @@ export default defineEventHandler(async (event) => {
       const octokit = new Octokit({ auth: config.github.token })
       return await indexRepos(octokit, {
         filter: body.filter as string[] | undefined,
-        timeBudgetMs: typeof body.timeBudgetMs === 'number' ? body.timeBudgetMs : undefined,
+        timeBudgetMs: typeof body.timeBudgetMs === 'number'
+          ? body.timeBudgetMs
+          : undefined,
       })
     }
 
@@ -34,8 +36,13 @@ export default defineEventHandler(async (event) => {
   catch (error) {
     throw createError({
       statusCode: 500,
-      message: error instanceof Error ? error.message : 'Task failed',
-      data: { task: name, error: String(error) },
+      message: error instanceof Error
+        ? error.message
+        : 'Task failed',
+      data: {
+        task: name,
+        error: String(error),
+      },
     })
   }
 })

@@ -35,7 +35,13 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
   const { timeBudgetMs = 20_000 } = options
 
   if (repo.private) {
-    return { indexed: 0, skipped: 0, complete: true, currentPage: 0, totalStored: 0 }
+    return {
+      indexed: 0,
+      skipped: 0,
+      complete: true,
+      currentPage: 0,
+      totalStored: 0,
+    }
   }
 
   const [owner, name] = repo.full_name.split('/')
@@ -44,11 +50,19 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
   const repoRow = await drizzle.select({ repoId: tables.repos.id, indexCursor: tables.repos.indexCursor }).from(tables.repos).where(eq(tables.repos.full_name, `${owner}/${name}`.toLowerCase())).get()
   if (!repoRow) {
     console.error('Failed to find repo row for', `${owner}/${name}`)
-    return { indexed: 0, skipped: 0, complete: true, currentPage: 0, totalStored: 0 }
+    return {
+      indexed: 0,
+      skipped: 0,
+      complete: true,
+      currentPage: 0,
+      totalStored: 0,
+    }
   }
 
   const startPage = repoRow.indexCursor || 1
-  console.log('starting to index', `${repo.full_name}`, startPage > 1 ? `(resuming from page ${startPage})` : '')
+  console.log('starting to index', `${repo.full_name}`, startPage > 1
+    ? `(resuming from page ${startPage})`
+    : '')
 
   let indexed = 0
   let skipped = 0
@@ -57,7 +71,9 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
 
   /** Count how many issues are stored in the DB for this repo */
   async function getStoredCount(): Promise<number> {
-    const result = await drizzle.select({ count: count() }).from(tables.issues).where(eq(tables.issues.repoId, repoRow!.repoId)).get()
+    const result = await drizzle.select({
+      count: count(),
+    }).from(tables.issues).where(eq(tables.issues.repoId, repoRow!.repoId)).get()
     return result?.count ?? 0
   }
 
@@ -79,7 +95,13 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
       await saveCursor(currentPage)
       const totalStored = await getStoredCount()
       console.log('indexed', indexed, 'issues (skipped', skipped, `, total stored: ${totalStored}) from`, `${owner}/${name}`, '(partial, will resume)')
-      return { indexed, skipped, complete: false, currentPage, totalStored }
+      return {
+        indexed,
+        skipped,
+        complete: false,
+        currentPage,
+        totalStored,
+      }
     }
 
     // Process each page in batches of 10 concurrent requests
@@ -87,7 +109,10 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
     for (let i = 0; i < issues.length; i += 10) {
       const batch = issues.slice(i, i + 10)
       const results = await Promise.allSettled(
-        batch.map(issue => indexIssue(issue, { owner: { login: owner! }, name: name! })),
+        batch.map(issue => indexIssue(issue, {
+          owner: { login: owner! },
+          name: name!,
+        })),
       )
       for (const r of results) {
         if (r.status === 'fulfilled') {
@@ -107,7 +132,13 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
         await saveCursor(currentPage)
         const totalStored = await getStoredCount()
         console.log('indexed', indexed, 'issues (skipped', skipped, `, total stored: ${totalStored}) from`, `${owner}/${name}`, '(partial, will resume)')
-        return { indexed, skipped, complete: false, currentPage, totalStored }
+        return {
+          indexed,
+          skipped,
+          complete: false,
+          currentPage,
+          totalStored,
+        }
       }
     }
 
@@ -124,7 +155,13 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
         console.warn(`Rate limit pause (${Math.ceil(waitMs / 1000)}s) would exceed time budget, saving cursor at page ${currentPage}`)
         await saveCursor(currentPage + 1)
         const totalStored = await getStoredCount()
-        return { indexed, skipped, complete: false, currentPage: currentPage + 1, totalStored }
+        return {
+          indexed,
+          skipped,
+          complete: false,
+          currentPage: currentPage + 1,
+          totalStored,
+        }
       }
       console.warn(`Rate limit low (${remaining}), pausing for ${Math.ceil(waitMs / 1000)}s`)
       await new Promise(resolve => setTimeout(resolve, waitMs))
@@ -170,5 +207,11 @@ export async function indexRepo(octokit: Octokit, repo: InstallationRepo, option
   }
 
   console.log('indexed', indexed, 'issues (skipped', skipped, `, total stored: ${totalStored}) from`, `${owner}/${name}`, '(complete)')
-  return { indexed, skipped, complete: true, currentPage: 0, totalStored }
+  return {
+    indexed,
+    skipped,
+    complete: true,
+    currentPage: 0,
+    totalStored,
+  }
 }

@@ -22,7 +22,9 @@ const { data: dashboard, status: dashboardStatus } = useFetch(() => `/api/dashbo
 })
 
 useSeoMeta({
-  title: () => dashboard.value ? `${dashboard.value.name} - Dashboard` : 'Dashboard',
+  title: () => dashboard.value
+    ? `${dashboard.value.name} - Dashboard`
+    : 'Dashboard',
 })
 
 const isOwner = computed(() => {

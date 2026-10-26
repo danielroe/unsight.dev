@@ -12,14 +12,20 @@ const formattedParts = computed(() => {
 
   for (const match of text.matchAll(CODE_RE)) {
     if (match.index > lastIndex) {
-      parts.push({ isCode: false, content: text.slice(lastIndex, match.index) })
+      parts.push({
+        isCode: false,
+        content: text.slice(lastIndex, match.index),
+      })
     }
     parts.push({ isCode: true, content: match[1] })
     lastIndex = match.index + match[0].length
   }
 
   if (lastIndex < text.length) {
-    parts.push({ isCode: false, content: text.slice(lastIndex) })
+    parts.push({
+      isCode: false,
+      content: text.slice(lastIndex),
+    })
   }
 
   return parts

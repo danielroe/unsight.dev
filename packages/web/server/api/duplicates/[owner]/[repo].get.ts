@@ -29,7 +29,9 @@ export default defineCachedCorsEventHandler(async (event) => {
     })
 
   const query = getQuery(event)
-  const duplicateThreshold = query.threshold ? Number.parseFloat(String(query.threshold)) : undefined
+  const duplicateThreshold = query.threshold
+    ? Number.parseFloat(String(query.threshold))
+    : undefined
   const duplicates = findDuplicates(issues, embeddings, { duplicateThreshold })
 
   return duplicates.map(issues => issues.map(i => ({

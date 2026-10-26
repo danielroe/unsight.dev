@@ -70,7 +70,10 @@ export default defineTask({
               console.log(`Removing transferred issue: https://github.com/${owner}/${name}/issues/${number}`)
               await removeIssue(
                 { number },
-                { owner: { login: owner! }, name: name! },
+                {
+                  owner: { login: owner! },
+                  name: name!,
+                },
               )
               removedCount++
             }
