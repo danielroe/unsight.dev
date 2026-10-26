@@ -115,7 +115,9 @@ export async function removeIssue(issue: Pick<Issue, 'number'>, repo: { owner: {
     useDrizzle().delete(tables.issues).where(
       and(eq(tables.issues.repoId, repoId), eq(tables.issues.number, issue.number)),
     ),
-    vectorize?.deleteByIds([storageKeyForIssue(repo.owner.login, repo.name, issue.number)]),
+    vectorize?.deleteByIds([
+      storageKeyForIssue(repo.owner.login, repo.name, issue.number),
+    ]),
   ])
   console.log('removed issue:', repo.owner.login, repo.name, issue.number)
 }
@@ -149,7 +151,9 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
     title: issue.title,
     url: issue.html_url,
     updated_at: issue.updated_at,
-    labels: issue.labels?.map(label => (typeof label === 'string' ? label : { name: label.name!, color: label.color || undefined })) || [],
+    labels: issue.labels?.map(label => (typeof label === 'string'
+      ? label
+      : { name: label.name!, color: label.color || undefined })) || [],
     state: issue.state || 'open',
   }
 
@@ -162,11 +166,16 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
 
   if (res && (res.mtime >= issueUpdatedTime || res.hash === issueHash)) {
     return await Promise.all([
-      vectorize?.upsert([{
-        id: storageKeyForIssue(repo.owner.login, repo.name, issue.number),
-        values: JSON.parse(res.embeddings) as number[],
-        metadata: { ...issueMetadata, labels: JSON.stringify(issueMetadata.labels) },
-      }]),
+      vectorize?.upsert([
+        {
+          id: storageKeyForIssue(repo.owner.login, repo.name, issue.number),
+          values: JSON.parse(res.embeddings) as number[],
+          metadata: {
+            ...issueMetadata,
+            labels: JSON.stringify(issueMetadata.labels),
+          },
+        },
+      ]),
       drizzle.update(tables.issues).set({
         title: issue.title,
         state: issue.state || 'open',
@@ -195,11 +204,16 @@ export async function indexIssue(issue: Issue | RestIssue, repo: { owner: { logi
 
   try {
     await Promise.all([
-      vectorize?.upsert([{
-        id: storageKeyForIssue(repo.owner.login, repo.name, issue.number),
-        values: embeddings,
-        metadata: { ...issueMetadata, labels: JSON.stringify(issueMetadata.labels) },
-      }]),
+      vectorize?.upsert([
+        {
+          id: storageKeyForIssue(repo.owner.login, repo.name, issue.number),
+          values: embeddings,
+          metadata: {
+            ...issueMetadata,
+            labels: JSON.stringify(issueMetadata.labels),
+          },
+        },
+      ]),
       drizzle.insert(tables.issues)
         .values(updatedValues)
         .onConflictDoUpdate({
@@ -304,5 +318,7 @@ async function generateEmbedding(text: string, retries = 2): Promise<number[]> {
 }
 
 function getLabels(issue: Pick<Issue | RestIssue, IssueSegments>) {
-  return issue.labels?.map(label => (typeof label === 'string' ? label : label.name!).toLowerCase()).filter(Boolean) || []
+  return issue.labels?.map(label => (typeof label === 'string'
+    ? label
+    : label.name!).toLowerCase()).filter(Boolean) || []
 }

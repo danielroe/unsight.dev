@@ -8,7 +8,9 @@ useHead({
 const version = useRuntimeConfig().public.version
 
 useSeoMeta({
-  titleTemplate: title => title ? `${title} - unsight.dev` : 'unsight.dev',
+  titleTemplate: title => title
+    ? `${title} - unsight.dev`
+    : 'unsight.dev',
 })
 
 if (import.meta.server) {

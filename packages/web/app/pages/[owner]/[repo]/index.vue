@@ -7,7 +7,9 @@ useSeoMeta({
 
 const { data: allowedRepos } = useRepos()
 
-const selectedRepo = computed(() => route.params.owner && route.params.repo ? `${route.params.owner}/${route.params.repo}` as 'nuxt/nuxt' : 'nuxt/nuxt')
+const selectedRepo = computed(() => route.params.owner && route.params.repo
+  ? `${route.params.owner}/${route.params.repo}` as 'nuxt/nuxt'
+  : 'nuxt/nuxt')
 
 const { data: clusters, refresh, status } = useFetch(() => `/api/clusters/${selectedRepo.value}`, {
   baseURL: useRuntimeConfig().public.remote,

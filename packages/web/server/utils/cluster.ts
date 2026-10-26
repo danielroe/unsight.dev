@@ -20,7 +20,9 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(_
   const embeddings = validIndices.map(i => _embeddings[i]!)
 
   // Determine the number of clusters (this is a simplistic approach; we might want to use a more sophisticated method)
-  const k = embeddings.length < 11 ? Math.ceil(embeddings.length / 2) : Math.max(10, Math.floor(Math.sqrt(embeddings.length) / 2))
+  const k = embeddings.length < 11
+    ? Math.ceil(embeddings.length / 2)
+    : Math.max(10, Math.floor(Math.sqrt(embeddings.length) / 2))
   const { clusters } = kmeans(embeddings, k, {})
 
   const clusteredIssueIndices: Record<string, number[]> = {}
@@ -41,7 +43,12 @@ export function clusterEmbeddings<T extends { number: number, title: string }>(_
         }
       }
       const divisor = indices.length - 1
-      return { ...issues[idx]!, avgSimilarity: divisor > 0 ? Math.floor(100 * totalSimilarity / divisor) / 100 : 0 }
+      return {
+        ...issues[idx]!,
+        avgSimilarity: divisor > 0
+          ? Math.floor(100 * totalSimilarity / divisor) / 100
+          : 0,
+      }
     })
 
     sortedChunk = sortedChunk.filter(i => i.avgSimilarity >= similarityThreshold).sort((a, b) => b.avgSimilarity - a.avgSimilarity)
@@ -83,7 +90,10 @@ export function findDuplicates<T extends { number: number, title: string }>(_iss
       }
     }
     if (chunk.length > 0) {
-      duplicates.push([{ ...issues[i]!, score: 1 }, ...chunk])
+      duplicates.push([
+        { ...issues[i]!, score: 1 },
+        ...chunk,
+      ])
     }
     if (duplicates.length >= maxDuplicates) {
       break

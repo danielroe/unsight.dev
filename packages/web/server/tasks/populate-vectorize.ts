@@ -27,11 +27,16 @@ export default defineTask({
           if (!issue.value)
             continue
           try {
-            await vectorize.insert([{
-              id: issue.key,
-              values: issue.value.embeddings,
-              metadata: { ...issue.value.metadata, labels: JSON.stringify(issue.value.metadata.labels) },
-            }])
+            await vectorize.insert([
+              {
+                id: issue.key,
+                values: issue.value.embeddings,
+                metadata: {
+                  ...issue.value.metadata,
+                  labels: JSON.stringify(issue.value.metadata.labels),
+                },
+              },
+            ])
             console.log(`${count++}/${total}`)
           }
           catch {

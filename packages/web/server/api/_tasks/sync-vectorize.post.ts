@@ -57,7 +57,10 @@ export default defineEventHandler(async (event) => {
         return {
           id: storageKeyForIssue(owner, name, issue.number),
           values: JSON.parse(issue.embeddings) as number[],
-          metadata: { ...metadata, labels: JSON.stringify(metadata.labels) },
+          metadata: {
+            ...metadata,
+            labels: JSON.stringify(metadata.labels),
+          },
         }
       })
 

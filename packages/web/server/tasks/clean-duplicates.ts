@@ -32,7 +32,9 @@ export default defineTask({
     const vectorize = useEvent()?.context.cloudflare?.env?.VECTORIZE_ISSUES || null
 
     // Count total rows before cleanup
-    const beforeCount = await drizzle.select({ count: count() }).from(tables.issues).get()
+    const beforeCount = await drizzle.select({
+      count: count(),
+    }).from(tables.issues).get()
     const totalBefore = beforeCount?.count ?? 0
 
     // ----- Step 1: Remove DB duplicates -----
@@ -74,7 +76,9 @@ export default defineTask({
       )
     }
 
-    const afterCount = await drizzle.select({ count: count() }).from(tables.issues).get()
+    const afterCount = await drizzle.select({
+      count: count(),
+    }).from(tables.issues).get()
     const totalAfter = afterCount?.count ?? 0
     const dbRemoved = totalBefore - totalAfter
 
@@ -127,7 +131,10 @@ export default defineTask({
             return {
               id: storageKeyForIssue(owner, name, issue.number),
               values: JSON.parse(issue.embeddings) as number[],
-              metadata: { ...metadata, labels: JSON.stringify(metadata.labels) },
+              metadata: {
+                ...metadata,
+                labels: JSON.stringify(metadata.labels),
+              },
             }
           })
 
