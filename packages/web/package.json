@@ -46,6 +46,6 @@
     "@nuxt/eslint": "1.17.0",
     "drizzle-kit": "0.31.11",
     "vue-tsc": "3.3.13",
-    "wrangler": "4.151.1"
+    "wrangler": "4.152.0"
   }
 }
